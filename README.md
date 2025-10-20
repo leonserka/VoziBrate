@@ -46,3 +46,4 @@ Lista funkcionalnosti:<br><br>1. Prikaz autobusa u realnom vremenu - Vizualni pr
 14. Popis prodajnih mjesta
 - Pregled fizičkih lokacija gdje se mogu kupiti karte (kiosci, stanice).
 <hr>
+.
