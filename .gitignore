@@ -4,3 +4,18 @@
 *.artifact
 report.html
 report.json
+# IDE folders
+.idea/
+*.iml
+
+# Maven target folder
+/target/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Optional: mvnw files if you want to ignore wrapper scripts
