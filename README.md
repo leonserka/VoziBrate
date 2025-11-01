@@ -1,49 +1,50 @@
 # VoziBrate
 Kasni mi bus
 
-Aplikacija služi za praćenje gradskih autobusa u realnom vremenu. Korisnicima omogućava pregled linija, rasporeda vožnje, trenutne lokacije autobusa te procijenjenog vremena dolaska na svaku stanicu. Sustav je zamišljen kao full-stack rješenje s korisničkim sučeljem, poslužiteljskim slojem i bazom podataka koja pohranjuje podatke o rutama, vozilima i stanicama.
+The application serves to track city buses in real time.
+It allows users to view bus lines, schedules, current bus locations, and estimated arrival times at each stop.
+The system is designed as a full-stack solution, consisting of a user interface, a server layer, and a database that stores information about routes, vehicles, and bus stops.
 
 
-
-Lista funkcionalnosti:<br><br>1. Prikaz autobusa u realnom vremenu - Vizualni prikaz trenutne pozicije autobusa na karti.
+List of Features:<br><br>1. Real-time Bus Tracking - Visual representation of the current position of buses on a map.
 <hr>
-2. Pregled rasporeda vožnje
-   - Detaljan prikaz polazaka i dolazaka za svaku liniju.
+2. Schedule Overview
+   - Detailed display of departures and arrivals for each bus line.
 <hr>
-3. Pregled linija i ruta
-   - Popis svih autobusnih linija s prikazom rute i pripadajućih stanica.
+3. Line and Route Overview
+   - List of all bus lines with route details and associated stops.
 <hr>
-4. Procijenjeno vrijeme dolaska
-   - Prikaz predviđenog vremena dolaska autobusa na svaku stanicu.
+4. Estimated Arrival Time
+   - Display of predicted bus arrival times at each stop.
 <hr>
-5. Pretraga linija
-   - Mogućnost brzog pronalaska linije putem tražilice.
+5. Line Search
+   - Quick search functionality to find a specific bus line.
 <hr>
-6. Favoriti
-   - Spremanje omiljenih linija ili stanica za brži pristup.
+6. Favorites
+   - Save favorite lines or stops for faster access.
 <hr>
-7. Filtriranje po vremenu i smjeru
-   - Prikaz linija koje voze u određenom vremenskom periodu ili smjeru.
+7. Filtering by Time and Direction
+   - Display of lines operating within a selected time frame or direction.
 <hr>
-8. Administratorski panel
-   - Omogućava dodavanje, uređivanje i brisanje linija, autobusa i stanica.
+8. Admin Panel
+   - Allows adding, editing, and deleting lines, buses, and stops.
 <hr>
-9. Statistika i analitika vožnji
-   - Pregled povijesnih podataka o točnosti vožnji i opterećenosti linija.
+9. Statistics and Ride Analytics
+   - Overview of historical data on ride accuracy and line occupancy.
 <hr>
-10. Autentikacija i korisnički računi
-   - Registracija i prijava korisnika radi personaliziranog iskustva.
+10. Authentication and User Accounts
+   - User registration and login for a personalized experience.
 <hr>
-11. Responsivno korisničko sučelje
-   - Prilagođeno prikazu na mobilnim uređajima, tabletima i računalima.
+11. Responsive User Interface
+   - Optimized for mobile devices, tablets, and desktop displays.
 <hr>
-12. Integracija s GPS modulom (simulacija ili API) - Dohvaćanje podataka o pozicijama autobusa putem API-ja ili simuliranih podataka.
+12. Integration with GPS Module (Simulation or API) - Fetching bus location data through an API or simulated GPS data.
 <hr>
-<br> Opcionalno:<br><br>
-13. Kupnja karata online
-- Korisnik kupuje kartu putem sustava.
+<br> Optional Features:<br><br>
+13. Online Ticket Purchase
+- Enables users to buy bus tickets directly through the system.
 <hr>
-14. Popis prodajnih mjesta
-- Pregled fizičkih lokacija gdje se mogu kupiti karte (kiosci, stanice).
+14. List of physical Ticket locations 
+- View of physical locations where tickets can be purchased (kiosks, stations).
 <hr>
 

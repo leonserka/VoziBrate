@@ -1,21 +1,58 @@
-
-# Flyway ignores
-*.user.toml
-*.artifact
-report.html
-report.json
-# IDE folders
-.idea/
+# ===============================
+# Java & Maven
+# ===============================
+target/
+*.class
+*.jar
+*.war
+*.ear
 *.iml
-
-# Maven target folder
-/target/
-
-# Logs
 *.log
+hs_err_pid*
+replay_pid*
 
-# OS files
+# Maven Wrapper
+.mvn/
+!/.mvn/wrapper/maven-wrapper.jar
+mvnw
+mvnw.cmd
+
+# ===============================
+# IntelliJ IDEA
+# ===============================
+.idea/
+*.iws
+*.ipr
+out/
+
+# ===============================
+# Operating System Files
+# ===============================
 .DS_Store
 Thumbs.db
 
-# Optional: mvnw files if you want to ignore wrapper scripts
+# ===============================
+# Docker
+# ===============================
+# Docker data volumes
+volumes/
+# Ignore Postgres data volume
+pgdata/
+# Ignore container logs
+*.pid
+*.seed
+*.old
+
+# ===============================
+# Environment / Config
+# ===============================
+.env
+application-dev.properties
+application-test.properties
+
+# ===============================
+# Node / Frontend (ako ikad dodate frontend)
+# ===============================
+node_modules/
+dist/
+build/

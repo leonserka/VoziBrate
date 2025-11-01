@@ -1,6 +1,6 @@
 package com.bus.bus_tracker.repository;
 
-import com.bus.bus_tracker.model.Line;
+import com.bus.bus_tracker.entity.Line;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

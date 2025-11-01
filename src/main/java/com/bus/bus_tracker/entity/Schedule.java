@@ -1,4 +1,4 @@
-package com.bus.bus_tracker.model;
+package com.bus.bus_tracker.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalTime;

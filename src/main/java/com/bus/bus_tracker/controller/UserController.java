@@ -1,6 +1,6 @@
 package com.bus.bus_tracker.controller;
 
-import com.bus.bus_tracker.model.User;
+import com.bus.bus_tracker.entity.User;
 import com.bus.bus_tracker.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
