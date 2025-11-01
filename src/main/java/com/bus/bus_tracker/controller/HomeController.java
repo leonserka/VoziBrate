@@ -1,13 +1,13 @@
 package com.bus.bus_tracker.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-public class TestController {
+@Controller
+public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        return "Bus Tracker app is running!";
+        return "index";
     }
 }
