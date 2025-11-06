@@ -73,10 +73,25 @@ a:hover {
     font-size: 18px;
 }
 
+/* 🟢 Success message */
 .success-message {
-    color: green;
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 6px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
+/* 🔴 Error message */
 .error-message {
-    color: red;
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 6px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
 }
+

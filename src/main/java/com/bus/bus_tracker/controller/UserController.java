@@ -30,10 +30,18 @@ public class UserController {
     public String register(@RequestParam String name,
                            @RequestParam String email,
                            @RequestParam String password,
+                           @RequestParam String confirmPassword,
                            Model model) {
         try {
+            // 🔹 Provjera da se lozinke poklapaju
+            if (!password.equals(confirmPassword)) {
+                model.addAttribute("error", "Passwords do not match!");
+                return "register";
+            }
+
             userService.register(name, email, password);
             return "register_success";
+
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
             return "register";

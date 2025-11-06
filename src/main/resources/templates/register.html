@@ -8,8 +8,8 @@
 <body>
 <h1>Registration</h1>
 
-<!-- ⚠️ If there's an error from the controller -->
-<p th:if="${error}" th:text="${error}" style="color:red;"></p>
+<p th:if="${error}" th:text="${error}" class="error-message"></p>
+
 
 <form action="/user/register" method="post">
     <label>Name:</label><br>
@@ -21,9 +21,27 @@
     <label>Password:</label><br>
     <input type="password" name="password" required><br><br>
 
+    <label>Confirm Password:</label><br>
+    <input type="password" name="confirmPassword" required><br><br>
+
     <button type="submit">Register</button>
 </form>
 
 <p>Already have an account? <a href="/user/login">Log in here</a></p>
+
+<!-- 🔹 Client-side validation (optional) -->
+<script>
+    const form = document.querySelector("form");
+    const password = document.querySelector('input[name="password"]');
+    const confirmPassword = document.querySelector('input[name="confirmPassword"]');
+
+    form.addEventListener("submit", function(event) {
+        if (password.value !== confirmPassword.value) {
+            event.preventDefault();
+            alert("Passwords do not match!");
+            confirmPassword.focus();
+        }
+    });
+</script>
 </body>
 </html>
