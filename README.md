@@ -47,4 +47,4 @@ List of Features:<br><br>1. Real-time Bus Tracking - Visual representation of th
 14. List of physical Ticket locations 
 - View of physical locations where tickets can be purchased (kiosks, stations).
 <hr>
-z
+
