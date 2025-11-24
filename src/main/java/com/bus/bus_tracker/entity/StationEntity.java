@@ -11,10 +11,10 @@ public class StationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name="name", nullable = false)
     private String name;
 
-    @Column
+    @Column(name="location")
     private String location;
 
     @OneToMany(mappedBy = "station", cascade = CascadeType.ALL)

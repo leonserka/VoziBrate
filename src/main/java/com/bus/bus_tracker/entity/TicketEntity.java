@@ -15,9 +15,16 @@ public class TicketEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    @ManyToOne
+    @JoinColumn(name = "line_id")
+    private LineEntity line;
+
     @Column(name = "purchase_time")
     private LocalDateTime purchaseTime;
 
-    @Column
+    @Column(name = "price")
     private Double price;
+
+    @Column(name = "status")
+    private String status = "active";
 }

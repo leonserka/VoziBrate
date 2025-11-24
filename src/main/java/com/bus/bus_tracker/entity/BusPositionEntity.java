@@ -21,6 +21,6 @@ public class BusPositionEntity {
     @Column(name = "gps_lng")
     private Double gpsLng;
 
-    @Column
+    @Column(name = "timestamp")
     private LocalDateTime timestamp;
 }

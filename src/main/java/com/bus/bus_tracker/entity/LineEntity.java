@@ -11,15 +11,21 @@ public class LineEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "line_number", nullable = false)
+    private String lineNumber;
+
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column
-    private String description;
+    @Column(name = "direction")
+    private String direction;
 
     @OneToMany(mappedBy = "line", cascade = CascadeType.ALL)
     private List<BusEntity> buses;
 
     @OneToMany(mappedBy = "line", cascade = CascadeType.ALL)
     private List<RouteStationEntity> routeStations;
+
+    @OneToMany(mappedBy = "line", cascade = CascadeType.ALL)
+    private List<ScheduleEntity> schedules;
 }

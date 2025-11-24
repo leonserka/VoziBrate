@@ -73,7 +73,6 @@ a:hover {
     font-size: 18px;
 }
 
-/* 🟢 Success message */
 .success-message {
     color: #155724;
     background-color: #d4edda;
@@ -84,7 +83,6 @@ a:hover {
     box-sizing: border-box;
 }
 
-/* 🔴 Error message */
 .error-message {
     color: #721c24;
     background-color: #f8d7da;

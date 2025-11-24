@@ -15,9 +15,15 @@ public class ScheduleEntity {
     @JoinColumn(name = "line_id")
     private LineEntity line;
 
-    @Column(name = "departure_time")
-    private LocalTime departureTime;
+    @Column(name = "departure", nullable = false)
+    private LocalTime departure;
 
-    @Column(name = "arrival_time")
-    private LocalTime arrivalTime;
+    @Column(name = "arrival", nullable = false)
+    private LocalTime arrival;
+
+    @Column(name = "day_of_week")
+    private String dayOfWeek;
+
+    @Column(name = "direction")
+    private String direction;
 }

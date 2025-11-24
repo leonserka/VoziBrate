@@ -17,4 +17,8 @@ public class FavoriteEntity {
     @ManyToOne
     @JoinColumn(name = "line_id")
     private LineEntity line;
+
+    @ManyToOne
+    @JoinColumn(name = "station_id")
+    private StationEntity station;
 }

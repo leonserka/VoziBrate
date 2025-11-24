@@ -18,6 +18,6 @@ public class RouteStationEntity {
     @JoinColumn(name = "station_id")
     private StationEntity station;
 
-    @Column(name = "station_order")
-    private Integer stationOrder;
+    @Column(name = "order_number")
+    private Integer orderNumber;
 }

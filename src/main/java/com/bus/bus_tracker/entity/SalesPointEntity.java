@@ -10,8 +10,11 @@ public class SalesPointEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "address")
+    private String address;
 
     @ManyToOne
     @JoinColumn(name = "station_id")

@@ -1,51 +1,61 @@
 package com.bus.bus_tracker.service;
 
+import com.bus.bus_tracker.dto.UserRegisterDto;
+import com.bus.bus_tracker.dto.UserLoginDto;
+import com.bus.bus_tracker.dto.UserResponseDto;
 import com.bus.bus_tracker.entity.UserEntity;
 import com.bus.bus_tracker.repository.UserRepository;
+import com.bus.bus_tracker.validator.UserValidator;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final UserValidator userValidator;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserValidator userValidator, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.userValidator = userValidator;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public UserEntity register(String name, String email, String password) {
-        if (userRepository.existsByEmail(email)) {
-            throw new IllegalArgumentException("Email already exists!");
-        }
+    public UserResponseDto register(UserRegisterDto dto) {
+        userValidator.validateRegister(dto);
 
-        if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
-            throw new IllegalArgumentException("Invalid email format!");
-        }
-
-        UserEntity user = new UserEntity();
-        user.setName(name);
-        user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password));
+        var user = new UserEntity();
+        user.setName(dto.getName());
+        user.setEmail(dto.getEmail());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRole("user");
 
-        return userRepository.save(user);
+        var savedUser = userRepository.save(user);
+
+        return new UserResponseDto(savedUser.getName(), savedUser.getEmail(), savedUser.getRole());
     }
 
-    public UserEntity login(String email, String password) {
-        Optional<UserEntity> userOpt = userRepository.findByEmail(email);
-        if (userOpt.isEmpty()) {
-            throw new IllegalArgumentException("User does not exist!");
-        }
+    public UserResponseDto login(UserLoginDto dto) {
+        var userOpt = userRepository.findByEmail(dto.getEmail());
 
-        UserEntity user = userOpt.get();
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new IllegalArgumentException("Incorrect password!");
-        }
+        var user = userOpt.filter(u -> passwordEncoder.matches(dto.getPassword(), u.getPassword()))
+                .orElseThrow(() -> new IllegalArgumentException("Wrong user or password"));
 
-        return user;
+        return new UserResponseDto(user.getName(), user.getEmail(), user.getRole());
     }
+
+
+    public List<UserEntity> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public void updateUserRole(Long userId, String role) {
+        var user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        user.setRole(role);
+        userRepository.save(user);
+    }
+
 }

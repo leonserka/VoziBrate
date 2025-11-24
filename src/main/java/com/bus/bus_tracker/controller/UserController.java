@@ -1,7 +1,10 @@
 package com.bus.bus_tracker.controller;
 
-import com.bus.bus_tracker.entity.UserEntity;
+import com.bus.bus_tracker.dto.UserRegisterDto;
+import com.bus.bus_tracker.dto.UserLoginDto;
 import com.bus.bus_tracker.service.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,48 +20,39 @@ public class UserController {
     }
 
     @GetMapping("/register")
-    public String showRegisterPage() {
+    public String showRegisterPage(Model model) {
+        model.addAttribute("userRegisterDto", new UserRegisterDto());
         return "register";
     }
 
+    @PostMapping("/register")
+    public String register(@ModelAttribute UserRegisterDto dto, Model model) {
+        var response = userService.register(dto);
+        model.addAttribute("userName", response.getName());
+        return "register_success";
+    }
+
     @GetMapping("/login")
-    public String showLoginPage() {
+    public String showLoginPage(Model model, @ModelAttribute("userLoginDto") UserLoginDto userLoginDto) {
+        if (userLoginDto == null) {
+            model.addAttribute("userLoginDto", new UserLoginDto());
+        }
         return "login";
     }
 
-    @PostMapping("/register")
-    public String register(@RequestParam String name,
-                           @RequestParam String email,
-                           @RequestParam String password,
-                           @RequestParam String confirmPassword,
-                           Model model) {
-        try {
-            // 🔹 Provjera da se lozinke poklapaju
-            if (!password.equals(confirmPassword)) {
-                model.addAttribute("error", "Passwords do not match!");
-                return "register";
-            }
+    @GetMapping("/login_success")
+    public String loginSuccess(Model model) {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
 
-            userService.register(name, email, password);
-            return "register_success";
-
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("error", e.getMessage());
-            return "register";
+        if (auth != null && auth.getPrincipal() instanceof UserDetails userDetails) {
+            model.addAttribute("userName", userDetails.getUsername());
+            model.addAttribute("role", userDetails.getAuthorities()
+                    .stream()
+                    .findFirst()
+                    .map(Object::toString)
+                    .orElse("N/A"));
         }
-    }
 
-    @PostMapping("/login")
-    public String login(@RequestParam String email,
-                        @RequestParam String password,
-                        Model model) {
-        try {
-            UserEntity user = userService.login(email, password);
-            model.addAttribute("userName", user.getName());
-            return "login_success";
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("error", e.getMessage());
-            return "login";
-        }
+        return "login_success";
     }
 }

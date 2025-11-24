@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Panel</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h1>Admin Panel</h1>
+
+<table border="1" cellpadding="5">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.role}"></td>
+        <td>
+            <form th:action="@{/admin/changeRole}" method="post">
+                <input type="hidden" name="userId" th:value="${user.id}" />
+                <select name="role">
+                    <option value="user" th:selected="${user.role=='user'}">User</option>
+                    <option value="ADMIN" th:selected="${user.role=='ADMIN'}">Admin</option>
+                </select>
+                <button type="submit">Change Role</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<p><a th:href="@{/user/login_success}">Back to Home</a></p>
+</body>
+</html>

@@ -14,7 +14,7 @@ public class BusEntity {
     @Column(name = "bus_number")
     private String busNumber;
 
-    @Column
+    @Column(name = "registration")
     private String registration;
 
     @ManyToOne
