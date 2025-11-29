@@ -1,19 +1,17 @@
 package com.bus.bus_tracker.controller;
 
 import com.bus.bus_tracker.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class AdminController {
 
     private final UserService userService;
-
-    public AdminController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping
     public String adminDashboard(Model model) {

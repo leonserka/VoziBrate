@@ -4,33 +4,28 @@ import com.bus.bus_tracker.dto.UserRegisterDto;
 import com.bus.bus_tracker.dto.UserLoginDto;
 import com.bus.bus_tracker.dto.UserResponseDto;
 import com.bus.bus_tracker.entity.UserEntity;
+import com.bus.bus_tracker.mapper.UserMapper;
 import com.bus.bus_tracker.repository.UserRepository;
 import com.bus.bus_tracker.validator.UserValidator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final UserValidator userValidator;
+    private final UserMapper userMapper;
     private final BCryptPasswordEncoder passwordEncoder;
-
-    public UserService(UserRepository userRepository, UserValidator userValidator, BCryptPasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.userValidator = userValidator;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public UserResponseDto register(UserRegisterDto dto) {
         userValidator.validateRegister(dto);
 
-        var user = new UserEntity();
-        user.setName(dto.getName());
-        user.setEmail(dto.getEmail());
+        UserEntity user = userMapper.toEntity(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setRole("user");
 
         var savedUser = userRepository.save(user);
 
@@ -46,7 +41,6 @@ public class UserService {
         return new UserResponseDto(user.getName(), user.getEmail(), user.getRole());
     }
 
-
     public List<UserEntity> getAllUsers() {
         return userRepository.findAll();
     }
@@ -57,5 +51,4 @@ public class UserService {
         user.setRole(role);
         userRepository.save(user);
     }
-
 }
