@@ -29,7 +29,6 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<FavoriteEntity> favorites;
 
-    // GETTERS
     public Long getId() { return id; }
 
     public String getName() { return name; }
@@ -44,7 +43,6 @@ public class UserEntity {
 
     public List<FavoriteEntity> getFavorites() { return favorites; }
 
-    // SETTERS
     public void setName(String name) { this.name = name; }
 
     public void setEmail(String email) { this.email = email; }

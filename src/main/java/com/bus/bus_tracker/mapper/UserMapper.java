@@ -13,7 +13,6 @@ public interface UserMapper {
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "tickets", ignore = true)
     @Mapping(target = "favorites", ignore = true)
-    // ⬇⬇⬇ OVO DODANO — eksplicitno mapiranje emaila
     @Mapping(target = "email", source = "email")
     public UserEntity toEntity(UserRegisterDto dto);
 }
