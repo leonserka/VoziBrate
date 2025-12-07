@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Buses</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Admin</h2>
+    <a href="/admin">Users</a>
+    <a href="/stations">Stations</a>
+    <a href="/lines">Lines</a>
+    <a href="/buses">Buses</a>
+    <a href="/user/login_success">Back to Home</a>
+</div>
+
+<div class="content">
+
+    <h1>Bus Management</h1>
+
+    <form method="post" class="form-card">
+
+        <h3>Add Bus</h3>
+
+        <div class="form-row">
+            <div class="field">
+                <label>Bus Number</label>
+                <input type="text" name="busNumber" required>
+            </div>
+
+            <div class="field">
+                <label>Registration</label>
+                <input type="text" name="registration" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="field">
+                <label>GPS ID</label>
+                <input type="text" name="gpsId">
+            </div>
+
+            <div class="field">
+                <label>Line</label>
+                <select name="lineId" required>
+                    <option value="" disabled selected>Select Line</option>
+                    <option th:each="l : ${lines}" th:value="${l.id}" th:text="${l.name}"></option>
+                </select>
+            </div>
+        </div>
+
+        <button type="submit" class="btn">Add Bus</button>
+    </form>
+
+
+
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Bus Number</th>
+            <th>Registration</th>
+            <th>GPS ID</th>
+            <th>Line</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="b : ${buses}">
+            <td th:text="${b.id}"></td>
+            <td th:text="${b.busNumber}"></td>
+            <td th:text="${b.registration}"></td>
+            <td th:text="${b.gpsId}"></td>
+            <td th:text="${b.lineName}"></td>
+
+            <td>
+                <a th:href="@{'/buses/edit/' + ${b.id}}" class="btn-small">Edit</a>
+                <a th:href="@{'/buses/delete/' + ${b.id}}" class="btn-small btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>
