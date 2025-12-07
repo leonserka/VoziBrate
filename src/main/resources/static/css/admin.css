@@ -1,6 +1,4 @@
-/* admin.css - unified, modern, horizontal forms + sidebar + tables */
 
-/* ===== GLOBAL ===== */
 body {
     font-family: "Segoe UI", Arial, sans-serif;
     background: #f4f6f8;
@@ -9,7 +7,6 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* ===== SIDEBAR ===== */
 .sidebar {
     width: 240px;
     background: #2b6cb0;
@@ -36,14 +33,12 @@ body {
 .sidebar a.active,
 .sidebar a:hover { background: rgba(255,255,255,0.14); }
 
-/* ===== CONTENT ===== */
 .content {
     margin-left: 260px;
     padding: 36px;
     box-sizing: border-box;
 }
 
-/* ===== FORM CARD ===== */
 .form-card {
     background: #fff;
     padding: 20px;
@@ -53,7 +48,6 @@ body {
     max-width: 1100px;
 }
 
-/* horizontal rows: put inputs side-by-side */
 .form-row {
     display: flex;
     gap: 16px;
@@ -85,12 +79,10 @@ body {
     box-shadow: 0 0 0 3px rgba(43,108,176,0.08);
 }
 
-/* single-column fallback for small screens */
 @media (max-width: 820px) {
     .form-row { flex-direction: column; }
 }
 
-/* ===== BUTTONS ===== */
 .btn {
     display: inline-block;
     padding: 10px 16px;
@@ -115,7 +107,6 @@ body {
 }
 .btn-danger:hover { background: #b23b35; }
 
-/* ===== TABLE ===== */
 .styled-table {
     width: 100%;
     border-collapse: collapse;
@@ -140,7 +131,6 @@ body {
     background: #f6f9ff;
 }
 
-/* small helpers */
 .kv {
     font-weight: 600;
     color: #333;
