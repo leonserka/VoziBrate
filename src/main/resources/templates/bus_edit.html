@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Bus</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Admin</h2>
+    <a th:href="@{/admin}">Users</a>
+    <a th:href="@{/stations}">Stations</a>
+    <a th:href="@{/lines}">Lines</a>
+    <a th:href="@{/buses}" class="active">Buses</a>
+</div>
+
+<div class="content">
+    <h1>Edit Bus</h1>
+
+    <form class="form-card" th:action="@{'/buses/edit/' + ${bus.id}}" method="post">
+
+        <div class="form-row">
+            <div class="field">
+                <label>Bus Number</label>
+                <input type="text" name="busNumber" th:value="${bus.busNumber}" required>
+            </div>
+
+            <div class="field">
+                <label>Registration</label>
+                <input type="text" name="registration" th:value="${bus.registration}">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="field">
+                <label>GPS ID</label>
+                <input type="text" name="gpsId" th:value="${bus.gpsId}">
+            </div>
+
+            <div class="field">
+                <label>Line</label>
+                <select name="lineId">
+                    <option value="">-- None --</option>
+                    <option th:each="l : ${lines}"
+                            th:value="${l.id}"
+                            th:text="${l.name}"
+                            th:selected="${bus.lineId} == ${l.id}"></option>
+                </select>
+            </div>
+        </div>
+
+        <button type="submit" class="btn">Save</button>
+        <a th:href="@{/buses}" class="btn" style="background:#6c757d;margin-left:10px;">Cancel</a>
+    </form>
+</div>
+</body>
+</html>

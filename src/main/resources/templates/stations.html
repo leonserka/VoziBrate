@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Stations</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Admin</h2>
+    <a th:href="@{/admin}">Users</a>
+    <a th:href="@{/stations}">Stations</a>
+    <a th:href="@{/lines}">Lines</a>
+    <a th:href="@{/buses}">Buses</a>
+    <a th:href="@{/user/login_success}">Back to Home</a>
+</div>
+
+<div class="content">
+    <h1>Stations</h1>
+
+    <form class="form-card" th:action="@{/stations}" method="post">
+        <h3>Add Station</h3>
+
+        <div class="form-row">
+            <div class="field">
+                <label>Name:</label>
+                <input type="text" name="name" required>
+            </div>
+
+            <div class="field">
+                <label>Location:</label>
+                <input type="text" name="location">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="field">
+                <label>GPS Latitude:</label>
+                <input type="number" step="0.000001" name="gpsLat">
+            </div>
+
+            <div class="field">
+                <label>GPS Longitude:</label>
+                <input type="number" step="0.000001" name="gpsLng">
+            </div>
+        </div>
+
+        <button type="submit" class="btn">Add</button>
+    </form>
+
+
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="s : ${stations}">
+            <td th:text="${s.id}"></td>
+            <td th:text="${s.name}"></td>
+            <td th:text="${s.location}"></td>
+            <td th:text="${s.gpsLat}"></td>
+            <td th:text="${s.gpsLng}"></td>
+            <td>
+                <a th:href="@{'/stations/edit/' + ${s.id}}" class="btn">Edit</a>
+
+                <a th:href="@{'/stations/delete/' + ${s.id}}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

@@ -1,42 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Admin Panel</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
 </head>
 <body>
-<h1>Admin Panel</h1>
 
-<table border="1" cellpadding="5">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="user : ${users}">
-        <td th:text="${user.id}"></td>
-        <td th:text="${user.name}"></td>
-        <td th:text="${user.email}"></td>
-        <td th:text="${user.role}"></td>
-        <td>
-            <form th:action="@{/admin/changeRole}" method="post">
-                <input type="hidden" name="userId" th:value="${user.id}" />
-                <select name="role">
-                    <option value="user" th:selected="${user.role=='user'}">User</option>
-                    <option value="ADMIN" th:selected="${user.role=='ADMIN'}">Admin</option>
-                </select>
-                <button type="submit">Change Role</button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div class="sidebar">
+    <h2>Admin</h2>
+    <a th:href="@{/admin}">Users</a>
+    <a th:href="@{/stations}">Stations</a>
+    <a th:href="@{/lines}">Lines</a>
+    <a th:href="@{/buses}">Buses</a>
+    <a th:href="@{/user/login_success}">Back to Home</a>
+</div>
 
-<p><a th:href="@{/user/login_success}">Back to Home</a></p>
+<div class="content">
+    <h1>User Management</h1>
+
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th style="width: 180px;">Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.role}"></td>
+            <td>
+                <form th:action="@{/admin/changeRole}" method="post" class="role-form">
+                    <input type="hidden" name="userId" th:value="${user.id}" />
+
+                    <select name="role" class="role-select">
+                        <option value="USER" th:selected="${user.role=='USER'}">User</option>
+                        <option value="ADMIN" th:selected="${user.role=='ADMIN'}">Admin</option>
+                    </select>
+
+                    <button type="submit" class="btn">Save</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
 </body>
 </html>

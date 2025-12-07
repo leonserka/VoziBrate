@@ -1,7 +1,11 @@
 package com.bus.bus_tracker.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "route_stations")
 public class RouteStationEntity {

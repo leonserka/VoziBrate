@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lines</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Admin</h2>
+    <a href="/admin">Users</a>
+    <a href="/stations">Stations</a>
+    <a href="/lines">Lines</a>
+    <a href="/buses">Buses</a>
+    <a href="/user/login_success">Back to Home</a>
+</div>
+
+<div class="content">
+
+    <h1>Line Management</h1>
+
+    <form method="post" class="form-card">
+
+        <h3>Add Line</h3>
+
+        <div class="form-row">
+            <div class="field">
+                <label>Line Number</label>
+                <input type="text" name="lineNumber" required>
+            </div>
+
+            <div class="field">
+                <label>Name</label>
+                <input type="text" name="name" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="field">
+                <label>Direction</label>
+                <input type="text" name="direction">
+            </div>
+        </div>
+
+        <button type="submit" class="btn">Add Line</button>
+    </form>
+
+
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Number</th>
+            <th>Name</th>
+            <th>Direction</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="l : ${lines}">
+            <td th:text="${l.id}"></td>
+            <td th:text="${l.lineNumber}"></td>
+            <td th:text="${l.name}"></td>
+            <td th:text="${l.direction}"></td>
+            <td>
+                <a th:href="@{'/lines/edit/' + ${l.id}}" class="btn-small">Edit</a>
+                <a th:href="@{'/lines/delete/' + ${l.id}}" class="btn-small btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>

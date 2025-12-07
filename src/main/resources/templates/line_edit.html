@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Line</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Admin</h2>
+    <a th:href="@{/admin}">Users</a>
+    <a th:href="@{/stations}">Stations</a>
+    <a th:href="@{/lines}" class="active">Lines</a>
+    <a th:href="@{/buses}">Buses</a>
+</div>
+
+<div class="content">
+    <h1>Edit Line</h1>
+
+    <form class="form-card" th:action="@{'/lines/edit/' + ${line.id}}" method="post">
+
+        <div class="form-row">
+            <div class="field">
+                <label>Line Number</label>
+                <input type="text" name="lineNumber" th:value="${line.lineNumber}" required>
+            </div>
+
+            <div class="field">
+                <label>Name</label>
+                <input type="text" name="name" th:value="${line.name}" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="field">
+                <label>Direction</label>
+                <input type="text" name="direction" th:value="${line.direction}">
+            </div>
+        </div>
+
+        <button type="submit" class="btn">Save</button>
+        <a th:href="@{/lines}" class="btn" style="background:#6c757d;margin-left:10px;">Cancel</a>
+    </form>
+</div>
+</body>
+</html>
