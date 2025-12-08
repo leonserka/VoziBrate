@@ -5,7 +5,7 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<h1>Login Successful 🎉</h1>
+<h1>Login Successful! </h1>
 
 <p>Welcome, <span th:text="${userName}">User</span>!</p>
 <p>Your role: <span th:text="${role}">N/A</span></p>
@@ -16,6 +16,11 @@
 <div th:if="${role == 'ROLE_ADMIN'}" style="text-align:center; margin-top:25px;">
     <a th:href="@{/admin}">Go to Admin Panel</a>
 </div>
+<form th:action="@{/logout}" method="post" style="text-align:center; margin-top:20px;">
+    <button type="submit" class="btn-logout">Logout</button>
+</form>
+
+
 
 
 

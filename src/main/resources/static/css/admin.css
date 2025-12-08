@@ -7,6 +7,7 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+
 .sidebar {
     width: 240px;
     background: #2b6cb0;
@@ -33,11 +34,13 @@ body {
 .sidebar a.active,
 .sidebar a:hover { background: rgba(255,255,255,0.14); }
 
+
 .content {
     margin-left: 260px;
     padding: 36px;
     box-sizing: border-box;
 }
+
 
 .form-card {
     background: #fff;
@@ -47,6 +50,7 @@ body {
     margin-bottom: 22px;
     max-width: 1100px;
 }
+
 
 .form-row {
     display: flex;
@@ -79,9 +83,11 @@ body {
     box-shadow: 0 0 0 3px rgba(43,108,176,0.08);
 }
 
+
 @media (max-width: 820px) {
     .form-row { flex-direction: column; }
 }
+
 
 .btn {
     display: inline-block;
@@ -107,6 +113,7 @@ body {
 }
 .btn-danger:hover { background: #b23b35; }
 
+
 .styled-table {
     width: 100%;
     border-collapse: collapse;
@@ -130,6 +137,7 @@ body {
 .styled-table tbody tr:hover td {
     background: #f6f9ff;
 }
+
 
 .kv {
     font-weight: 600;
