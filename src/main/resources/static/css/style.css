@@ -105,3 +105,35 @@ a:hover {
 .btn-logout:hover {
     background-color: #b23b35;
 }
+
+
+        .home-container {
+            max-width: 500px;
+            margin: 60px auto;
+            text-align: center;
+        }
+
+        .card-button {
+            display: block;
+            background: #eef2f7;
+            border-radius: 16px;
+            padding: 40px 20px;
+            margin-top: 40px;
+            text-decoration: none;
+            color: #2b6cb0;
+            font-size: 22px;
+            font-weight: 600;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .card-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+        }
+
+        .subtitle {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #666;
+        }

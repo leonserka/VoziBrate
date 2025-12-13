@@ -1,0 +1,226 @@
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f6f8;
+    margin: 0;
+    padding: 40px;
+    color: #333;
+}
+
+.page {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #2b6cb0;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.line-card {
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+}
+
+.line-title {
+    margin-top: 0;
+    color: #2b6cb0;
+}
+
+.line-name {
+    margin-bottom: 25px;
+    color: #444;
+}
+
+.page-title {
+    color: #2b6cb0;
+    margin-bottom: 25px;
+}
+
+.days {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+
+.days button {
+    flex: 1;
+    margin: 0 4px;
+    padding: 10px 0;
+    border-radius: 10px;
+    border: 2px solid #e2e8f0;
+    background: #f8fafc;
+    color: #2b6cb0;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.days button:hover {
+    background: #e2e8f0;
+}
+
+.days button.active {
+    background: #2b6cb0;
+    color: #ffffff;
+    border-color: #2b6cb0;
+}
+
+.coming-soon {
+    margin-top: 30px;
+    padding: 25px;
+    background: #f7fafc;
+    border-radius: 14px;
+    text-align: center;
+    color: #555;
+    font-style: italic;
+}
+
+.user-page {
+    background: #f4f6f8;
+    padding: 30px;
+}
+
+.favorites-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.favorite-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease;
+}
+
+.favorite-card:hover {
+    transform: translateY(-4px);
+}
+
+.favorite-card h2 {
+    margin: 0;
+    color: #2b6cb0;
+}
+
+.favorite-card p {
+    margin: 8px 0 15px;
+    color: #555;
+}
+
+.fav-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    background-color: #2b6cb0;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+    background-color: #1a4f8b;
+}
+
+.btn-danger {
+    background-color: #d9534f;
+}
+
+.btn-danger:hover {
+    background-color: #b23b35;
+}
+
+.user-card {
+    background: white;
+    max-width: 420px;
+    margin: 80px auto;
+    padding: 35px;
+    border-radius: 14px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.user-card h1 {
+    color: #2b6cb0;
+    margin-bottom: 15px;
+}
+
+.big-btn {
+    display: block;
+    margin-top: 20px;
+    background-color: #2b6cb0;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.big-btn:hover {
+    background-color: #1a4f8b;
+}
+
+.admin-btn {
+    background-color: #444;
+}
+
+.admin-btn:hover {
+    background-color: #222;
+}
+
+.box {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    margin: 30px auto;
+    max-width: 600px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.favorite-btn {
+    background: #fff5f5;
+    border: none;
+    border-radius: 14px;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.15s ease;
+}
+
+.favorite-btn:hover {
+    transform: scale(1.05);
+}
+
+.favorite-btn span:first-child {
+    font-size: 22px;
+    animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+    0% { transform: scale(0.7); }
+    70% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}

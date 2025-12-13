@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Line</title>
+    <link rel="stylesheet" th:href="@{/css/user.css}">
+</head>
+<body>
+
+<div class="page">
+
+    <a href="/timetable" class="back-link">← Back</a>
+
+    <div class="box">
+
+        <h1 class="line-title">
+            Line <span th:text="${line.lineNumber}">37</span>
+        </h1>
+
+        <h3 class="line-name"
+            th:text="${line.lineNumber} + ' – ' + ${line.name}">
+            37 – Split – Kila
+        </h3>
+
+        <form th:action="@{'/favorites/toggle/' + ${line.id}}" method="post">
+            <button class="favorite-btn" type="submit">
+                <span th:text="${isFavorite} ? '★' : '☆'"></span>
+                <span th:text="${isFavorite} ? 'Remove from favorites' : 'Add to favorites'"></span>
+            </button>
+        </form>
+
+        <div class="days" id="daySelector">
+            <button data-day="1">Mon</button>
+            <button data-day="2">Tue</button>
+            <button data-day="3">Wed</button>
+            <button data-day="4">Thu</button>
+            <button data-day="5">Fri</button>
+            <button data-day="6">Sat</button>
+            <button data-day="0">Sun</button>
+        </div>
+
+        <div class="coming-soon">
+            <p>🚧 Coming soon</p>
+            <p>Schedules will be available shortly.</p>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const today = new Date().getDay(); // 0 = Sun
+    const buttons = document.querySelectorAll('#daySelector button');
+
+    buttons.forEach(btn => {
+        if (btn.dataset.day == today) {
+            btn.classList.add('active');
+        }
+
+        btn.addEventListener('click', () => {
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+    });
+</script>
+
+</body>
+</html>

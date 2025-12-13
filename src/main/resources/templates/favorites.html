@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Favorites</title>
+    <link rel="stylesheet" th:href="@{/css/user.css}">
+</head>
+<body class="user-page">
+
+<a href="/timetable" class="back-link">← Back to Timetable</a>
+
+<h1 class="page-title">⭐ My Favorite Lines</h1>
+
+<div class="favorites-container">
+
+    <div class="favorite-card" th:each="fav : ${favorites}">
+        <h2 th:text="'Line ' + ${fav.line.lineNumber}"></h2>
+        <p th:text="${fav.line.name}"></p>
+
+        <div class="fav-actions">
+            <a th:href="@{'/timetable/' + ${fav.line.id}}" class="btn">View</a>
+
+            <form th:action="@{'/favorites/remove/' + ${fav.line.id}}" method="post">
+                <button class="btn btn-danger" type="submit">Remove</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+</body>
+
+</html>

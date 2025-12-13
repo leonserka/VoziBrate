@@ -1,28 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login Successful</title>
+    <title>Home</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<h1>Login Successful! </h1>
 
-<p>Welcome, <span th:text="${userName}">User</span>!</p>
-<p>Your role: <span th:text="${role}">N/A</span></p>
+<div class="home-container">
 
-<div style="text-align:center; margin-top:25px;">
-    <a th:href="@{/}">Go to Home</a>
+    <h1>Welcome 👋</h1>
+
+    <p>
+        Logged in as
+        <strong th:text="${userName}">User</strong>
+    </p>
+
+    <a th:href="@{/timetable}" class="card-button">
+        📘 Timetable
+        <div class="subtitle">Search lines & view routes</div>
+    </a>
+
+    <a th:href="@{/favorites}" class="card-button">
+        ⭐ My Favorites
+        <div class="subtitle">Your saved lines</div>
+    </a>
+
+    <div th:if="${role == 'ROLE_ADMIN'}">
+        <a th:href="@{/admin}" class="card-button">
+            ⚙ Admin Panel
+            <div class="subtitle">Manage users & data</div>
+        </a>
+    </div>
+
+    <form th:action="@{/logout}" method="post" style="margin-top:40px;">
+        <button type="submit" class="btn-logout">Logout</button>
+    </form>
+
 </div>
-<div th:if="${role == 'ROLE_ADMIN'}" style="text-align:center; margin-top:25px;">
-    <a th:href="@{/admin}">Go to Admin Panel</a>
-</div>
-<form th:action="@{/logout}" method="post" style="text-align:center; margin-top:20px;">
-    <button type="submit" class="btn-logout">Logout</button>
-</form>
-
-
-
-
-
 </body>
 </html>
