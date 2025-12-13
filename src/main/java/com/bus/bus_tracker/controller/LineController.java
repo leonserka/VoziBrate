@@ -45,4 +45,17 @@ public class LineController {
         service.delete(id);
         return "redirect:/lines";
     }
+
+    @GetMapping("/search")
+    public String search(
+            @RequestParam String q,
+            Model model
+    ) {
+        model.addAttribute("lines", service.search(q));
+        model.addAttribute("query", q);
+        model.addAttribute("newLine", new LineRequestDto());
+        return "lines";
+    }
+
+
 }

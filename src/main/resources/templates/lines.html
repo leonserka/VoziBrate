@@ -45,6 +45,24 @@
         <button type="submit" class="btn">Add Line</button>
     </form>
 
+    <form method="get" action="/lines/search" class="form-card">
+        <h3>Search Line</h3>
+
+        <div class="form-row">
+            <div class="field">
+                <label>Line number or name</label>
+                <input type="text" name="q"
+                       placeholder="e.g. 10, Split, Solin"
+                       th:value="${query}">
+            </div>
+        </div>
+
+        <button type="submit" class="btn">Search</button>
+
+        <div style="margin-top:10px">
+            <a href="/lines">Clear search</a>
+        </div>
+    </form>
 
     <table class="styled-table">
         <thead>

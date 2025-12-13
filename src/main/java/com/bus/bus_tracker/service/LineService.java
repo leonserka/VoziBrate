@@ -39,4 +39,14 @@ public class LineService {
     public void delete(Long id) {
         repo.deleteById(id);
     }
+
+    public List<LineResponseDto> search(String query) {
+        return repo
+                .findByLineNumberContainingIgnoreCaseOrNameContainingIgnoreCase(query, query)
+                .stream()
+                .map(mapper::toResponse)
+                .toList();
+    }
+
+
 }

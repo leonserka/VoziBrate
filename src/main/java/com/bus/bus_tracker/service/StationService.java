@@ -40,4 +40,13 @@ public class StationService {
     public void delete(Long id) {
         repo.deleteById(id);
     }
+
+    public List<StationResponseDto> search(String query) {
+        return repo
+                .findByNameContainingIgnoreCaseOrLocationContainingIgnoreCase(query, query)
+                .stream()
+                .map(mapper::toResponse)
+                .toList();
+    }
+
 }

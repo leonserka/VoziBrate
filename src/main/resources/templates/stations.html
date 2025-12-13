@@ -48,6 +48,18 @@
         <button type="submit" class="btn">Add</button>
     </form>
 
+    <form method="get" action="/stations/search" class="form-card">
+        <h3>Search Stations</h3>
+
+        <input type="text"
+               name="q"
+               placeholder="e.g. Firule, Poljička, Split"
+               th:value="${query}"
+               required>
+
+        <button type="submit" class="btn">Search</button>
+    </form>
+
 
     <table class="styled-table">
         <thead>

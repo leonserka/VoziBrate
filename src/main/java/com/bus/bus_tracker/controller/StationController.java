@@ -46,4 +46,15 @@ public class StationController {
         stationService.delete(id);
         return "redirect:/stations";
     }
+    @GetMapping("/search")
+    public String search(
+            @RequestParam String q,
+            Model model
+    ) {
+        model.addAttribute("stations", stationService.search(q));
+        model.addAttribute("query", q);
+        model.addAttribute("newStation", new StationRequestDto());
+        return "stations";
+    }
+
 }
