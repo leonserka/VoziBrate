@@ -6,7 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.transaction.annotation.Transactional;
 @Controller
 @RequestMapping("/favorites")
 @RequiredArgsConstructor
@@ -33,6 +33,7 @@ public class FavoriteController {
         return "redirect:" + (referer != null ? referer : "/timetable");
     }
 
+    @Transactional
     @PostMapping("/remove/{lineId}")
     public String remove(@PathVariable Long lineId) {
         favoriteService.removeFavorite(currentUserEmail(), lineId);

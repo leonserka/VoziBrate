@@ -2,31 +2,61 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>My Favorites</title>
-    <link rel="stylesheet" th:href="@{/css/user.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
 </head>
-<body class="user-page">
+<body>
 
-<a href="/timetable" class="back-link">← Back to Timetable</a>
+<div class="sidebar">
+    <h2>Menu</h2>
 
-<h1 class="page-title">⭐ My Favorite Lines</h1>
+    <a href="/user/login_success">← Back to home</a>
+    <a href="/timetable">Vozni red</a>
+    <a href="/favorites" class="active">Favorites</a>
 
-<div class="favorites-container">
+    <form th:action="@{/logout}" method="post" class="logout-form">
+        <button type="submit" class="sidebar-link">Logout</button>
+    </form>
+</div>
 
-    <div class="favorite-card" th:each="fav : ${favorites}">
-        <h2 th:text="'Line ' + ${fav.line.lineNumber}"></h2>
-        <p th:text="${fav.line.name}"></p>
+<div class="content">
 
-        <div class="fav-actions">
-            <a th:href="@{'/timetable/' + ${fav.line.id}}" class="btn">View</a>
+    <h1>⭐ My Favorite Lines</h1>
 
-            <form th:action="@{'/favorites/remove/' + ${fav.line.id}}" method="post">
-                <button class="btn btn-danger" type="submit">Remove</button>
-            </form>
+    <div class="line-grid">
+
+        <div class="line-card" th:each="fav : ${favorites}">
+
+            <div class="line-number"
+                 th:text="${fav.line.lineNumber}">
+                1
+            </div>
+
+            <div class="line-info">
+                <h3 th:text="${fav.line.name}">
+                    Split – Zračna luka
+                </h3>
+            </div>
+
+            <div class="fav-actions">
+                <a th:href="@{'/timetable/' + ${fav.line.id}}"
+                   class="btn-small">
+                    View
+                </a>
+
+                <form th:action="@{'/favorites/remove/' + ${fav.line.id}}"
+                      method="post">
+                    <button class="btn-small btn-danger" type="submit">
+                        Remove
+                    </button>
+                </form>
+            </div>
+
         </div>
+
     </div>
 
 </div>
 
-</body>
 
+</body>
 </html>

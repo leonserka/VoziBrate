@@ -8,11 +8,14 @@
 
 <div class="sidebar">
     <h2>Menu</h2>
-    <a href="/user/login_success">Home</a>
-    <a href="/timetable" class="active">Vozni red</a>
 
-    <form th:action="@{/logout}" method="post" style="margin-top:30px;">
-        <button class="btn-logout" type="submit">Logout</button>
+    <a href="/user/login_success">← Back to home</a>
+    <a href="/timetable" class="active">Vozni red</a>
+    <a href="/favorites">Favorites</a>
+
+    <!-- Logout styled like other buttons -->
+    <form th:action="@{/logout}" method="post" class="logout-form">
+        <button type="submit" class="sidebar-link">Logout</button>
     </form>
 </div>
 
@@ -31,7 +34,6 @@
     </form>
 
     <div class="line-grid">
-
         <div class="line-card" th:each="l : ${lines}">
             <div class="line-number" th:text="${l.lineNumber}">37</div>
 
@@ -44,7 +46,6 @@
                 View
             </a>
         </div>
-
     </div>
 
 </div>

@@ -218,3 +218,34 @@ body {
     margin-top: 15px;
     align-self: flex-end;
 }
+.logout-form {
+    margin-top: 10px;
+}
+
+.sidebar-link {
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    width: 100%;
+    text-align: left;
+    font-size: inherit;
+    cursor: pointer;
+    color: inherit;
+}
+
+.sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.fav-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
