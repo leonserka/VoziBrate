@@ -22,9 +22,6 @@ public class LineEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "direction")
-    private String direction;
-
     @OneToMany(mappedBy = "line", cascade = CascadeType.ALL)
     private List<BusEntity> buses;
 

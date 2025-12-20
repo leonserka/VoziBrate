@@ -12,14 +12,12 @@ public class LineMapper {
         LineEntity e = new LineEntity();
         e.setLineNumber(dto.getLineNumber());
         e.setName(dto.getName());
-        e.setDirection(dto.getDirection());
         return e;
     }
 
     public void updateEntity(LineEntity e, LineRequestDto dto) {
         e.setLineNumber(dto.getLineNumber());
         e.setName(dto.getName());
-        e.setDirection(dto.getDirection());
     }
 
     public LineResponseDto toResponse(LineEntity e) {
@@ -27,7 +25,6 @@ public class LineMapper {
         dto.setId(e.getId());
         dto.setLineNumber(e.getLineNumber());
         dto.setName(e.getName());
-        dto.setDirection(e.getDirection());
         return dto;
     }
 }

@@ -7,6 +7,7 @@ import com.bus.bus_tracker.mapper.LineMapper;
 import com.bus.bus_tracker.repository.LineRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.bus.bus_tracker.specification.LineSpecification;
 
 import java.util.List;
 
@@ -42,11 +43,10 @@ public class LineService {
 
     public List<LineResponseDto> search(String query) {
         return repo
-                .findByLineNumberContainingIgnoreCaseOrNameContainingIgnoreCase(query, query)
+                .findAll(LineSpecification.search(query))
                 .stream()
                 .map(mapper::toResponse)
                 .toList();
     }
-
 
 }

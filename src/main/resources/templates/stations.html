@@ -51,14 +51,25 @@
     <form method="get" action="/stations/search" class="form-card">
         <h3>Search Stations</h3>
 
-        <input type="text"
-               name="q"
-               placeholder="e.g. Firule, Poljička, Split"
-               th:value="${query}"
-               required>
+        <div class="form-row">
+            <div class="field">
+                <label>Name or location</label>
+                <input
+                        type="text"
+                        name="q"
+                        placeholder="e.g. Firule, Poljička, Split"
+                        th:value="${query}"
+                >
+            </div>
+        </div>
 
         <button type="submit" class="btn">Search</button>
+
+        <div style="margin-top:10px">
+            <a href="/stations">Clear search</a>
+        </div>
     </form>
+
 
 
     <table class="styled-table">

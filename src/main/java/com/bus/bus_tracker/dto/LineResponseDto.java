@@ -9,5 +9,4 @@ public class LineResponseDto {
     private Long id;
     private String lineNumber;
     private String name;
-    private String direction;
 }

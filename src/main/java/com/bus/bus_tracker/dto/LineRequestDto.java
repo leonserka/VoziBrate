@@ -8,5 +8,4 @@ import lombok.Setter;
 public class LineRequestDto {
     private String lineNumber;
     private String name;
-    private String direction;
 }

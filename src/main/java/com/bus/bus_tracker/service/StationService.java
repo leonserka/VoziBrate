@@ -7,6 +7,7 @@ import com.bus.bus_tracker.mapper.StationMapper;
 import com.bus.bus_tracker.repository.StationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.bus.bus_tracker.specification.StationSpecification;
 
 import java.util.List;
 
@@ -42,11 +43,11 @@ public class StationService {
     }
 
     public List<StationResponseDto> search(String query) {
-        return repo
-                .findByNameContainingIgnoreCaseOrLocationContainingIgnoreCase(query, query)
+        return repo.findAll(StationSpecification.search(query))
                 .stream()
                 .map(mapper::toResponse)
                 .toList();
     }
+
 
 }
