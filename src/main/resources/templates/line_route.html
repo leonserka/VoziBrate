@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Line Route</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Admin</h2>
+    <a th:href="@{/admin}">Users</a>
+    <a th:href="@{/stations}">Stations</a>
+    <a th:href="@{/lines}" class="active">Lines</a>
+    <a th:href="@{/buses}">Buses</a>
+    <a th:href="@{/user/login_success}">Back to Home</a>
+</div>
+
+<div class="content">
+
+    <h1 th:text="'Route for line ' + ${line.lineNumber} + ' – ' + ${line.name}">
+        Route for line
+    </h1>
+
+    <!-- ADD STATION -->
+    <form class="form-card"
+          th:action="@{'/lines/' + ${line.id} + '/route/add'}"
+          method="post">
+
+        <h3>Add station to route</h3>
+
+        <div class="form-row">
+            <div class="field">
+                <label>Station</label>
+                <select name="stationId" required>
+                    <option value="" disabled selected>Select station</option>
+                    <option th:each="s : ${stations}"
+                            th:value="${s.id}"
+                            th:text="${s.name}">
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <button type="submit" class="btn">Add</button>
+    </form>
+
+    <!-- ROUTE TABLE -->
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th style="width:70px;">#</th>
+            <th>Station</th>
+            <th style="width:260px;">Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="rs : ${route}">
+            <td th:text="${rs.orderNumber}">1</td>
+            <td th:text="${rs.station.name}">Station name</td>
+            <td style="display:flex;gap:8px;">
+
+                <form th:action="@{'/lines/' + ${line.id} + '/route/up/' + ${rs.id}}" method="post">
+                    <button type="submit" class="btn-small">↑</button>
+                </form>
+
+                <form th:action="@{'/lines/' + ${line.id} + '/route/down/' + ${rs.id}}" method="post">
+                    <button type="submit" class="btn-small">↓</button>
+                </form>
+
+                <form th:action="@{'/lines/' + ${line.id} + '/route/delete/' + ${rs.id}}" method="post"
+                      onsubmit="return confirm('Remove this station from route?');">
+                    <button type="submit" class="btn-small btn-danger">Delete</button>
+                </form>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div style="margin-top:14px;">
+        <a th:href="@{/lines}">← Back to Lines</a>
+    </div>
+
+</div>
+
+</body>
+</html>

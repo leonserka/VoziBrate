@@ -75,6 +75,7 @@
             <td>
                 <a th:href="@{'/lines/edit/' + ${l.id}}" class="btn-small">Edit</a>
                 <a th:href="@{'/lines/delete/' + ${l.id}}" class="btn-small btn-danger">Delete</a>
+                <a th:href="@{'/lines/' + ${l.id} + '/route'}" class="btn-small">Route</a>
             </td>
         </tr>
         </tbody>

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,5 +29,9 @@ public class ScheduleEntity {
 
     @Column(name = "day_of_week")
     private String dayOfWeek;
+
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("stopSequence ASC")
+    private List<ScheduleStopEntity> stops;
 
 }
