@@ -29,6 +29,4 @@ public class ScheduleEntity {
     @Column(name = "day_of_week")
     private String dayOfWeek;
 
-    @Column(name = "direction")
-    private String direction;
 }
