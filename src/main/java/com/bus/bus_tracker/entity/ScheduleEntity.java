@@ -27,8 +27,8 @@ public class ScheduleEntity {
     @Column(name = "arrival")
     private LocalTime arrival;
 
-    @Column(name = "day_of_week")
-    private String dayOfWeek;
+    @Column(name = "day_of_week", nullable = false)
+    private Integer dayOfWeek;
 
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("stopSequence ASC")

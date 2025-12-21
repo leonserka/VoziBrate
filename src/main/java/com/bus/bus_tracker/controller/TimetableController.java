@@ -2,6 +2,7 @@ package com.bus.bus_tracker.controller;
 
 import com.bus.bus_tracker.service.FavoriteService;
 import com.bus.bus_tracker.service.LineService;
+import com.bus.bus_tracker.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,8 @@ public class TimetableController {
 
     private final LineService lineService;
     private final FavoriteService favoriteService;
+    private final ScheduleService scheduleService;
+
 
 
     @GetMapping
@@ -35,7 +38,14 @@ public class TimetableController {
     @GetMapping("/{id}")
     public String lineDetails(@PathVariable Long id, Model model) {
 
+        int today = java.time.LocalDate.now().getDayOfWeek().getValue(); // 1–7 (Mon–Sun)
+
         model.addAttribute("line", lineService.getById(id));
+        model.addAttribute("day", today);
+        model.addAttribute(
+                "schedules",
+                scheduleService.getSchedulesForLineAndDay(id, today)
+        );
 
         model.addAttribute(
                 "isFavorite",
@@ -44,6 +54,7 @@ public class TimetableController {
 
         return "timetable_line";
     }
+
 
 
     private String currentUserEmail() {

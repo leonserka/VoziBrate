@@ -38,11 +38,30 @@
             <button data-day="0">Sun</button>
         </div>
 
-        <div class="coming-soon">
-            <p>🚧 Coming soon</p>
-            <p>Schedules will be available shortly.</p>
-        </div>
+        <div class="schedule-list">
 
+            <h3>
+                🕒 Departures
+            </h3>
+
+            <div th:if="${#lists.isEmpty(schedules)}">
+                <p>No departures for this day.</p>
+            </div>
+
+            <div th:each="s : ${schedules}">
+                <a th:href="@{'/timetable/schedule/' + ${s.id}}"
+                   class="schedule-row">
+
+        <span class="time">
+            <span th:text="${s.departure}">06:00</span>
+            →
+            <span th:text="${s.arrival}">06:45</span>
+        </span>
+
+                    <span class="arrow">›</span>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 
