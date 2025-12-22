@@ -17,6 +17,7 @@ public class RouteService {
     private final RouteStationRepository routeRepo;
     private final LineRepository lineRepo;
     private final StationRepository stationRepo;
+    private final ScheduleStopService scheduleStopService;
 
     @Transactional(readOnly = true)
     public List<RouteStationEntity> getRoute(Long lineId) {
@@ -25,6 +26,7 @@ public class RouteService {
 
     @Transactional
     public void addStation(Long lineId, Long stationId) {
+
         if (routeRepo.existsByLine_IdAndStation_Id(lineId, stationId)) {
             return;
         }
@@ -37,11 +39,21 @@ public class RouteService {
         rs.setOrderNumber(nextOrder);
 
         routeRepo.save(rs);
+
+        scheduleStopService.regenerateStopsForLine(lineId);
     }
 
     @Transactional
     public void remove(Long routeStationId) {
-        routeRepo.deleteById(routeStationId);
+
+        RouteStationEntity rs = routeRepo.findById(routeStationId)
+                .orElseThrow(() -> new IllegalArgumentException("Route station not found"));
+
+        Long lineId = rs.getLine().getId();
+
+        routeRepo.delete(rs);
+
+        scheduleStopService.regenerateStopsForLine(lineId);
     }
 
     @Transactional
@@ -55,6 +67,7 @@ public class RouteService {
     }
 
     private void swap(Long id, int dir) {
+
         RouteStationEntity current = routeRepo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Route station not found: " + id));
 
@@ -77,5 +90,7 @@ public class RouteService {
 
         routeRepo.save(current);
         routeRepo.save(other);
+
+        scheduleStopService.regenerateStopsForLine(lineId);
     }
 }

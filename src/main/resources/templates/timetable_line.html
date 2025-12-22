@@ -28,14 +28,41 @@
             </button>
         </form>
 
-        <div class="days" id="daySelector">
-            <button data-day="1">Mon</button>
-            <button data-day="2">Tue</button>
-            <button data-day="3">Wed</button>
-            <button data-day="4">Thu</button>
-            <button data-day="5">Fri</button>
-            <button data-day="6">Sat</button>
-            <button data-day="0">Sun</button>
+        <div class="days">
+            <a th:href="@{'/timetable/' + ${line.id} + '?day=1'}"
+               th:classappend="${day == 1} ? 'active'">
+                Mon
+            </a>
+
+            <a th:href="@{'/timetable/' + ${line.id} + '?day=2'}"
+               th:classappend="${day == 2} ? 'active'">
+                Tue
+            </a>
+
+            <a th:href="@{'/timetable/' + ${line.id} + '?day=3'}"
+               th:classappend="${day == 3} ? 'active'">
+                Wed
+            </a>
+
+            <a th:href="@{'/timetable/' + ${line.id} + '?day=4'}"
+               th:classappend="${day == 4} ? 'active'">
+                Thu
+            </a>
+
+            <a th:href="@{'/timetable/' + ${line.id} + '?day=5'}"
+               th:classappend="${day == 5} ? 'active'">
+                Fri
+            </a>
+
+            <a th:href="@{'/timetable/' + ${line.id} + '?day=6'}"
+               th:classappend="${day == 6} ? 'active'">
+                Sat
+            </a>
+
+            <a th:href="@{'/timetable/' + ${line.id} + '?day=7'}"
+               th:classappend="${day == 7} ? 'active'">
+                Sun
+            </a>
         </div>
 
         <div class="schedule-list">

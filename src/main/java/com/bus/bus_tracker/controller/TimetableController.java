@@ -3,11 +3,16 @@ package com.bus.bus_tracker.controller;
 import com.bus.bus_tracker.service.FavoriteService;
 import com.bus.bus_tracker.service.LineService;
 import com.bus.bus_tracker.service.ScheduleService;
+import com.bus.bus_tracker.service.ScheduleStopService;
+import com.bus.bus_tracker.entity.ScheduleEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+
 
 @Controller
 @RequestMapping("/timetable")
@@ -17,6 +22,7 @@ public class TimetableController {
     private final LineService lineService;
     private final FavoriteService favoriteService;
     private final ScheduleService scheduleService;
+    private final ScheduleStopService scheduleStopService;
 
 
 
@@ -36,15 +42,19 @@ public class TimetableController {
     }
 
     @GetMapping("/{id}")
-    public String lineDetails(@PathVariable Long id, Model model) {
-
-        int today = java.time.LocalDate.now().getDayOfWeek().getValue(); // 1–7 (Mon–Sun)
+    public String lineDetails(
+            @PathVariable Long id,
+            @RequestParam(required = false) Integer day,
+            Model model
+    ) {
+        int selectedDay = (day != null) ? day : LocalDate.now().getDayOfWeek().getValue();
 
         model.addAttribute("line", lineService.getById(id));
-        model.addAttribute("day", today);
+        model.addAttribute("day", selectedDay);
+
         model.addAttribute(
                 "schedules",
-                scheduleService.getSchedulesForLineAndDay(id, today)
+                scheduleService.getSchedulesForLineAndDay(id, selectedDay)
         );
 
         model.addAttribute(
@@ -56,6 +66,19 @@ public class TimetableController {
     }
 
 
+    @GetMapping("/schedule/{scheduleId}")
+    public String scheduleDetails(@PathVariable Long scheduleId, Model model) {
+
+        ScheduleEntity schedule = scheduleService.getById(scheduleId);
+
+        model.addAttribute("schedule", schedule);
+        model.addAttribute(
+                "stops",
+                scheduleStopService.getStopsForSchedule(scheduleId)
+        );
+
+        return "timetable_schedule";
+    }
 
     private String currentUserEmail() {
         return SecurityContextHolder

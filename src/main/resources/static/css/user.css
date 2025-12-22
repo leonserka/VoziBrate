@@ -262,3 +262,26 @@ body {
     font-size: 22px;
     color: #2b6cb0;
 }
+
+.days a {
+    flex: 1;
+    text-align: center;
+    padding: 10px 0;
+    border-radius: 10px;
+    border: 2px solid #e2e8f0;
+    background: #f8fafc;
+    color: #2b6cb0;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.days a:hover {
+    background: #e2e8f0;
+}
+
+.days a.active {
+    background: #2b6cb0;
+    color: white;
+    border-color: #2b6cb0;
+}

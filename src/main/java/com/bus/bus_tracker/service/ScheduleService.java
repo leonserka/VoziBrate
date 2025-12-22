@@ -19,4 +19,11 @@ public class ScheduleService {
                 dayOfWeek
         );
     }
+
+    public ScheduleEntity getById(Long id) {
+        return scheduleRepository.findById(id)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Schedule not found: " + id)
+                );
+    }
 }

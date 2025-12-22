@@ -9,4 +9,6 @@ public interface ScheduleStopRepository
         extends JpaRepository<ScheduleStopEntity, Long> {
 
     List<ScheduleStopEntity> findByScheduleIdOrderByStopSequence(Long scheduleId);
+
+    void deleteBySchedule_Id(Long scheduleId);
 }

@@ -13,4 +13,5 @@ public interface ScheduleRepository extends JpaRepository<ScheduleEntity, Long> 
             Long lineId,
             Integer dayOfWeek
     );
+    List<ScheduleEntity> findByLine_Id(Long lineId);
 }

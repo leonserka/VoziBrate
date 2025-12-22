@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Schedule</title>
+    <link rel="stylesheet" th:href="@{/css/user.css}">
+</head>
+<body>
+
+<div class="page">
+
+    <a th:href="@{'/timetable/' + ${schedule.line.id}}" class="back-link">
+        ← Back to line
+    </a>
+
+    <div class="box">
+
+        <h1>
+            Line <span th:text="${schedule.line.lineNumber}">37</span>
+        </h1>
+
+        <h3 th:text="${schedule.line.name}">
+            Split – Kila
+        </h3>
+
+        <p style="margin-top:10px;">
+            Departure:
+            <strong th:text="${schedule.departure}">06:00</strong>
+        </p>
+
+        <div class="schedule-list" style="margin-top:25px;">
+
+            <div th:each="s : ${stops}" class="schedule-row">
+                <strong th:text="${s.time}">06:00</strong>
+                <span style="margin-left:10px;"
+                      th:text="${s.station.name}">
+                    Station
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
