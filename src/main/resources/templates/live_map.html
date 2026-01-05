@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>VoziBrate Live</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="/webjars/leaflet/1.9.4/dist/leaflet.css" />
     <style>
         body { margin: 0; }
         #map { height: 100vh; width: 100%; }
@@ -11,29 +11,23 @@
             position: absolute; top: 20px; left: 20px; z-index: 1000;
             background: white; padding: 10px 20px; border-radius: 5px;
             text-decoration: none; font-weight: bold; box-shadow: 0 0 10px rgba(0,0,0,0.2);
-            font-family: sans-serif;
-            color: #333;
+            font-family: sans-serif; color: #333;
         }
 
         .bus-marker {
-            width: 30px;
-            height: 30px;
+            width: 32px; height: 32px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: white;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; color: white;
+            font-family: 'Arial', sans-serif; font-size: 13px;
             border: 2px solid white;
-            box-shadow: 0 0 4px rgba(0,0,0,0.4);
-            transition: background-color 0.5s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+            transition: background-color 0.5s ease, transform 0.3s ease;
         }
 
         .moving {
             background-color: #0056b3;
-            transform: scale(1.1); /* Malo se poveća kad vozi */
+            transform: scale(1.1);
             z-index: 100;
         }
 
@@ -41,7 +35,6 @@
             background-color: #888;
             z-index: 50;
         }
-
     </style>
 </head>
 <body>
@@ -49,12 +42,16 @@
 <a href="/user/login_success" class="back-btn">← Nazad</a>
 <div id="map"></div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/webjars/leaflet/1.9.4/dist/leaflet.js"></script>
 <script>
     var map = L.map('map').setView([43.515, 16.45], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap'
     }).addTo(map);
+
+
+    const MOVE_THRESHOLD_METERS = 15;
+    const MOVING_HOLD_MS = 6000;
 
     var markers = {};
 
@@ -62,53 +59,115 @@
         fetch('/api/positions/current')
             .then(res => res.json())
             .then(data => {
+                var now = Date.now();
+
                 data.forEach(pos => {
+
+                    if (!pos || !pos.bus || !pos.bus.busNumber) {
+                        console.warn("Preskačem neispravan zapis:", pos);
+                        return;
+                    }
+
                     var id = pos.bus.busNumber;
                     var reg = pos.bus.registration;
+                    var displayText = id;
+                    var lineName = "Nepoznata";
+
+                    if (pos.routeShortName && pos.routeShortName.trim() !== "") {
+                        displayText = pos.routeShortName;
+                        lineName = "Prometko";
+                    } else if (pos.bus.line && pos.bus.line.lineNumber) {
+                        displayText = pos.bus.line.lineNumber;
+                        lineName = pos.bus.line.name;
+                    }
+
                     var lat = pos.gpsLat;
                     var lng = pos.gpsLng;
                     var newLatLng = L.latLng(lat, lng);
 
                     if (markers[id]) {
-                        var oldLatLng = markers[id].getLatLng();
+                        var marker = markers[id];
+                        var oldLatLng = marker.getLatLng();
                         var distance = oldLatLng.distanceTo(newLatLng);
 
-                        markers[id].setLatLng(newLatLng);
+                        marker.setLatLng(newLatLng);
 
-                        var iconElement = markers[id].getElement();
-                        if (iconElement) {
-                            var innerDiv = iconElement.querySelector('.bus-marker');
+                        if (!marker.lastMoveTime) marker.lastMoveTime = now;
+                        if (marker._isMoving === undefined) marker._isMoving = true;
 
-                            if (distance > 0) {
-                                innerDiv.classList.remove('stopped');
-                                innerDiv.classList.add('moving');
-                            } else {
-                                innerDiv.classList.remove('moving');
-                                innerDiv.classList.add('stopped');
-                            }
+                        if (distance >= MOVE_THRESHOLD_METERS) {
+                            marker.lastMoveTime = now;
+                            marker._isMoving = true;
                         }
+
+                        if (marker._isMoving && (now - marker.lastMoveTime) >= MOVING_HOLD_MS) {
+                            marker._isMoving = false;
+                        }
+
+                        updateMarkerStyle(marker, displayText, marker._isMoving);
+                        marker.setPopupContent(buildPopupContent(displayText, lineName, id, reg));
 
                     } else {
                         var customIcon = L.divIcon({
                             className: 'custom-div-icon',
-                            html: `<div class='bus-marker moving'>${id}</div>`,
-                            iconSize: [30, 30],
-                            iconAnchor: [15, 15],
-                            popupAnchor: [0, -15]
+                            html: `<div class='bus-marker moving'>${displayText}</div>`,
+                            iconSize: [32, 32],
+                            iconAnchor: [16, 16],
+                            popupAnchor: [0, -16]
                         });
 
-                        markers[id] = L.marker([lat, lng], {icon: customIcon})
-                            .addTo(map)
-                            .bindPopup(`<b>Garažni br: ${id}</b><br>Tablica: ${reg}`);
+                        var marker = L.marker([lat, lng], {icon: customIcon}).addTo(map);
+
+                        marker.lastMoveTime = now;
+                        marker._isMoving = true;
+
+                        marker.bindPopup(buildPopupContent(displayText, lineName, id, reg));
+                        markers[id] = marker;
                     }
                 });
             })
-            .catch(err => console.error("Greška pri dohvatu:", err));
+            .catch(err => console.error("Greška:", err));
+    }
+
+    function updateMarkerStyle(marker, text, isActive) {
+        var iconEl = marker.getElement();
+        if (iconEl) {
+            var div = iconEl.querySelector('.bus-marker');
+            if (!div) return;
+
+            div.innerText = text;
+
+            if (isActive) {
+                div.classList.remove('stopped');
+                div.classList.add('moving');
+            } else {
+                div.classList.remove('moving');
+                div.classList.add('stopped');
+            }
+        }
+    }
+
+    function buildPopupContent(lineNum, lineName, gbr, reg) {
+        return `
+            <div style="text-align:center;">
+                <h3 style="margin:0;">Linija ${lineNum}</h3>
+                <small>${lineName}</small><br>
+                <hr style="margin:5px 0;">
+                <b>Garažni br:</b> ${gbr}<br>
+                <b>Tablica:</b> ${reg}<br>
+                <button onclick="showRoute('${lineNum}')" style="margin-top:5px; cursor:pointer;">🗺️ Prikaži rutu</button>
+            </div>
+        `;
+    }
+
+    function showRoute(lineNum) {
+        alert("Prikaz rute za liniju " + lineNum + " stiže uskoro!");
     }
 
     setInterval(updateBuses, 2000);
     updateBuses();
 </script>
+
 
 </body>
 </html>

@@ -28,4 +28,8 @@ public class BusPositionEntity {
 
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
+
+    @Column(name = "route_short_name")
+    private String routeShortName;
+
 }

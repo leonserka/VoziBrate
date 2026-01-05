@@ -31,7 +31,8 @@ public class PrometkoFetcherService {
     public void fetchRealData() {
         try {
             HttpHeaders headers = new HttpHeaders();
-            headers.set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
+            headers.set("User-Agent",
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
 
             HttpEntity<String> entity = new HttpEntity<>(headers);
 
@@ -45,20 +46,34 @@ public class PrometkoFetcherService {
             int count = 0;
             if (vehicles != null && vehicles.isArray()) {
                 for (JsonNode v : vehicles) {
-                    String garageNumberRaw = v.get("garageNumber").asText();
-                    String digitsOnly = garageNumberRaw.replaceAll("[^\\d]", "");
+                    JsonNode garageNode = v.get("garageNumber");
+                    if (garageNode == null || garageNode.isNull()) continue;
 
+                    String garageNumberRaw = garageNode.asText();
+                    String digitsOnly = garageNumberRaw.replaceAll("[^\\d]", "");
                     if (digitsOnly.isEmpty()) continue;
+
                     String garageNumber = String.valueOf(Long.parseLong(digitsOnly));
 
                     BusEntity bus = busRepository.findByBusNumber(garageNumber)
                             .orElseGet(() -> createNewBus(garageNumber));
 
+                    JsonNode latNode = v.get("latitude");
+                    JsonNode lngNode = v.get("longitude");
+                    if (latNode == null || lngNode == null || latNode.isNull() || lngNode.isNull()) continue;
+
                     BusPositionEntity pos = new BusPositionEntity();
                     pos.setBus(bus);
-                    pos.setGpsLat(v.get("latitude").asDouble());
-                    pos.setGpsLng(v.get("longitude").asDouble());
+                    pos.setGpsLat(latNode.asDouble());
+                    pos.setGpsLng(lngNode.asDouble());
                     pos.setTimestamp(LocalDateTime.now());
+                    JsonNode rsnNode = v.get("routeShortName");
+                    if (rsnNode != null && !rsnNode.isNull()) {
+                        String rsn = rsnNode.asText();
+                        if (rsn != null && !rsn.trim().isEmpty()) {
+                            pos.setRouteShortName(rsn.trim());
+                        }
+                    }
 
                     positionRepository.save(pos);
                     count++;
