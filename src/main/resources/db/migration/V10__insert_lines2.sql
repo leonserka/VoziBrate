@@ -1,0 +1,17 @@
+INSERT INTO lines (line_number, name) VALUES
+('2', 'ZRAČNA L. - STRINJE - SPLIT'),
+('7', 'Žnjan - Zapadna obala - Žnjan'),
+('8', 'Zvončac - Žnjan'),
+('11', 'Ravne Njive - Pujanke - Kampus - Spinut'),
+('13', 'Duilovo - Žnjan - Spinut'),
+('17', 'Trstenik - Kampus - Lora - Spinut'),
+('22', 'Klis - SPLIT'),
+('24', 'TTTS - SPLIT'),
+('25', 'STOBREč - SPLIT'),
+('26', 'Kamen - Split'),
+('27', 'Žrnovnica - Korešnica - Split'),
+('31', 'Vranjic - Split'),
+('32', 'Kučine - SPLIT'),
+('33', 'Klis Kosa - SPLIT'),
+('37', 'Trogir - Airport -SPLIT'),
+('38', 'Zračna luka - Kaštel Stari - Split');
