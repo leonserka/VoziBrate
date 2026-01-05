@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>VoziBrate Live</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { margin: 0; }
+        #map { height: 100vh; width: 100%; }
+
+        .back-btn {
+            position: absolute; top: 20px; left: 20px; z-index: 1000;
+            background: white; padding: 10px 20px; border-radius: 5px;
+            text-decoration: none; font-weight: bold; box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            font-family: sans-serif;
+            color: #333;
+        }
+
+        .bus-marker {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            border: 2px solid white;
+            box-shadow: 0 0 4px rgba(0,0,0,0.4);
+            transition: background-color 0.5s ease;
+        }
+
+        .moving {
+            background-color: #0056b3;
+            transform: scale(1.1); /* Malo se poveća kad vozi */
+            z-index: 100;
+        }
+
+        .stopped {
+            background-color: #888;
+            z-index: 50;
+        }
+
+    </style>
+</head>
+<body>
+
+<a href="/user/login_success" class="back-btn">← Nazad</a>
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map').setView([43.515, 16.45], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    var markers = {};
+
+    function updateBuses() {
+        fetch('/api/positions/current')
+            .then(res => res.json())
+            .then(data => {
+                data.forEach(pos => {
+                    var id = pos.bus.busNumber;
+                    var reg = pos.bus.registration;
+                    var lat = pos.gpsLat;
+                    var lng = pos.gpsLng;
+                    var newLatLng = L.latLng(lat, lng);
+
+                    if (markers[id]) {
+                        var oldLatLng = markers[id].getLatLng();
+                        var distance = oldLatLng.distanceTo(newLatLng);
+
+                        markers[id].setLatLng(newLatLng);
+
+                        var iconElement = markers[id].getElement();
+                        if (iconElement) {
+                            var innerDiv = iconElement.querySelector('.bus-marker');
+
+                            if (distance > 0) {
+                                innerDiv.classList.remove('stopped');
+                                innerDiv.classList.add('moving');
+                            } else {
+                                innerDiv.classList.remove('moving');
+                                innerDiv.classList.add('stopped');
+                            }
+                        }
+
+                    } else {
+                        var customIcon = L.divIcon({
+                            className: 'custom-div-icon',
+                            html: `<div class='bus-marker moving'>${id}</div>`,
+                            iconSize: [30, 30],
+                            iconAnchor: [15, 15],
+                            popupAnchor: [0, -15]
+                        });
+
+                        markers[id] = L.marker([lat, lng], {icon: customIcon})
+                            .addTo(map)
+                            .bindPopup(`<b>Garažni br: ${id}</b><br>Tablica: ${reg}`);
+                    }
+                });
+            })
+            .catch(err => console.error("Greška pri dohvatu:", err));
+    }
+
+    setInterval(updateBuses, 2000);
+    updateBuses();
+</script>
+
+</body>
+</html>

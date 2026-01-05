@@ -1,9 +1,9 @@
 package com.bus.bus_tracker.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore; // <--- 1. IMPORT JE BITAN!
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.List;
 
 @Getter
@@ -22,13 +22,14 @@ public class BusEntity {
     @Column(name = "registration")
     private String registration;
 
+    @Column(name = "gps_id")
+    private String gpsId;
+
     @ManyToOne
     @JoinColumn(name = "line_id")
     private LineEntity line;
 
-    @Column(name = "gps_id")
-    private String gpsId;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "bus", cascade = CascadeType.ALL)
     private List<BusPositionEntity> positions;
 }
