@@ -29,12 +29,10 @@ public class ScheduleStopService {
 
     public void regenerateStopsForSchedule(ScheduleEntity schedule) {
 
-        // 1. obriši stare
         scheduleStopRepository.deleteBySchedule_Id(schedule.getId());
 
         scheduleStopRepository.flush();
 
-        // 2. ruta linije
         List<RouteStationEntity> route =
                 routeStationRepository.findRouteWithStations(
                         schedule.getLine().getId()

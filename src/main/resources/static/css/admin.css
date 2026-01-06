@@ -6,6 +6,7 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+
 .sidebar {
     width: 240px;
     background: #2b6cb0;
@@ -24,7 +25,7 @@ body {
 .sidebar a {
     display: block;
     color: white;
-    padding: 10px 8px;
+    padding: 10px 12px;
     text-decoration: none;
     font-size: 15px;
     border-radius: 6px;
@@ -34,14 +35,16 @@ body {
 
 .sidebar a:hover,
 .sidebar a.active {
-    background: rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.15);
 }
+
 
 .content {
     margin-left: 260px;
     padding: 36px;
     box-sizing: border-box;
 }
+
 
 .form-card {
     background: #fff;
@@ -93,6 +96,7 @@ body {
     }
 }
 
+
 .btn,
 .btn-small {
     display: inline-block;
@@ -121,12 +125,13 @@ body {
 }
 
 .btn-danger {
-    background: #d9534f;
+    background: #e74c3c;
 }
 
 .btn-danger:hover {
-    background: #b23b35;
+    background: #c0392b;
 }
+
 
 .styled-table {
     width: 100%;
@@ -155,27 +160,11 @@ body {
     background: #f6f9ff;
 }
 
-.kv {
-    font-weight: 600;
-    color: #333;
-}
 
 .center {
     text-align: center;
 }
 
-.search-box {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 30px;
-}
-
-.search-box input {
-    flex: 1;
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-}
 
 .line-grid {
     display: grid;
@@ -218,34 +207,25 @@ body {
     margin-top: 15px;
     align-self: flex-end;
 }
+
 .logout-form {
-    margin-top: 10px;
+    margin-top: 12px;
 }
 
 .sidebar-link {
+    display: block;
+    width: 100%;
     background: none;
     border: none;
-    padding: 10px 15px;
-    width: 100%;
+    padding: 10px 12px;
     text-align: left;
-    font-size: inherit;
+    font-size: 15px;
     cursor: pointer;
-    color: inherit;
+    color: white;
+    border-radius: 6px;
+    font-family: inherit;
 }
 
 .sidebar-link:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-.fav-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: auto;
-}
-
-.btn-danger {
-    background-color: #e74c3c;
-}
-
-.btn-danger:hover {
-    background-color: #c0392b;
+    background: rgba(255,255,255,0.15);
 }

@@ -21,7 +21,6 @@
         Route for line
     </h1>
 
-    <!-- ADD STATION -->
     <form class="form-card"
           th:action="@{'/lines/' + ${line.id} + '/route/add'}"
           method="post">
@@ -44,7 +43,6 @@
         <button type="submit" class="btn">Add</button>
     </form>
 
-    <!-- ROUTE TABLE -->
     <table class="styled-table">
         <thead>
         <tr>

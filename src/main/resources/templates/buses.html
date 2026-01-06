@@ -8,11 +8,16 @@
 
 <div class="sidebar">
     <h2>Admin</h2>
+    <a href="/user/login_success">Back to Home</a>
     <a href="/admin">Users</a>
     <a href="/stations">Stations</a>
     <a href="/lines">Lines</a>
-    <a href="/buses">Buses</a>
-    <a href="/user/login_success">Back to Home</a>
+    <a href="/buses" class="active">Buses</a>
+    <a th:href="@{/admin/sales-points}">Sales Points</a>
+
+    <form th:action="@{/logout}" method="post" class="logout-form">
+        <button type="submit" class="sidebar-link">Logout</button>
+    </form>
 </div>
 
 <div class="content">

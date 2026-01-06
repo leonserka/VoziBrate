@@ -41,10 +41,7 @@ List of Features:<br><br>1. Real-time Bus Tracking - Visual representation of th
 12. Integration with GPS Module (Simulation or API) - Fetching bus location data through an API or simulated GPS data.
 <hr>
 <br> Optional Features:<br><br>
-13. Online Ticket Purchase
-- Enables users to buy bus tickets directly through the system.
-<hr>
-14. List of physical Ticket locations 
+13. List of physical Ticket locations 
 - View of physical locations where tickets can be purchased (kiosks, stations).
 <hr>
 

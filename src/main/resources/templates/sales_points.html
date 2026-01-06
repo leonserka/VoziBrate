@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sales Points</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Admin</h2>
+    <a th:href="@{/user/login_success}">Back to Home</a>
+    <a th:href="@{/admin}">Users</a>
+    <a th:href="@{/stations}">Stations</a>
+    <a th:href="@{/lines}">Lines</a>
+    <a th:href="@{/buses}">Buses</a>
+    <a th:href="@{/admin/sales-points}" class="active">Sales Points</a>
+
+    <form th:action="@{/logout}" method="post" class="logout-form">
+        <button type="submit" class="sidebar-link">Logout</button>
+    </form>
+</div>
+
+<div class="content">
+    <h1>Sales Points</h1>
+
+    <div class="form-card">
+        <h3 style="margin-top:0;">Add Sales Point</h3>
+
+        <form method="post" th:action="@{/admin/sales-points}">
+            <div class="form-row">
+                <div class="field">
+                    <label>Name</label>
+                    <input name="name" placeholder="Name" required />
+                </div>
+
+                <div class="field">
+                    <label>Address</label>
+                    <input name="address" placeholder="Address" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="field">
+                    <label>GPS Lat</label>
+                    <input name="gpsLat" placeholder="43.515000" step="any" required />
+                </div>
+
+                <div class="field">
+                    <label>GPS Lng</label>
+                    <input name="gpsLng" placeholder="16.450000" step="any" required />
+                </div>
+            </div>
+
+            <button type="submit" class="btn">Add</button>
+        </form>
+    </div>
+
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th style="width: 70px;">ID</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th style="width: 240px;">GPS</th>
+            <th style="width: 160px;" class="center">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="sp : ${salesPoints}">
+            <td th:text="${sp.id}"></td>
+            <td th:text="${sp.name}"></td>
+            <td th:text="${sp.address}"></td>
+            <td th:text="${sp.gpsLat + ', ' + sp.gpsLng}"></td>
+            <td class="center">
+                <form th:action="@{/admin/sales-points/{id}/delete(id=${sp.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn-small btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

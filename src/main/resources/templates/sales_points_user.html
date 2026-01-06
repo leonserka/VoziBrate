@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>VoziBrate Live</title>
+    <title>Prodajna mjesta karata</title>
     <meta charset="UTF-8"/>
 
-    <link rel="stylesheet" href="/webjars/leaflet/1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" th:href="@{/css/admin.css}">
-    <link rel="stylesheet" th:href="@{/css/live_map.css}">
+    <link rel="stylesheet" href="/webjars/leaflet/1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" th:href="@{/css/sales_points_user.css}">
 </head>
 <body>
 
@@ -15,8 +14,8 @@
 
     <a href="/user/login_success">Back to home</a>
 
-    <a href="/live" class="active">Live Map</a>
-    <a href="/sales-points">Sales Points</a>
+    <a href="/live">Live Map</a>
+    <a href="/sales-points" class="active">Sales Points</a>
 
     <a href="/timetable">Vozni red</a>
     <a href="/favorites">Favorites</a>
@@ -26,12 +25,17 @@
     </form>
 </div>
 
-<div class="content live-content">
+<div class="content">
     <div id="map"></div>
 </div>
 
 <script src="/webjars/leaflet/1.9.4/dist/leaflet.js"></script>
-<script th:src="@{/js/live_map.js}"></script>
+
+<script th:inline="javascript">
+    const salesPoints = /*[[${salesPoints}]]*/ [];
+</script>
+
+<script th:src="@{/js/sales_points_user.js}"></script>
 
 </body>
 </html>

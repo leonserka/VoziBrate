@@ -29,6 +29,11 @@
         <div class="subtitle">Your saved lines</div>
     </a>
 
+    <a th:href="@{/sales-points}" class="card-button">
+        🎟 Sales Points
+        <div class="subtitle">Ticket kiosks & kartomats</div>
+    </a>
+
     <div th:if="${role == 'ROLE_ADMIN'}">
         <a th:href="@{/admin}" class="card-button">
             ⚙ Admin Panel

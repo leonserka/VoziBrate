@@ -1,7 +1,11 @@
 package com.bus.bus_tracker.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "sales_points")
 public class SalesPointEntity {
@@ -13,10 +17,17 @@ public class SalesPointEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
+
     @Column(name = "address")
     private String address;
 
-    @ManyToOne
-    @JoinColumn(name = "station_id")
-    private StationEntity station;
+    @Column(name = "opening_hours")
+    private String openingHours;
+
+    @Column(name = "gps_lat", nullable = false)
+    private Double gpsLat;
+
+    @Column(name = "gps_lng", nullable = false)
+    private Double gpsLng;
 }
+

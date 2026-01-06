@@ -1,6 +1,6 @@
 package com.bus.bus_tracker.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore; // <--- 1. IMPORT JE BITAN!
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

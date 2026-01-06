@@ -1,0 +1,64 @@
+body { margin: 0; }
+
+#map {
+    height: 100vh;
+    width: 100%;
+}
+
+
+.live-content {
+    padding: 0;
+    height: 100vh;
+}
+
+#map {
+    width: 100%;
+    height: 100vh;
+}
+
+
+.bus-marker {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    border: 2px solid white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    transition: background-color 0.5s ease, transform 0.3s ease;
+    position: relative;
+}
+
+.moving {
+    background-color: #0056b3;
+    transform: scale(1.1);
+    z-index: 100;
+}
+
+.stopped {
+    background-color: #888;
+    z-index: 50;
+}
+
+.bus-arrow {
+    position: absolute;
+    bottom: -6px;
+    right: -6px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 10px solid white;
+    transform-origin: center 8px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0.95;
+}
+
+.stopped .bus-arrow {
+    opacity: 0.35;
+}
