@@ -83,6 +83,10 @@
             <span th:text="${s.departure}">06:00</span>
             →
             <span th:text="${s.arrival}">06:45</span>
+
+            <span class="live-badge"
+                th:attr="data-dep=${s.departure},data-arr=${s.arrival},data-line=${line.lineNumber}">
+            </span>
         </span>
 
                     <span class="arrow">›</span>
@@ -107,6 +111,48 @@
         });
     });
 </script>
+<script>
+    function parseHHMM(t) {
+        const parts = String(t).split(":").map(x => parseInt(x, 10));
+        return { h: parts[0] || 0, m: parts[1] || 0 };
+    }
 
+    function minutesNow() {
+        const d = new Date();
+        return d.getHours() * 60 + d.getMinutes();
+    }
+
+    async function paintLiveBadges() {
+        const badges = document.querySelectorAll(".live-badge");
+        if (!badges.length) return;
+
+        const lineNum = badges[0].dataset.line;
+        const nowMin = minutesNow();
+
+        let hasLive = false;
+        try {
+            const res = await fetch("/api/positions/current");
+            const data = await res.json();
+            hasLive = (data || []).some(p => (p?.routeShortName || "").trim() === lineNum);
+        } catch (e) {
+            console.error(e);
+        }
+
+        badges.forEach(b => {
+            const dep = parseHHMM(b.dataset.dep);
+            const arr = parseHHMM(b.dataset.arr);
+            const depMin = dep.h * 60 + dep.m;
+            const arrMin = arr.h * 60 + arr.m;
+
+            const isActive = hasLive && (nowMin >= depMin) && (nowMin <= arrMin);
+
+            b.textContent = isActive ? " 🚌 LIVE" : "";
+            b.style.fontWeight = "700";
+        });
+    }
+
+    paintLiveBadges();
+    setInterval(paintLiveBadges, 15000);
+</script>
 </body>
 </html>

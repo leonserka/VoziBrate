@@ -1,14 +1,60 @@
-
 var map = L.map('map').setView([43.515, 16.45], 13);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
 }).addTo(map);
 
-
 const MOVE_THRESHOLD_METERS = 25;
 const MOVING_HOLD_MS = 60000;
 
 var markers = {};
+
+// --- ROUTE LAYERS ---
+let activeRouteLayer = null;
+let activeStopMarkers = [];
+let lastClickedLineNum = null;
+
+function clearRoute() {
+    if (activeRouteLayer) {
+        map.removeLayer(activeRouteLayer);
+        activeRouteLayer = null;
+    }
+    activeStopMarkers.forEach(m => map.removeLayer(m));
+    activeStopMarkers = [];
+}
+
+function findMarkerByLineNum(lineNum) {
+    // pokušaj pronać marker po tekstu unutar .bus-marker (to ti je broj linije kad je Prometko)
+    for (const key in markers) {
+        const m = markers[key];
+        const el = m.getElement();
+        if (!el) continue;
+        const div = el.querySelector('.bus-marker');
+        if (!div) continue;
+
+        const text = (div.firstChild && div.firstChild.nodeType === Node.TEXT_NODE)
+            ? div.firstChild.textContent.trim()
+            : div.textContent.trim();
+
+        if (text === lineNum) return m;
+    }
+    return null;
+}
+
+function findNearestStopIndex(stopsOrdered, busLatLng) {
+    let bestIdx = -1;
+    let bestDist = Infinity;
+
+    stopsOrdered.forEach((s, i) => {
+        if (s.lat == null || s.lng == null) return;
+        const d = busLatLng.distanceTo(L.latLng(s.lat, s.lng));
+        if (d < bestDist) {
+            bestDist = d;
+            bestIdx = i;
+        }
+    });
+
+    return bestIdx;
+}
 
 function calculateBearing(from, to) {
     const lat1 = from.lat * Math.PI / 180;
@@ -44,8 +90,62 @@ function buildPopupContent(lineNum, lineName, gbr, reg) {
     `;
 }
 
-window.showRoute = function (lineNum) {
-    alert("Prikaz rute za liniju " + lineNum + " stiže uskoro!");
+// --- IMPLEMENTED ---
+window.showRoute = async function (lineNum) {
+    try {
+        lastClickedLineNum = lineNum;
+        clearRoute();
+
+        const res = await fetch(`/api/lines/${encodeURIComponent(lineNum)}/route?variant=A`);
+        if (!res.ok) throw new Error("Ne mogu dohvatit rutu za liniju " + lineNum);
+
+        const stops = await res.json(); // [{stationId,name,lat,lng,orderNumber,minutesFromStart}]
+        if (!stops || stops.length === 0) {
+            alert("Nema rute za liniju " + lineNum);
+            return;
+        }
+
+        const orderedStops = [...stops].sort((a, b) => (a.orderNumber ?? 0) - (b.orderNumber ?? 0));
+        const coords = orderedStops
+            .filter(s => s.lat != null && s.lng != null)
+            .map(s => [s.lat, s.lng]);
+
+        activeRouteLayer = L.polyline(coords).addTo(map);
+        map.fitBounds(activeRouteLayer.getBounds(), { padding: [30, 30] });
+
+        const busMarker = findMarkerByLineNum(lineNum);
+        let nearestIdx = -1;
+
+        if (busMarker) {
+            nearestIdx = findNearestStopIndex(orderedStops, busMarker.getLatLng());
+        }
+
+        // “prošao” = <= nearestIdx, “sljedeća” = nearestIdx + 1
+        orderedStops.forEach((s, i) => {
+            if (s.lat == null || s.lng == null) return;
+
+            const isPassed = nearestIdx >= 0 && i <= nearestIdx;
+            const isNext = nearestIdx >= 0 && i === nearestIdx + 1;
+
+            const color = isNext ? "#f1c40f" : (isPassed ? "#7f8c8d" : "#2c3e50");
+
+            const marker = L.circleMarker([s.lat, s.lng], {
+                radius: 7,
+                weight: 2,
+                opacity: 1,
+                fillOpacity: 0.9,
+                color: color,
+                fillColor: color
+            }).addTo(map);
+
+            marker.bindTooltip(`${s.orderNumber}. ${s.name}`, { permanent: false });
+            activeStopMarkers.push(marker);
+        });
+
+    } catch (e) {
+        console.error(e);
+        alert("Greška kod prikaza rute.");
+    }
 };
 
 function updateBuses() {
@@ -123,6 +223,9 @@ function updateBuses() {
                     setTimeout(() => setMarkerHeading(marker, 0), 0);
                 }
             });
+
+            // (opcionalno) ako je ruta otvorena i bus se miče, možeš osvježit boje:
+            // Ako hoćeš auto refresh, reci pa ti ubacim bez da trepće.
         })
         .catch(err => console.error("Greška:", err));
 }

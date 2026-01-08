@@ -24,13 +24,12 @@ public class ScheduleStopService {
 
     public List<ScheduleStopEntity> getStopsForSchedule(Long scheduleId) {
         return scheduleStopRepository
-                .findByScheduleIdOrderByStopSequence(scheduleId);
+                .findBySchedule_IdOrderByStopSequence(scheduleId);
     }
 
     public void regenerateStopsForSchedule(ScheduleEntity schedule) {
 
         scheduleStopRepository.deleteBySchedule_Id(schedule.getId());
-
         scheduleStopRepository.flush();
 
         List<RouteStationEntity> route =
@@ -38,23 +37,33 @@ public class ScheduleStopService {
                         schedule.getLine().getId()
                 );
 
-        LocalTime time = schedule.getDeparture();
         int seq = 1;
 
         for (RouteStationEntity rs : route) {
+
+            LocalTime stopTime = schedule.getDeparture()
+                    .plusMinutes(rs.getMinutesFromStart());
+
+            boolean isNextDay = false;
+
+            if (schedule.isArrivalNextDay() &&
+                    stopTime.isBefore(schedule.getDeparture())) {
+
+                stopTime = stopTime.plusHours(24);
+                isNextDay = true;
+            }
 
             ScheduleStopEntity stop = new ScheduleStopEntity();
             stop.setSchedule(schedule);
             stop.setStation(rs.getStation());
             stop.setStopSequence(seq++);
-            stop.setTime(time);
+            stop.setTime(stopTime);
+            stop.setNextDay(isNextDay);   // ⬅️ OVO SI PITA
 
             scheduleStopRepository.save(stop);
-
-            time = time.plusMinutes(5);
         }
-    }
 
+    }
 
     public void regenerateStopsForLine(Long lineId) {
 

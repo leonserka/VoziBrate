@@ -29,7 +29,9 @@
 
         <div class="schedule-list" style="margin-top:25px;">
 
-            <div th:each="s : ${stops}" class="schedule-row">
+            <div th:each="s : ${stops}"
+                 class="schedule-row stop-row"
+                 th:attr="data-lat=${s.station.gpsLat},data-lng=${s.station.gpsLng}">
                 <strong th:text="${s.time}">06:00</strong>
                 <span style="margin-left:10px;"
                       th:text="${s.station.name}">
@@ -37,10 +39,58 @@
                 </span>
             </div>
 
+
         </div>
 
     </div>
 </div>
+<script th:inline="javascript">
+    const lineNumber = /*[[${schedule.line.lineNumber}]]*/ "1";
+
+    function squaredDist(lat1, lng1, lat2, lng2) {
+        const dLat = lat1 - lat2;
+        const dLng = lng1 - lng2;
+        return dLat*dLat + dLng*dLng;
+    }
+
+    async function paintStopsProgress() {
+        const rows = Array.from(document.querySelectorAll(".stop-row"));
+        if (!rows.length) return;
+
+        let live = null;
+        try {
+            const posRes = await fetch("/api/positions/current");
+            const positions = await posRes.json();
+            live = (positions || []).find(p => (p?.routeShortName || "").trim() === lineNumber);
+        } catch (e) {
+            console.error(e);
+            return;
+        }
+
+        if (!live) return;
+
+        let bestIdx = -1;
+        let best = Infinity;
+
+        rows.forEach((r, i) => {
+            const lat = parseFloat(r.dataset.lat);
+            const lng = parseFloat(r.dataset.lng);
+            if (isNaN(lat) || isNaN(lng)) return;
+
+            const d = squaredDist(lat, lng, live.gpsLat, live.gpsLng);
+            if (d < best) { best = d; bestIdx = i; }
+        });
+
+        rows.forEach((r, i) => {
+            r.classList.remove("passed", "next");
+            if (bestIdx >= 0 && i <= bestIdx) r.classList.add("passed");
+            if (bestIdx >= 0 && i === bestIdx + 1) r.classList.add("next");
+        });
+    }
+
+    paintStopsProgress();
+    setInterval(paintStopsProgress, 15000);
+</script>
 
 </body>
 </html>

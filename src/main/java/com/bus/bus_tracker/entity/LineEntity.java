@@ -33,4 +33,8 @@ public class LineEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "line", cascade = CascadeType.ALL)
     private List<ScheduleEntity> schedules;
+
+    @Column(name = "variant", nullable = false)
+    private String variant = "A";
+
 }

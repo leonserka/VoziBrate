@@ -285,3 +285,7 @@ body {
     color: white;
     border-color: #2b6cb0;
 }
+
+.stop-row.passed { opacity: 0.5; }
+.stop-row.next { background: #f1c40f33; font-weight: 700; }
+.live-badge { margin-left: 8px; }

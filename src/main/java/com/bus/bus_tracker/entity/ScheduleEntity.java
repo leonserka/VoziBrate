@@ -34,4 +34,7 @@ public class ScheduleEntity {
     @OrderBy("stopSequence ASC")
     private List<ScheduleStopEntity> stops;
 
+    @Column(name = "arrival_next_day", nullable = false)
+    private boolean arrivalNextDay;
+
 }

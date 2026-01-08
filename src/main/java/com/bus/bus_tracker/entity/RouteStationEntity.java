@@ -24,4 +24,8 @@ public class RouteStationEntity {
 
     @Column(name = "order_number")
     private Integer orderNumber;
+
+    @Column(name = "minutes_from_start", nullable = false)
+    private Integer minutesFromStart = 0;
+
 }

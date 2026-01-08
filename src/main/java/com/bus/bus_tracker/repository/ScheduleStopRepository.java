@@ -8,7 +8,7 @@ import java.util.List;
 public interface ScheduleStopRepository
         extends JpaRepository<ScheduleStopEntity, Long> {
 
-    List<ScheduleStopEntity> findByScheduleIdOrderByStopSequence(Long scheduleId);
+    List<ScheduleStopEntity> findBySchedule_IdOrderByStopSequence(Long scheduleId);
 
     void deleteBySchedule_Id(Long scheduleId);
 }

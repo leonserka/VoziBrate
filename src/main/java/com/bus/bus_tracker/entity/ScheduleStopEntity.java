@@ -9,7 +9,7 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "schedule_stops", uniqueConstraints = @UniqueConstraint(columnNames = {"schedule_id", "station_id"}))
+@Table(name = "schedule_stops", uniqueConstraints = @UniqueConstraint(columnNames = {"schedule_id", "stop_sequence"}))
 public class ScheduleStopEntity {
 
     @Id
@@ -29,4 +29,8 @@ public class ScheduleStopEntity {
 
     @Column(name = "time", nullable = false)
     private LocalTime time;
+
+    @Column(name = "next_day", nullable = false)
+    private boolean nextDay;
+
 }

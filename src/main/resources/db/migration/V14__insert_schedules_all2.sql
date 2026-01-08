@@ -6,7 +6,6 @@ FROM (
 
         ('06:05','06:37'),
         ('06:35','07:07'),
-        ('06:45','07:17'),
 
         ('07:20','07:52'),
         ('07:40','08:12'),
@@ -305,7 +304,7 @@ CROSS JOIN (
 ) AS d(day_of_week);
 
 -- subota (6)
--- napomena: "14:30-Dugopolje" uzeto kao polazak u 14:30
+
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 VALUES
     (22, '06:40', '07:20', 6),
@@ -314,19 +313,15 @@ VALUES
     (22, '11:20', '12:00', 6),
     (22, '12:40', '13:20', 6),
     (22, '14:00', '14:40', 6),
-    (22, '14:30', '15:10', 6),
     (22, '16:30', '17:10', 6),
     (22, '18:15', '18:55', 6),
     (22, '19:35', '20:15', 6);
 
 -- nedjelja i praznik (7)
--- napomena: "05:30 (linija br. 16)" uzeto kao polazak u 05:30
--- napomena: "10:30-Dugopolje" uzeto kao polazak u 10:30
+
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 VALUES
-    (22, '05:30', '06:10', 7),
     (22, '08:00', '08:40', 7),
-    (22, '10:30', '11:10', 7),
     (22, '13:30', '14:10', 7),
     (22, '16:00', '16:40', 7),
     (22, '18:00', '18:40', 7),
@@ -337,18 +332,14 @@ INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 SELECT 23, t.departure::time, t.arrival::time, d.day_of_week
 FROM (
     VALUES
-        ('05:15','05:40'),
         ('05:30','05:55'),
-        ('06:45','07:10'),
-        ('13:25','13:50'),
-        ('20:10','20:35')
+        ('06:45','07:10')
 ) AS t(departure, arrival)
 CROSS JOIN (VALUES (1),(2),(3),(4),(5)) AS d(day_of_week);
 
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 VALUES
-    (23,'05:40','06:05',6),
-    (23,'07:05','07:30',6);
+    (23,'05:40','06:05',6);
 
 -- Linija 24 — radni dani (1–5) — trajanje 30 min
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
@@ -400,15 +391,13 @@ VALUES
     (24, '18:00', '18:30', 6),
     (24, '18:55', '19:25', 6),
     (24, '19:45', '20:15', 6),
-    (24, '21:00', '21:30', 6),
-    (24, '22:30', '23:00', 6);
+    (24, '21:00', '21:30', 6);
 
 -- nedjelja i praznik (7)
 -- napomena: "05:30-ST.ŽRN.-STOBREČ" uzeto kao polazak u 05:30
 -- napomena: "22:30 (29)" uzeto kao polazak u 22:30
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 VALUES
-    (24, '05:30', '06:00', 7),
     (24, '07:20', '07:50', 7),
     (24, '09:00', '09:30', 7),
     (24, '10:50', '11:20', 7),
@@ -417,8 +406,8 @@ VALUES
     (24, '15:30', '16:00', 7),
     (24, '17:05', '17:35', 7),
     (24, '18:55', '19:25', 7),
-    (24, '21:00', '21:30', 7),
-    (24, '22:30', '23:00', 7);
+    (24, '21:00', '21:30', 7);
+
 
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 SELECT 25, t.departure::time, t.arrival::time, d.day_of_week
@@ -446,13 +435,11 @@ VALUES
     (25,'19:00','19:22',6);
 
 -- Linija 26 — radni dani (1–5) — trajanje 45 min
--- napomena: "05:15->TTTS" uzeto kao polazak u 05:15
 
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 SELECT 26, t.departure::time, t.arrival::time, d.day_of_week
 FROM (
     VALUES
-        ('05:15','06:00'),
         ('05:40','06:25'),
         ('06:20','07:05'),
         ('07:15','08:00'),
@@ -483,17 +470,13 @@ INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 VALUES
     (26, '05:20', '06:05', 6),
     (26, '06:40', '07:25', 6),
-    (26, '08:00', '08:45', 6),
     (26, '08:40', '09:25', 6),
-    (26, '10:15', '11:00', 6),
     (26, '10:50', '11:35', 6),
     (26, '12:40', '13:25', 6),
     (26, '14:30', '15:15', 6),
     (26, '16:20', '17:05', 6),
     (26, '17:20', '18:05', 6),
     (26, '19:30', '20:15', 6),
-    (26, '20:25', '21:10', 6),
-    (26, '22:30', '23:15', 6),
     (26, '23:30', '00:15', 6);
 
 -- nedjelja i praznik (7)
@@ -501,14 +484,7 @@ VALUES
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 VALUES
     (26, '05:30', '06:15', 7),
-    (26, '08:30', '09:15', 7),
-    (26, '10:30', '11:15', 7),
-    (26, '12:10', '12:55', 7),
-    (26, '14:30', '15:15', 7),
-    (26, '16:30', '17:15', 7),
-    (26, '19:30', '20:15', 7),
-    (26, '20:25', '21:10', 7),
-    (26, '22:30', '23:15', 7);
+    (26, '19:30', '20:15', 7);
 
 
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
@@ -518,39 +494,22 @@ FROM (
         ('06:40','07:00'),
         ('08:00','08:20'),
         ('10:00','10:20'),
-        ('12:15','12:35'),
         ('13:40','14:00'),
-        ('14:15','14:35'),
-        ('15:20','15:40'),
         ('17:00','17:20'),
         ('18:30','18:50'),
-        ('19:40','20:00'),
-        ('20:30','20:50'),
-        ('22:25','22:45')
+        ('19:40','20:00')
 ) AS t(departure, arrival)
 CROSS JOIN (VALUES (1),(2),(3),(4),(5)) AS d(day_of_week);
 
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 VALUES
     (27,'06:00','06:20',6),
-    (27,'06:45','07:05',6),
     (27,'07:40','08:00',6),
-    (27,'10:40','11:00',6),
-    (27,'14:15','14:35',6),
-    (27,'17:00','17:20',6),
-    (27,'18:45','19:05',6),
-    (27,'20:30','20:50',6),
-    (27,'22:20','22:40',6);
+    (27,'18:45','19:05',6);
 
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 VALUES
-    (27,'06:45','07:05',7),
-    (27,'09:15','09:35',7),
-    (27,'10:30','10:50',7),
-    (27,'14:15','14:35',7),
-    (27,'17:00','17:20',7),
-    (27,'20:30','20:50',7),
-    (27,'22:20','22:40',7);
+    (27,'09:15','09:35',7);
 
 -- Linija 28 — radni dani (1–5) — trajanje 30 min
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
@@ -561,7 +520,6 @@ FROM (
         ('06:45','07:15'),
         ('08:25','08:55'),
         ('10:00','10:30'),
-        ('11:50','12:20'),
         ('12:20','12:50'),
         ('13:40','14:10'),
         ('14:30','15:00'),
@@ -726,19 +684,12 @@ INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 SELECT 31, t.departure::time, t.arrival::time, d.day_of_week
 FROM (
     VALUES
-        ('10:20','11:05'),
         ('11:20','12:05'),
         ('12:00','12:45'),
         ('13:40','14:25'),
-        ('14:00','14:45'),
-        ('14:45','15:30'),
-        ('20:25','21:10')
+        ('14:00','14:45')
 ) AS t(departure, arrival)
 CROSS JOIN (VALUES (1),(2),(3),(4),(5)) AS d(day_of_week);
-
-INSERT INTO schedules (line_id, departure, arrival, day_of_week)
-VALUES
-    (31,'14:45','15:30',6);
 
 
 -- Linija 32 — radni dani (1–5) — trajanje 51 min
@@ -1179,16 +1130,12 @@ INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 SELECT 38, t.departure::time, t.arrival::time, d.day_of_week
 FROM (
     VALUES
-        ('05:00','05:36'),
         ('06:00','06:36'),
-        ('06:50','07:26'),
         ('08:00','08:36'),
         ('09:15','09:51'),
         ('10:40','11:16'),
         ('12:00','12:36'),
-        ('13:00','13:36'),
         ('15:15','15:51'),
-        ('15:50','16:26'),
         ('16:45','17:21'),
         ('18:15','18:51'),
         ('20:20','20:56'),
@@ -1202,61 +1149,47 @@ CROSS JOIN (
 -- subota (6)
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 VALUES
-    (38,'05:00','05:36',6),
     (38,'06:00','06:36',6),
-    (38,'06:50','07:26',6),
     (38,'07:40','08:16',6),
     (38,'09:00','09:36',6),
     (38,'10:35','11:11',6),
     (38,'12:00','12:36',6),
     (38,'13:20','13:56',6),
     (38,'15:00','15:36',6),
-    (38,'15:50','16:26',6),
     (38,'17:30','18:06',6),
-    (38,'19:00','19:36',6),
-    (38,'23:10','23:46',6);
+    (38,'19:00','19:36',6);
 
 -- nedjelja i praznik (7)
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 VALUES
-    (38,'05:00','05:36',7),
-    (38,'06:00','06:36',7),
     (38,'07:00','07:36',7),
     (38,'09:00','09:36',7),
-    (38,'11:30','12:06',7),
     (38,'12:30','13:06',7),
     (38,'15:00','15:36',7),
-    (38,'15:15','15:51',7),
     (38,'17:00','17:36',7),
     (38,'19:00','19:36',7),
-    (38,'21:00','21:36',7),
-    (38,'23:10','23:46',7);
+    (38,'21:00','21:36',7);
 
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 SELECT 39, t.departure::time, t.arrival::time, d.day_of_week
 FROM (
     VALUES
         ('05:50','06:16'),
-        ('07:10','07:36'),
-        ('14:05','14:31'),
-        ('21:20','21:46')
+        ('07:10','07:36')
 ) AS t(departure, arrival)
 CROSS JOIN (VALUES (1),(2),(3),(4),(5)) AS d(day_of_week);
 
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 VALUES
-    (39,'06:05','06:31',6),
-    (39,'08:00','08:26',6);
+    (39,'06:05','06:31',6);
 
 
 -- Linija 40 — radni dani (1–5) — trajanje 34 min
--- napomena: oznake "PREKO KAMENA" / "IZ ŽRNOVNICE" ignorirane, uzet je samo HH:MM kao polazak
 
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 SELECT 40, t.departure::time, t.arrival::time, d.day_of_week
 FROM (
     VALUES
-        ('05:00','05:34'),
         ('06:10','06:44'),
         ('07:00','07:34'),
         ('08:15','08:49'),
@@ -1268,17 +1201,14 @@ FROM (
         ('12:40','13:14'),
         ('13:20','13:54'),
         ('13:40','14:14'),
-        ('14:05','14:39'),
         ('14:55','15:29'),
         ('16:30','17:04'),
         ('17:20','17:54'),
         ('18:10','18:44'),
         ('19:25','19:59'),
         ('20:15','20:49'),
-        ('21:00','21:34'),
         ('21:45','22:19'),
-        ('23:20','23:54'),
-        ('23:45','00:19')
+        ('23:20','23:54')
 ) AS t(departure, arrival)
 CROSS JOIN (VALUES (1),(2),(3),(4),(5)) AS d(day_of_week);
 
@@ -1286,10 +1216,7 @@ CROSS JOIN (VALUES (1),(2),(3),(4),(5)) AS d(day_of_week);
 -- napomena: "24:00" tretirano kao "00:00" (sljedeći dan)
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 VALUES
-    (40,'05:00','05:34',6),
     (40,'06:50','07:24',6),
-    (40,'07:20','07:54',6),
-    (40,'08:00','08:34',6),
     (40,'09:35','10:09',6),
     (40,'11:05','11:39',6),
     (40,'11:45','12:19',6),
@@ -1303,13 +1230,11 @@ VALUES
     (40,'18:45','19:19',6),
     (40,'19:40','20:14',6),
     (40,'20:30','21:04',6),
-    (40,'21:35','22:09',6),
-    (40,'00:00','00:34',6);
+    (40,'21:35','22:09',6);
 
 -- nedjelja i praznik (7)
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 VALUES
-    (40,'06:00','06:34',7),
     (40,'08:10','08:44',7),
     (40,'09:50','10:24',7),
     (40,'11:35','12:09',7),
@@ -1324,7 +1249,6 @@ INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 SELECT 41, t.departure::time, t.arrival::time, d.day_of_week
 FROM (
     VALUES
-        ('05:00','05:21'),
         ('07:10','07:31'),
         ('09:10','09:31'),
         ('10:50','11:11'),
@@ -1340,8 +1264,6 @@ CROSS JOIN (VALUES (1),(2),(3),(4),(5)) AS d(day_of_week);
 
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 VALUES
-    (41,'05:00','05:21',6),
-    (41,'07:20','07:41',6),
     (41,'09:10','09:31',6),
     (41,'11:45','12:06',6),
     (41,'13:15','13:36',6),
@@ -1350,13 +1272,10 @@ VALUES
 
 
 -- Linija 42 — radni dani (1–5) — trajanje 40 min
--- napomena: oznake "PREKO STOBREČA" / "->STOBREČ" ignorirane, uzet je samo HH:MM kao polazak
-
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 SELECT 42, t.departure::time, t.arrival::time, d.day_of_week
 FROM (
     VALUES
-        ('05:00','05:40'),
         ('05:45','06:25'),
         ('06:10','06:50'),
         ('07:00','07:40'),
@@ -1375,8 +1294,7 @@ FROM (
         ('20:15','20:55'),
         ('21:15','21:55'),
         ('22:15','22:55'),
-        ('23:15','23:55'),
-        ('23:45','00:25')
+        ('23:15','23:55')
 ) AS t(departure, arrival)
 CROSS JOIN (VALUES (1),(2),(3),(4),(5)) AS d(day_of_week);
 
@@ -1384,16 +1302,13 @@ CROSS JOIN (VALUES (1),(2),(3),(4),(5)) AS d(day_of_week);
 -- napomena: "00:00" je polazak u ponoć
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 VALUES
-    (42,'05:00','05:40',6),
     (42,'06:00','06:40',6),
     (42,'07:25','08:05',6),
-    (42,'09:05','09:45',6),
     (42,'09:45','10:25',6),
     (42,'11:40','12:20',6),
     (42,'13:30','14:10',6),
     (42,'15:30','16:10',6),
     (42,'16:50','17:30',6),
-    (42,'17:35','18:15',6),
     (42,'18:20','19:00',6),
     (42,'20:10','20:50',6),
     (42,'00:00','00:40',6);
@@ -1401,11 +1316,7 @@ VALUES
 -- nedjelja i praznik (7)
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 VALUES
-    (42,'06:00','06:40',7),
-    (42,'09:40','10:20',7),
-    (42,'13:15','13:55',7),
-    (42,'15:45','16:25',7),
-    (42,'17:35','18:15',7),
+
     (42,'20:10','20:50',7);
 
 
@@ -1414,15 +1325,10 @@ SELECT 43, t.departure::time, t.arrival::time, d.day_of_week
 FROM (
     VALUES
         ('05:30','05:48'),
-        ('06:00','06:18'),
         ('07:15','07:33'),
         ('08:20','08:38'),
-        ('09:00','09:18'),
         ('10:20','10:38'),
-        ('13:10','13:28'),
         ('14:10','14:28'),
-        ('15:15','15:33'),
-        ('16:35','16:53'),
         ('17:20','17:38'),
         ('18:50','19:08'),
         ('20:00','20:18')
@@ -1431,26 +1337,16 @@ CROSS JOIN (VALUES (1),(2),(3),(4),(5)) AS d(day_of_week);
 
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 VALUES
-    (43,'05:30','05:48',6),
     (43,'06:20','06:38',6),
-    (43,'07:30','07:48',6),
     (43,'08:00','08:18',6),
-    (43,'11:30','11:48',6),
-    (43,'17:45','18:03',6),
-    (43,'19:05','19:23',6),
-    (43,'21:25','21:43',6);
+    (43,'19:05','19:23',6);
 
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 VALUES
-    (43,'05:30','05:48',7),
-    (43,'07:30','07:48',7),
-    (43,'09:35','09:53',7),
-    (43,'11:20','11:38',7),
-    (43,'21:25','21:43',7);
+    (43,'09:35','09:53',7);
 
 
 -- Linija 44 — radni dani (1–5) — trajanje 27 min
--- napomena: "08:55 Priko vode" uzeto kao polazak u 08:55
 
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 SELECT 44, t.departure::time, t.arrival::time, d.day_of_week
@@ -1459,7 +1355,6 @@ FROM (
         ('05:10','05:37'),
         ('06:10','06:37'),
         ('07:10','07:37'),
-        ('08:55','09:22'),
         ('10:30','10:57'),
         ('12:30','12:57'),
         ('12:50','13:17'),
@@ -1506,13 +1401,7 @@ INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 SELECT 45, t.departure::time, t.arrival::time, d.day_of_week
 FROM (
     VALUES
-        ('05:45','06:25'),
-        ('07:00','07:40'),
-        ('08:45','09:25'),
         ('11:15','11:55'),
-        ('13:00','13:40'),
-        ('15:00','15:40'),
-        ('16:20','17:00'),
         ('17:30','18:10'),
         ('19:40','20:20'),
         ('21:10','21:50'),
@@ -1522,23 +1411,14 @@ CROSS JOIN (VALUES (1),(2),(3),(4),(5)) AS d(day_of_week);
 
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 VALUES
-    (45,'05:15','05:55',6),
-    (45,'07:15','07:55',6),
-    (45,'11:15','11:55',6),
     (45,'13:00','13:40',6),
     (45,'14:45','15:25',6),
-    (45,'17:30','18:10',6),
-    (45,'21:10','21:50',6),
     (45,'22:55','23:35',6);
 
 INSERT INTO schedules (line_id, departure, arrival, day_of_week)
 VALUES
-    (45,'05:15','05:55',7),
-    (45,'07:15','07:55',7),
-    (45,'11:05','11:45',7),
     (45,'14:45','15:25',7),
     (45,'17:30','18:10',7),
-    (45,'21:10','21:50',7),
     (45,'22:55','23:35',7);
 
 
@@ -1704,18 +1584,14 @@ SELECT 47, t.departure::time, t.arrival::time, d.day_of_week
 FROM (
     VALUES
         ('06:30','07:14'),
-        ('06:50','07:34'),
-        ('06:55','07:39'),
-
         ('12:20','13:04'),
-        ('12:50','13:34'),
-        ('13:00','13:44')
+        ('12:50','13:34')
 ) AS t(departure, arrival)
 CROSS JOIN (VALUES (1),(2),(3),(4),(5)) AS d(day_of_week);
 
 
-INSERT INTO schedules (line_id, departure, arrival, day_of_week)
-VALUES
-    (47,'05:20','06:04',6);
 
+UPDATE schedules
+SET arrival_next_day = TRUE
+WHERE arrival < departure;
 
