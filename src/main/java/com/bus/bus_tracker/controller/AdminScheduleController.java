@@ -13,7 +13,6 @@ public class AdminScheduleController {
 
     private final ScheduleStopService scheduleStopService;
 
-    // GLOBAL: regenerira schedule_stops za sve schedules u bazi
     @PostMapping("/regenerate-stops")
     @ResponseBody
     public ResponseEntity<String> regenerateAll() {

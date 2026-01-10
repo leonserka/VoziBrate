@@ -77,8 +77,6 @@ public class TimetableController {
         }
 
 
-
-
     private String currentUserEmail() {
         return SecurityContextHolder
                 .getContext()

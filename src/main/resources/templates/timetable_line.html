@@ -10,7 +10,9 @@
 
     <a href="/timetable" class="back-link">← Back</a>
 
-    <div class="box">
+    <div class="box"
+         id="timetableLinePage"
+         th:attr="data-selected-day=${day},data-line=${line.lineNumber}">
 
         <h1 class="line-title">
             Line <span th:text="${line.lineNumber}">37</span>
@@ -29,47 +31,17 @@
         </form>
 
         <div class="days">
-            <a th:href="@{'/timetable/' + ${line.id} + '?day=1'}"
-               th:classappend="${day == 1} ? 'active'">
-                Mon
-            </a>
-
-            <a th:href="@{'/timetable/' + ${line.id} + '?day=2'}"
-               th:classappend="${day == 2} ? 'active'">
-                Tue
-            </a>
-
-            <a th:href="@{'/timetable/' + ${line.id} + '?day=3'}"
-               th:classappend="${day == 3} ? 'active'">
-                Wed
-            </a>
-
-            <a th:href="@{'/timetable/' + ${line.id} + '?day=4'}"
-               th:classappend="${day == 4} ? 'active'">
-                Thu
-            </a>
-
-            <a th:href="@{'/timetable/' + ${line.id} + '?day=5'}"
-               th:classappend="${day == 5} ? 'active'">
-                Fri
-            </a>
-
-            <a th:href="@{'/timetable/' + ${line.id} + '?day=6'}"
-               th:classappend="${day == 6} ? 'active'">
-                Sat
-            </a>
-
-            <a th:href="@{'/timetable/' + ${line.id} + '?day=7'}"
-               th:classappend="${day == 7} ? 'active'">
-                Sun
-            </a>
+            <a th:href="@{'/timetable/' + ${line.id} + '?day=1'}" th:classappend="${day == 1} ? 'active'">Mon</a>
+            <a th:href="@{'/timetable/' + ${line.id} + '?day=2'}" th:classappend="${day == 2} ? 'active'">Tue</a>
+            <a th:href="@{'/timetable/' + ${line.id} + '?day=3'}" th:classappend="${day == 3} ? 'active'">Wed</a>
+            <a th:href="@{'/timetable/' + ${line.id} + '?day=4'}" th:classappend="${day == 4} ? 'active'">Thu</a>
+            <a th:href="@{'/timetable/' + ${line.id} + '?day=5'}" th:classappend="${day == 5} ? 'active'">Fri</a>
+            <a th:href="@{'/timetable/' + ${line.id} + '?day=6'}" th:classappend="${day == 6} ? 'active'">Sat</a>
+            <a th:href="@{'/timetable/' + ${line.id} + '?day=7'}" th:classappend="${day == 7} ? 'active'">Sun</a>
         </div>
 
         <div class="schedule-list">
-
-            <h3>
-                🕒 Departures
-            </h3>
+            <h3>🕒 Departures</h3>
 
             <div th:if="${#lists.isEmpty(schedules)}">
                 <p>No departures for this day.</p>
@@ -79,15 +51,15 @@
                 <a th:href="@{'/timetable/schedule/' + ${s.id}}"
                    class="schedule-row">
 
-        <span class="time">
-            <span th:text="${s.departure}">06:00</span>
-            →
-            <span th:text="${s.arrival}">06:45</span>
+                    <span class="time">
+                        <span th:text="${s.departure}">06:00</span>
+                        →
+                        <span th:text="${s.arrival}">06:45</span>
 
-            <span class="live-badge"
-                th:attr="data-dep=${s.departure},data-arr=${s.arrival},data-line=${line.lineNumber}">
-            </span>
-        </span>
+                        <span class="live-badge"
+                              th:attr="data-dep=${s.departure},data-arr=${s.arrival}">
+                        </span>
+                    </span>
 
                     <span class="arrow">›</span>
                 </a>
@@ -96,63 +68,6 @@
     </div>
 </div>
 
-<script>
-    const today = new Date().getDay(); // 0 = Sun
-    const buttons = document.querySelectorAll('#daySelector button');
-
-    buttons.forEach(btn => {
-        if (btn.dataset.day == today) {
-            btn.classList.add('active');
-        }
-
-        btn.addEventListener('click', () => {
-            buttons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        });
-    });
-</script>
-<script>
-    function parseHHMM(t) {
-        const parts = String(t).split(":").map(x => parseInt(x, 10));
-        return { h: parts[0] || 0, m: parts[1] || 0 };
-    }
-
-    function minutesNow() {
-        const d = new Date();
-        return d.getHours() * 60 + d.getMinutes();
-    }
-
-    async function paintLiveBadges() {
-        const badges = document.querySelectorAll(".live-badge");
-        if (!badges.length) return;
-
-        const lineNum = badges[0].dataset.line;
-        const nowMin = minutesNow();
-
-        let hasLive = false;
-        try {
-            const res = await fetch("/api/positions/current");
-            const data = await res.json();
-            hasLive = (data || []).some(p => (p?.routeShortName || "").trim() === lineNum);
-        } catch (e) {
-            console.error(e);
-        }
-
-        badges.forEach(b => {
-            const dep = parseHHMM(b.dataset.dep);
-            const arr = parseHHMM(b.dataset.arr);
-            const depMin = dep.h * 60 + dep.m;
-            const arrMin = arr.h * 60 + arr.m;
-
-            const isActive = hasLive && (nowMin >= depMin) && (nowMin <= arrMin);
-
-            b.textContent = isActive ? " 🚌 LIVE" : "";
-            b.style.fontWeight = "700";
-        });
-    }
-
-    paintLiveBadges();
-    setInterval(paintLiveBadges, 15000);
-</script>
+<script th:src="@{/js/timetable_line.js}"></script>
 </body>
 </html>

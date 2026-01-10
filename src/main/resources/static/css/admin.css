@@ -229,3 +229,18 @@ body {
 .sidebar-link:hover {
     background: rgba(255,255,255,0.15);
 }
+
+.admin-tools {
+  margin: 20px 0;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.admin-tools h2 {
+  margin-top: 0;
+}
+
+.regen-status {
+  margin-left: 12px;
+}

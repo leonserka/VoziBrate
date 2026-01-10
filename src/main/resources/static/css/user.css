@@ -289,3 +289,52 @@ body {
 .stop-row.passed { opacity: 0.5; }
 .stop-row.next { background: #f1c40f33; font-weight: 700; }
 .live-badge { margin-left: 8px; }
+
+
+.schedule-departure {
+  margin-top: 10px;
+}
+
+.timeline {
+  margin-top: 25px;
+  border-left: 3px solid #dfe6e9;
+  padding-left: 25px;
+}
+
+.stop-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 18px;
+  padding-left: 5px;
+  transition: background 0.2s ease;
+}
+
+.stop-row::before {
+  content: "";
+  position: absolute;
+  left: -34px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #b2bec3;
+}
+
+.stop-row.start::before { background: #27ae60; }
+.stop-row.end::before { background: #c0392b; }
+.stop-row.passed::before { background: #7f8c8d; }
+
+.stop-row.next::before {
+  background: #f1c40f;
+  box-shadow: 0 0 0 4px rgba(241,196,15,0.25);
+}
+
+.stop-time { width: 70px; font-weight: 600; }
+.stop-name { flex: 1; }
+
+.next-day {
+  font-size: 12px;
+  color: #c0392b;
+  margin-left: 6px;
+  font-weight: 700;
+}

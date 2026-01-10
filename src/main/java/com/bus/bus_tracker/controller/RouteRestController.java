@@ -1,7 +1,6 @@
 package com.bus.bus_tracker.controller;
 
 import com.bus.bus_tracker.entity.LineEntity;
-import com.bus.bus_tracker.entity.RouteStationEntity;
 import com.bus.bus_tracker.repository.LineRepository;
 import com.bus.bus_tracker.service.RouteService;
 import lombok.RequiredArgsConstructor;

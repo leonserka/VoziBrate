@@ -18,57 +18,22 @@
     <form th:action="@{/logout}" method="post" class="logout-form">
         <button type="submit" class="sidebar-link">Logout</button>
     </form>
-
 </div>
 
 <div class="content">
     <h1>User Management</h1>
 
-    <div class="admin-tools" style="margin: 20px 0; padding: 16px; border: 1px solid #ddd; border-radius: 8px;">
-        <h2 style="margin-top:0;">Schedules tools</h2>
+    <div class="admin-tools">
+        <h2>Schedules tools</h2>
 
         <button id="regenStopsBtn" class="btn" type="button">
             🔁 Regenerate schedule_stops (ALL)
         </button>
 
-        <span id="regenStatus" style="margin-left:12px;"></span>
+        <span id="regenStatus" class="regen-status"></span>
     </div>
 
-    <script>
-        const btn = document.getElementById("regenStopsBtn");
-        const status = document.getElementById("regenStatus");
-
-        btn.addEventListener("click", async () => {
-          if (!confirm("Ovo će obrisati i ponovno generirati schedule_stops za sve schedules. Nastaviti?")) return;
-
-          btn.disabled = true;
-          status.textContent = "⏳ regeneriram...";
-
-          try {
-            const res = await fetch("/admin/schedules/regenerate-stops", {
-              method: "POST",
-              credentials: "same-origin",
-              headers: { "X-Requested-With": "XMLHttpRequest" }
-            });
-
-            const text = await res.text();
-
-            if (!res.ok) {
-              status.textContent = `❌ ${res.status}: ${text}`;
-              return;
-            }
-
-            status.textContent = "✅ " + text;
-          } catch (e) {
-            console.error(e);
-            status.textContent = "❌ " + (e?.message ?? e);
-          } finally {
-            btn.disabled = false;
-          }
-        });
-    </script>
-
-
+    <script th:src="@{/js/admin_panel.js}"></script>
 
     <table class="styled-table">
         <thead>

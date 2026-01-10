@@ -26,14 +26,12 @@ public class ScheduleStopService {
     private final ScheduleRepository scheduleRepository;
     private final RouteStationRepository routeStationRepository;
 
-    // Spring proxy (da @Transactional radi i kad zoveš iz iste klase)
     private final ObjectProvider<ScheduleStopService> self;
 
     public List<ScheduleStopEntity> getStopsForSchedule(Long scheduleId) {
         return scheduleStopRepository.findBySchedule_IdOrderByStopSequence(scheduleId);
     }
 
-    // Svaki schedule u svojoj transakciji
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void regenerateStopsForSchedule(ScheduleEntity schedule, List<RouteStationEntity> route) {
         Long scheduleId = schedule.getId();
@@ -41,10 +39,8 @@ public class ScheduleStopService {
             throw new IllegalArgumentException("Schedule id is null (not persisted?)");
         }
 
-        // 1) pobriši stare
         scheduleStopRepository.bulkDeleteByScheduleId(scheduleId);
 
-        // 2) pripremi nove u memoriji
         List<ScheduleStopEntity> stops = new ArrayList<>(route.size());
         int seq = 1;
 
@@ -65,14 +61,12 @@ public class ScheduleStopService {
             stops.add(stop);
         }
 
-        // 3) jedan batch (uz Hibernate batching u properties još bolje)
         scheduleStopRepository.saveAll(stops);
     }
 
     public void regenerateStopsForLine(Long lineId) {
         List<ScheduleEntity> schedules = scheduleRepository.findByLine_Id(lineId);
 
-        // route je ista za sve scheduleove te linije -> jedan query
         List<RouteStationEntity> route = routeStationRepository.findRouteWithStations(lineId);
 
         for (ScheduleEntity s : schedules) {
@@ -83,7 +77,6 @@ public class ScheduleStopService {
     public void regenerateStopsForAllSchedules() {
         List<ScheduleEntity> all = scheduleRepository.findAll();
 
-        // cache ruta po lineId (da ne radiš isti query 100 puta)
         Map<Long, List<RouteStationEntity>> routeCache = new HashMap<>();
 
         for (ScheduleEntity s : all) {

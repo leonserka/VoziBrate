@@ -3,67 +3,6 @@
 <head>
     <title>Schedule</title>
     <link rel="stylesheet" th:href="@{/css/user.css}">
-    <style>
-        /* ===== TIMELINE ===== */
-
-        .timeline {
-            margin-top: 25px;
-            border-left: 3px solid #dfe6e9;
-            padding-left: 25px;
-        }
-
-        .stop-row {
-            position: relative;
-            display: flex;
-            align-items: center;
-            margin-bottom: 18px;
-            padding-left: 5px;
-            transition: background 0.2s ease;
-        }
-
-        .stop-row::before {
-            content: "";
-            position: absolute;
-            left: -34px;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: #b2bec3;
-        }
-
-        .stop-row.start::before {
-            background: #27ae60;
-        }
-
-        .stop-row.end::before {
-            background: #c0392b;
-        }
-
-        .stop-row.passed::before {
-            background: #7f8c8d;
-        }
-
-        .stop-row.next::before {
-            background: #f1c40f;
-            box-shadow: 0 0 0 4px rgba(241,196,15,0.25);
-        }
-
-        .stop-time {
-            width: 70px;
-            font-weight: 600;
-        }
-
-        .stop-name {
-            flex: 1;
-        }
-
-        .next-day {
-            font-size: 12px;
-            color: #c0392b;
-            margin-left: 6px;
-            font-weight: 700;
-        }
-    </style>
 </head>
 <body>
 
@@ -73,7 +12,13 @@
         ← Back to line
     </a>
 
-    <div class="box">
+    <div class="box"
+         id="timetableSchedulePage"
+         th:attr="data-line=${schedule.line.lineNumber},
+                  data-schedule-day=${schedule.dayOfWeek},
+                  data-dep=${schedule.departure},
+                  data-arr=${schedule.arrival},
+                  data-arrival-nextday=${schedule.arrivalNextDay}">
 
         <h1>
             Line <span th:text="${schedule.line.lineNumber}">1</span>
@@ -83,26 +28,27 @@
             Bunje – Poljička – HNK – Dom rata
         </h3>
 
-        <p style="margin-top:10px;">
+        <p class="schedule-departure">
             Departure:
             <strong th:text="${schedule.departure}">06:00</strong>
         </p>
 
-        <!-- ===== TIMELINE ===== -->
         <div class="timeline">
 
             <div th:each="s,iter : ${stops}"
                  class="stop-row"
                  th:classappend="${iter.index == 0} ? ' start' : (iter.last ? ' end' : '')"
-                 th:attr="data-lat=${s.station.gpsLat},data-lng=${s.station.gpsLng}">
+                 th:attr="data-lat=${s.station.gpsLat},
+                          data-lng=${s.station.gpsLng},
+                          data-time=${s.time},
+                          data-nextday=${s.nextDay}">
 
                 <div class="stop-time">
                     <span th:text="${s.time}">06:00</span>
                     <span th:if="${s.nextDay}" class="next-day">(+1)</span>
                 </div>
 
-                <div class="stop-name"
-                     th:text="${s.station.name}">
+                <div class="stop-name" th:text="${s.station.name}">
                     Station name
                 </div>
 
@@ -112,66 +58,7 @@
 
     </div>
 </div>
-
-<script th:inline="javascript">
-    const lineNumber = /*[[${schedule.line.lineNumber}]]*/ "1";
-
-    function squaredDist(lat1, lng1, lat2, lng2) {
-        const dLat = lat1 - lat2;
-        const dLng = lng1 - lng2;
-        return dLat*dLat + dLng*dLng;
-    }
-
-    async function paintStopsProgress() {
-    const rows = Array.from(document.querySelectorAll(".stop-row"));
-    if (!rows.length) return;
-
-    let live = null;
-    try {
-        const posRes = await fetch("/api/positions/current");
-        const positions = await posRes.json();
-
-        const ln = String(lineNumber).trim();
-
-        live = (positions || []).find(p => {
-            const a = String(p?.routeShortName ?? "").trim();
-            const b = String(p?.bus?.line?.lineNumber ?? "").trim();
-            return a === ln || b === ln;
-        });
-
-    } catch (e) {
-        console.error(e);
-        return;
-    }
-
-    if (!live) return;
-
-    let bestIdx = -1;
-    let best = Infinity;
-
-    rows.forEach((r, i) => {
-        const lat = parseFloat(r.dataset.lat);
-        const lng = parseFloat(r.dataset.lng);
-        if (isNaN(lat) || isNaN(lng)) return;
-
-        const d = squaredDist(lat, lng, live.gpsLat, live.gpsLng);
-        if (d < best) {
-            best = d;
-            bestIdx = i;
-        }
-    });
-
-    rows.forEach((r, i) => {
-        r.classList.remove("passed", "next");
-        if (bestIdx >= 0 && i <= bestIdx) r.classList.add("passed");
-        if (bestIdx >= 0 && i === bestIdx + 1) r.classList.add("next");
-    });
-}
-
-
-    paintStopsProgress();
-    setInterval(paintStopsProgress, 15000);
-</script>
+<script th:src="@{/js/timetable_schedule.js}"></script>
 
 </body>
 </html>

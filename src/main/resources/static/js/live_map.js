@@ -8,13 +8,11 @@ const MOVING_HOLD_MS = 60000;
 
 var markers = {};
 
-// --- ROUTE LAYERS ---
 let activeRouteLayer = null;
 let activeStopMarkers = [];
 let lastClickedLineNum = null;
 
-// --- ROUTE CHOICE MEMORY (da ne flip-a stalno A<->B) ---
-const lastVariantByLine = {}; // npr { "32": "A" }
+const lastVariantByLine = {};
 const HYSTERESIS_METERS = 120;
 
 function clearRoute() {
@@ -29,7 +27,6 @@ function clearRoute() {
 function findMarkerByLineNum(lineNum) {
     lineNum = String(lineNum).trim();
 
-    // pokušaj pronać marker po tekstu unutar .bus-marker (to ti je broj linije kad je Prometko)
     for (const key in markers) {
         const m = markers[key];
         const el = m.getElement();
@@ -99,8 +96,6 @@ function buildPopupContent(lineNum, lineName, gbr, reg) {
     `;
 }
 
-// ---------------- ROUTE HELPERS ----------------
-
 async function fetchStops(lineNum, variant) {
     const res = await fetch(`/api/lines/${encodeURIComponent(lineNum)}/route?variant=${variant}`);
     if (!res.ok) return [];
@@ -140,7 +135,6 @@ function renderRouteOnMap(orderedStops, lineNum) {
         nearestIdx = findNearestStopIndex(orderedStops, busMarker.getLatLng());
     }
 
-    // “prošao” = <= nearestIdx, “sljedeća” = nearestIdx + 1
     orderedStops.forEach((s, i) => {
         if (s.lat == null || s.lng == null) return;
 
@@ -163,9 +157,6 @@ function renderRouteOnMap(orderedStops, lineNum) {
     });
 }
 
-// ---------------- ROUTE BUTTONS ----------------
-
-// ručno: A ili B
 window.showRoute = async function (lineNum, variant = "A") {
     try {
         lineNum = String(lineNum).trim();
@@ -187,7 +178,6 @@ window.showRoute = async function (lineNum, variant = "A") {
     }
 };
 
-// auto: odaberi varijantu koja je bliža busu + hysteresis
 window.showRouteAuto = async function (lineNum) {
     try {
         lineNum = String(lineNum).trim();
@@ -195,7 +185,6 @@ window.showRouteAuto = async function (lineNum) {
 
         const busMarker = findMarkerByLineNum(lineNum);
         if (!busMarker) {
-            // fallback: ako ne nađemo marker, pokaži A
             return window.showRoute(lineNum, "A");
         }
 
@@ -218,7 +207,6 @@ window.showRouteAuto = async function (lineNum) {
 
         let chosen = (dA <= dB) ? "A" : "B";
 
-        // hysteresis: ako je mala razlika, drži staru varijantu
         const prev = lastVariantByLine[lineNum];
         if (prev && Math.abs(dA - dB) < HYSTERESIS_METERS) {
             chosen = prev;
@@ -232,7 +220,6 @@ window.showRouteAuto = async function (lineNum) {
     }
 };
 
-// ---------------- BUS UPDATES ----------------
 
 function updateBuses() {
     fetch('/api/positions/current')
@@ -243,24 +230,22 @@ function updateBuses() {
             data.forEach(pos => {
                 if (!pos || !pos.bus || !pos.bus.busNumber) return;
 
-                const id = pos.bus.busNumber;       // busNumber (garažni)
+                const id = pos.bus.busNumber;
                 const reg = pos.bus.registration;
 
-                let displayText = id;               // šta piše na markeru
+                let displayText = id;
                 let lineName = "Nepoznata";
-                let routeKey = null;                // šta šaljemo API-ju za rutu (lineNumber)
+                let routeKey = null;
 
                 if (pos.bus.line && pos.bus.line.lineNumber) {
                     routeKey = String(pos.bus.line.lineNumber).trim();
-                    displayText = routeKey; // default prikaz = broj linije
+                    displayText = routeKey;
                     lineName = pos.bus.line.name ?? "Nepoznata";
                 }
 
-                // ako Prometko ima routeShortName, možemo ga prikazat,
-                // ali routeKey za rutu i dalje držimo kao lineNumber (ako postoji)
                 if (pos.routeShortName && pos.routeShortName.trim() !== "") {
                     displayText = pos.routeShortName.trim();
-                    if (!routeKey) routeKey = displayText; // fallback ako nema lineNumber
+                    if (!routeKey) routeKey = displayText;
                     lineName = "Prometko";
                 }
 
@@ -330,7 +315,6 @@ function updateMarkerText(marker, text) {
         div.firstChild.textContent = text;
     } else {
         div.textContent = text;
-        // vrati strelicu ako se izgubila (sigurnosno)
         if (!div.querySelector('.bus-arrow')) {
             const arrow = document.createElement('div');
             arrow.className = 'bus-arrow';
@@ -345,7 +329,6 @@ function updateMarkerStyle(marker, text, isActive) {
     const div = el.querySelector('.bus-marker');
     if (!div) return;
 
-    // update text
     if (div.firstChild && div.firstChild.nodeType === Node.TEXT_NODE) {
         div.firstChild.textContent = text;
     } else {
