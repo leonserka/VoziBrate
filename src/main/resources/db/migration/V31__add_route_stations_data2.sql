@@ -22,12 +22,12 @@ VALUES
   (2, 40, 20, 38), -- STRINJE 1 19:59
   (2, 41, 21, 38), -- STRINJE 19:59
   (2, 42, 22, 39), -- STRINJE 2 20:00
-  (2, 43, 23, 41), -- KAŠTEL GOMILICA 1 20:02
-  (2, 44, 24, 44), -- KAŠTEL KAMBELOVAC 1 20:05
-  (2, 45, 25, 47), -- KAŠTEL LUKŠIĆ 3 20:08
-  (2, 46, 26, 49), -- KAŠTEL LUKŠIĆ 1 20:10
+  (2,446, 23, 41), -- KAŠTEL GOMILICA 1 20:02
+  (2,447, 24, 44), -- KAŠTEL KAMBELOVAC 1 20:05
+  (2,448, 25, 47), -- KAŠTEL LUKŠIĆ 3 20:08
+  (2, 449, 26, 49), -- KAŠTEL LUKŠIĆ 1 20:10
   (2, 47, 27, 51), -- KAŠTEL STARI 1 20:12
-  (2, 48, 28, 53), -- KAŠTEL NOVI 1 20:14
+  (2, 450, 28, 53), -- KAŠTEL NOVI 1 20:14
   (2, 49, 29, 54), -- KAŠTEL ŠTAFILIĆ - PUT VLAKA 20:15
   (2, 50, 30, 57), -- KAŠTEL ŠTAFILIĆ - KOLUDROVAC 1 20:18
   (2, 51, 31, 58), -- RESNIK 1 20:19
@@ -168,7 +168,6 @@ VALUES
   (8, 179, 24, 41),  -- KILA - NASELJE 20:26
   (8, 158, 25, 42)   -- KILA 20:27
 ;
-
 INSERT INTO route_stations (line_id, station_id, order_number, minutes_from_start)
 VALUES
   (10, 205, 1, 0),   -- ŽNJAN 20:41
@@ -191,6 +190,7 @@ VALUES
   (10, 180, 18, 25), -- ZAPADNA OBALA 2 21:06
   (10, 181, 19, 27)  -- BRANIMIROVA - BANOVINA 1 21:08
 ;
+
 
 INSERT INTO route_stations (line_id, station_id, order_number, minutes_from_start)
 VALUES
@@ -557,4 +557,430 @@ VALUES
   (22, 336, 25, 39),  -- KLIS GRLO 1 21:32
   (22, 337, 26, 40),  -- KLIS BRDO 3 21:33
   (22, 338, 27, 41)   -- KLIS 21:34
+;
+
+
+INSERT INTO route_stations (line_id, station_id, order_number, minutes_from_start)
+VALUES
+  (24,  28,  1,  0),  -- AUTOBUSNI TERMINAL SUKOIŠAN 20:54
+  (24, 106,  2,  1),  -- OPĆINA 2 20:55
+  (24, 107,  3,  3),  -- PAZAR 1 20:57
+  (24, 108,  4,  5),  -- POJIŠAN 20:59
+  (24, 109,  5,  7),  -- BOLNICA FIRULE 1 21:01
+  (24, 110,  6,  7),  -- POLJIČKA - FIRULE 21:01
+  (24, 111,  7,  9),  -- BOLNICA KRIŽINE 1 21:03
+  (24, 112,  8, 10),  -- POLJIČKA - TRSTENIK 21:04
+  (24, 208,  9, 12),  -- VELEBITSKA - VISOKA 21:06
+  (24, 174, 10, 13),  -- VUKOVARSKA - VISOKA BELVEDERE 21:07
+  (24, 175, 11, 14),  -- VUKOVARSKA - VISOKA 21:08
+  (24, 176, 12, 15),  -- VUKOVARSKA - MALL OF SPLIT 1 21:09
+  (24, 177, 13, 16),  -- VUKOVARSKA - DRAGOVODE 21:10
+  (24, 118, 14, 17),  -- VUKOVARSKA - LOVRINAC 21:11
+  (24, 119, 15, 19),  -- VUKOVARSKA - CITY CENTER ONE 1 21:13
+  (24, 316, 16, 21),  -- SIROBUJA - STOBREČKA 3 21:15
+  (24, 317, 17, 22),  -- SIROBUJA - STOBREČKA 1 21:16
+  (24, 350, 18, 25),  -- SIROBUJA - NADVOŽNJAK 1 21:19
+  (24, 351, 19, 28),  -- ŠINE 1 21:22
+  (24, 363, 20, 29),  -- STOBREČ KAMP 1 21:23
+  (24, 361, 21, 31)   -- STOBREČ CENTAR 21:25
+;
+
+INSERT INTO route_stations (line_id, station_id, order_number, minutes_from_start)
+VALUES
+  (26,  28,  1,  0),  -- AUTOBUSNI TERMINAL SUKOIŠAN 20:55
+  (26, 106,  2,  2),  -- OPĆINA 2 20:57
+  (26, 107,  3,  4),  -- PAZAR 1 20:59
+  (26, 108,  4,  6),  -- POJIŠAN 21:01
+  (26, 109,  5,  7),  -- BOLNICA FIRULE 1 21:02
+  (26, 110,  6,  8),  -- POLJIČKA - FIRULE 21:03
+  (26, 111,  7,  9),  -- BOLNICA KRIŽINE 1 21:04
+  (26, 112,  8, 11),  -- POLJIČKA - TRSTENIK 21:06
+  (26, 113,  9, 12),  -- POLJIČKA - MERTOJAK 21:07
+  (26, 114, 10, 13),  -- MERTOJAK HEP 21:08
+  (26, 115, 11, 14),  -- ZNG - MERTOJAK 21:09
+  (26, 349, 12, 17),  -- KRALJA DRŽISLAVA - PAZDIGRAD 21:12
+  (26, 350, 13, 20),  -- SIROBUJA - NADVOŽNJAK 1 21:15
+  (26, 351, 14, 23),  -- ŠINE 1 21:18
+  (26, 372, 15, 25),  -- STOBREČ KRIŽANJE 21:20
+  (26, 373, 16, 27),  -- KRIŽANJE ŽRNOVNICA 1 21:22
+  (26, 374, 17, 28),  -- ŽMINJAČA 1 21:23
+  (26, 375, 18, 30),  -- KAMENOLOM KRIŽANJE 1 21:25
+  (26, 376, 19, 32),  -- KOREŠNICA 1 21:27
+  (26, 377, 20, 33),  -- KOREŠNICA 3 21:28
+  (26, 378, 21, 33),  -- ŽRNOVNICA ŠKOLA 1 21:28
+  (26, 379, 22, 35),  -- ŽRNOVNICA ALJINOVIĆI 1 21:30
+  (26, 380, 23, 36),  -- ŽRNOVNICA CRKVA 1 21:31
+  (26, 381, 24, 36)   -- ŽRNOVNICA OKRETIŠTE 21:31
+;
+
+
+INSERT INTO route_stations (line_id, station_id, order_number, minutes_from_start)
+VALUES
+  (28, 28,   1,  0),   -- AUTOBUSNI TERMINAL SUKOIŠAN 21:37
+  (28, 256,  2,  2),   -- HRVATSKE MORNARICE - GLAVIČINE 21:39
+  (28, 129,  3,  4),   -- DOMOVINSKOG RATA - BRODARICA 1 21:41
+  (28, 191,  4,  5),   -- DOMOVINSKOG RATA - WESTGATE 21:42
+  (28, 16,   5,  6),   -- DOMOVINSKOG RATA - KMAN JUG 21:43
+  (28, 17,   6,  8),   -- DOMOVINSKOG RATA - KOCUNAR 1 21:45
+  (28, 18,   7,  9),   -- DOMOVINSKOG RATA - KOCUNAR 3 21:46
+  (28, 134,  8, 11),   -- DOMOVINSKOG RATA - PUJANKE 21:48
+  (28, 145,  9, 12),   -- ZBORA NARODNE GARDE - MALL OF SPLIT 1 21:49
+  (28, 146, 10, 14),   -- SMOKOVIK 1 21:51
+  (28, 147, 11, 17),   -- SALONA MALL 1 21:54
+  (28, 148, 12, 18),   -- SOLIN TEHNIČKA STANICA 1 21:55
+  (28, 241, 13, 19),   -- SOLIN BAŠINI 1 21:56
+  (28, 400, 14, 24),   -- MRAVINAČKI GAJ 1 22:01
+  (28, 401, 15, 25),   -- MRAVINCI CENTAR 1 22:02
+  (28, 402, 16, 27),   -- KUČINE KAVA 1 22:04
+  (28, 403, 17, 28),   -- KUČINE CENTAR 1 22:05
+  (28, 404, 18, 30)    -- KUČINE 22:07
+;
+
+INSERT INTO route_stations (line_id, station_id, order_number, minutes_from_start)
+VALUES
+  (30,  28,  1,  0),  -- AUTOBUSNI TERMINAL SUKOIŠAN 20:58
+  (30, 256,  2,  1),  -- HRVATSKE MORNARICE - GLAVIČINE 20:59
+  (30, 129,  3,  3),  -- DOMOVINSKOG RATA - BRODARICA 1 21:01
+  (30, 130,  4,  4),  -- HERCEGOVAČKA - POŠTA 21:02
+  (30, 131,  5,  5),  -- KOPILICA 1 21:03
+  (30,  91,  6,  6),  -- SOLINSKA - GARAŽA PROMET 21:04
+  (30,  90,  7,  8),  -- SOLINSKA - SJEVERNA LUKA 1 21:06
+  (30,  88,  8, 10),  -- DUJMOVAČA 1 21:08
+  (30,  86,  9, 11),  -- METERIZE 1 21:09
+  (30,  84, 10, 12),  -- SOLIN - ŠIRINA 1 21:10
+  (30,  82, 11, 15),  -- SOLIN AMFITEATAR 1 21:13
+  (30,  80, 12, 16),  -- SVETI KAJO 1 21:14
+  (30,  78, 13, 18),  -- BRIŽINE 1 21:16
+  (30,  75, 14, 21),  -- KAŠTEL SUĆURAC - LUČICA 1 21:19
+  (30,  73, 15, 23),  -- KAŠTEL SUĆURAC - CENTAR 1 21:21
+  (30, 428, 16, 26),  -- KAŠTEL SUĆURAC - PUT KOZJAKA 1 21:24
+  (30, 429, 17, 27),  -- KAŠTEL GOMILICA - MARINA 1 21:25
+  (30,  43, 18, 28),  -- KAŠTEL GOMILICA 1 21:26
+  (30, 430, 19, 29),  -- KAŠTEL GOMILICA - ŠKOLA 1 21:27
+  (30, 431, 20, 30),  -- KAŠTEL KAMBELOVAC 3 21:28
+  (30, 432, 21, 32),  -- KAŠTEL KAMBELOVAC - BALETNA 1 21:30
+  (30, 433, 22, 32),  -- KAŠTEL KAMBELOVAC - SIBOVICA 1 21:30
+  (30,  46, 23, 34),  -- KAŠTEL LUKŠIĆ 1 21:32
+  (30, 435, 24, 35),  -- KAŠTEL STARI - PALACE 1 21:33
+  (30, 434, 25, 37),  -- KAŠTEL STARI - ŠKOLA 1 21:35
+  (30, 436, 26, 37),  -- KAŠTEL STARI - CENTAR 1 21:35
+  (30,  48, 27, 38),  -- KAŠTEL NOVI 1 21:36
+  (30, 437, 28, 39),  -- KAŠTEL ŠTAFILIĆ 1 21:37
+  (30, 438, 29, 40),  -- KAŠTEL ŠTAFILIĆ - NEHAJ 1 21:38
+  (30,  50, 30, 42),  -- KAŠTEL ŠTAFILIĆ - KOLUDROVAC 1 21:40
+  (30,  51, 31, 43),  -- RESNIK 1 21:41
+  (30,  52, 32, 46),  -- ZRAČNA LUKA 1 21:44
+  (30, 439, 33, 47),  -- DIVULJE 1 21:45
+  (30, 440, 34, 50),  -- PANTANA 1 21:48
+  (30, 441, 35, 53),  -- BRIGI 1 21:51
+  (30, 442, 36, 54),  -- NASELJE TROGIR 1 21:52
+  (30, 445, 37, 55)   -- KOLODVOR TROGIR 21:53
+;
+
+INSERT INTO route_stations (line_id, station_id, order_number, minutes_from_start)
+VALUES
+  (32,  53,  1,  0),  -- ZRAČNA LUKA OKRETIŠTE 20:45
+  (32,  54,  2,  0),  -- ZRAČNA LUKA 2 20:45
+  (32,  55,  3,  3),  -- RESNIK 2 20:48
+  (32,  56,  4,  4),  -- KAŠTEL ŠTAFILIĆ - KOLUDROVAC 2 20:49
+  (32,  57,  5,  2),  -- KAŠTEL ŠTAFILIĆ 20:47
+  (32,  451,  6,  3),  -- KAŠTEL NOVI 2 20:48
+  (32,  59,  7,  4),  -- KAŠTEL STARI 2 20:49
+  (32,  60,  8,  5),  -- KAŠTEL LUKŠIĆ 2 20:50
+  (32,  61,  9,  6),  -- KAŠTEL LUKŠIĆ 4 20:51
+  (32,  62, 10,  9),  -- KAŠTEL KAMBELOVAC 2 20:54
+  (32,  63, 11, 10),  -- KAŠTEL GOMILICA 2 20:55
+  (32,  40, 12, 13),  -- STRINJE 1 20:58
+  (32,  41, 13, 14),  -- STRINJE 20:59
+  (32,  42, 14, 15),  -- STRINJE 2 21:00
+  (32,  65, 15, 18),  -- KAŠTEL SUĆURAC - VATROGASNI DOM 2 21:03
+  (32,  66, 16, 20),  -- KAŠTEL SUĆURAC - VRILA 2 21:05
+  (32,  67, 17, 22),  -- KAŠTEL SUĆURAC - METRO 2 21:07
+  (32,  83, 18, 27),  -- SOLIN - ŠIRINA 2 21:12
+  (32,   9, 19, 28),  -- SOLIN TOMMY 3 21:13
+  (32,  10, 20, 30),  -- SMOKOVIK 2 21:15
+  (32,  11, 21, 34),  -- VISOKA HEP 21:19
+  (32, 120, 22, 35),  -- POLJIČKA - SMRDEČAC 21:20
+  (32, 121, 23, 35),  -- POLJIČKA - SPLIT 3 21:20
+  (32, 122, 24, 36),  -- BOLNICA KRIŽINE 2 21:21
+  (32, 123, 25, 37),  -- POLJIČKA - BLATINE 21:22
+  (32, 124, 26, 38),  -- BOLNICA FIRULE 2 21:23
+  (32, 125, 27, 38),  -- ZVONIMIROVA 21:23
+  (32, 126, 28, 40),  -- PAZAR 2 21:25
+  (32, 127, 29, 41),  -- OPĆINA 1 21:26
+  (32,  28, 30, 42)   -- AUTOBUSNI TERMINAL SUKOIŠAN 21:27
+;
+
+INSERT INTO route_stations (line_id, station_id, order_number, minutes_from_start)
+VALUES
+  (33, 180,  1,  0),  -- ZAPADNA OBALA 2 21:00
+  (33, 181,  2,  1),  -- BRANIMIROVA - BANOVINA 1 21:01
+  (33, 182,  3,  1),  -- DRAŽANAC - BANOVINA 21:01
+  (33, 183,  4,  2),  -- PUT MEJA 21:02
+  (33, 184,  5,  3),  -- PUT MEJA - TUNEL 21:03
+  (33, 185,  6,  7),  -- SEDAM KAŠTELA - SPINUT 21:07
+  (33, 186,  7,  8),  -- SEDAM KAŠTELA - KINESKI ZID 21:08
+  (33, 187,  8,  9),  -- ZRINSKO-FRANKOPANSKA - STADION POLJUD 21:09
+  (33, 188,  9, 11),  -- PUT SUPAVLA - POLJUD 21:11
+  (33, 189, 10, 12),  -- PUT SUPAVLA - TURSKA KULA 21:12
+  (33, 190, 11, 13),  -- PUT SUPAVLA - ŠKVER 1 21:13
+  (33, 191, 12, 15),  -- DUBROVAČKA - WESTGATE 21:15
+  (33, 192, 13, 16),  -- VELEBITSKA - PLOKITE 21:16
+  (33, 212, 14, 17),  -- VELEBITSKA - SUĆIDAR 1 21:17
+  (33, 213, 15, 19),  -- VELEBITSKA - SUĆIDAR 3 21:19
+  (33, 214, 16, 20),  -- VELEBITSKA - VRH SUĆIDRA 21:20
+  (33, 215, 17, 22),  -- VELEBITSKA - BELVEDERE 21:22
+  (33, 216, 18, 22),  -- VELEBITSKA - KAMPUS 21:22
+  (33, 217, 19, 24),  -- VELEBITSKA - TRSTENIK 21:24
+  (33, 218, 20, 25),  -- BRAČKA - MERTOJAK 21:25
+  (33, 204, 21, 26)   -- ŽNJAN OKRETIŠTE 21:26
+;
+
+INSERT INTO route_stations (line_id, station_id, order_number, minutes_from_start)
+VALUES
+  (34, 181,  1,  0),  -- BRANIMIROVA - BANOVINA 1 21:00
+  (34, 182,  2,  1),  -- DRAŽANAC - BANOVINA 21:01
+  (34, 183,  3,  2),  -- PUT MEJA 21:02
+  (34, 184,  4,  4),  -- PUT MEJA - TUNEL 21:04
+  (34, 222,  5,  8),  -- MATOŠEVA 2 21:08
+  (34, 223,  6, 10),  -- MATOŠEVA - STARI PLAC 21:10
+  (34, 224,  7, 11),  -- STARČEVIĆEVA 21:11
+  (34, 106,  8, 14),  -- OPĆINA 2 21:14
+  (34, 107,  9, 17),  -- PAZAR 1 21:17
+  (34, 108, 10, 19),  -- POJIŠAN 21:19
+  (34, 109, 11, 21),  -- BOLNICA FIRULE 1 21:21
+  (34, 110, 12, 22),  -- POLJIČKA - FIRULE 21:22
+  (34, 111, 13, 24),  -- BOLNICA KRIŽINE 1 21:24
+  (34, 112, 14, 26),  -- POLJIČKA - TRSTENIK 21:26
+  (34, 217, 15, 28),  -- VELEBITSKA - TRSTENIK 21:28
+  (34, 218, 16, 30),  -- BRAČKA - MERTOJAK 21:30
+  (34, 204, 17, 31),  -- ŽNJAN OKRETIŠTE 21:31
+  (34, 205, 18, 32)   -- ŽNJAN 21:32
+;
+
+INSERT INTO route_stations (line_id, station_id, order_number, minutes_from_start)
+VALUES
+  (36, 281,  1,  0),  -- DUILOVO - OKRETIŠTE 20:51
+  (36, 280,  2,  0),  -- DUILOVO - HOTEL ZAGREB 2 20:51
+  (36, 285,  3,  2),  -- PLAŽA DUILOVO 2 20:53
+  (36, 284,  4,  3),  -- PLAŽA ŽNJAN ISTOK 2 20:54
+  (36, 277,  5,  4),  -- PLAŽA ŽNJAN ZAPAD 20:55
+  (36, 206,  6,  6),  -- VELEBITSKA - MERTOJAK 20:57
+  (36, 207,  7,  4),  -- MERTOJAK - AMBULANTA 20:55
+  (36, 208,  8,  6),  -- VELEBITSKA - VISOKA 20:57
+  (36, 174,  9,  7),  -- VUKOVARSKA - VISOKA BELVEDERE 20:58
+  (36, 175, 10,  8),  -- VUKOVARSKA - VISOKA 20:59
+  (36, 261, 11,  9),  -- PUJANKE ŠKOLA 1 21:00
+  (36, 262, 12, 10),  -- PUJANKE - TIJARDOVIĆEVA 1 21:01
+  (36, 227, 13, 11),  -- ZAGORSKI PUT - PUJANKE 3 21:02
+  (36, 102, 14, 13),  -- BRDA 21:04
+  (36, 102, 15, 14),  -- HERCEGOVAČKA - BRDA 21:05
+  (36, 103, 16, 15),  -- HERCEGOVAČKA - GARAŽA PROMET 2 21:06
+  (36, 104, 17, 16),  -- KOPILICA 2 21:07
+  (36, 195, 18, 18),  -- PUT SUPAVLA - BRODARICA 21:09
+  (36, 196, 19, 19),  -- PUT SUPAVLA - ŠKVER 2 21:10
+  (36, 197, 20, 21),  -- PUT SUPAVLA - ŠKVER 4 21:12
+  (36, 198, 21, 21),  -- BAZENI POLJUD 21:12
+  (36, 199, 22, 22),  -- SEDAM KAŠTELA - STADION POLJUD 21:13
+  (36, 200, 23, 24),  -- SEDAM KAŠTELA - POLJUD 21:15
+  (36, 252, 24, 25),  -- BAKOTIĆEVA 1 21:16
+  (36, 253, 25, 26)   -- SPINUT - STUDENTSKI DOM 21:17
+;
+
+
+INSERT INTO route_stations (line_id, station_id, order_number, minutes_from_start)
+VALUES
+  (37, 305,  1,  0),  -- TRSTENIK 2 21:01
+  (37, 306,  2,  0),  -- MOLIŠKIH HRVATA 1 21:01
+  (37, 207,  3,  2),  -- MERTOJAK - AMBULANTA 21:03
+  (37, 247,  4,  4),  -- MATICE HRVATSKE - KAMPUS 2 21:05
+  (37, 248,  5,  6),  -- MATICE HRVATSKE - ĐAČKI DOM 2 21:07
+  (37, 122,  6,  7),  -- BOLNICA KRIŽINE 2 21:08
+  (37, 123,  7,  8),  -- POLJIČKA - BLATINE 21:09
+  (37, 124,  8, 10),  -- BOLNICA FIRULE 2 21:11
+  (37, 125,  9, 12),  -- ZVONIMIROVA 21:13
+  (37, 126, 10, 14),  -- PAZAR 2 21:15
+  (37, 127, 11, 17),  -- OPĆINA 1 21:18
+  (37, 128, 12, 18),  -- DOMOVINSKOG RATA - SUKOIŠAN 1 21:19
+  (37, 250, 13, 20),  -- PARK MLADEŽI 21:21
+  (37, 251, 14, 21),  -- HRVATSKE MORNARICE - TURSKA KULA 21:22
+  (37, 187, 15, 23),  -- ZRINSKO-FRANKOPANSKA - STADION POLJUD 21:24
+  (37, 307, 16, 25),  -- LORA 2 21:26
+  (37, 198, 17, 26),  -- BAZENI POLJUD 21:27
+  (37, 199, 18, 27),  -- SEDAM KAŠTELA - STADION POLJUD 21:28
+  (37, 200, 19, 29),  -- SEDAM KAŠTELA - POLJUD 21:30
+  (37, 252, 20, 30),  -- BAKOTIĆEVA 1 21:31
+  (37, 253, 21, 31)   -- SPINUT - STUDENTSKI DOM 21:32
+;
+
+
+
+INSERT INTO route_stations (line_id, station_id, order_number, minutes_from_start)
+VALUES
+  (38, 338,  1,  0),   -- KLIS 21:40
+  (38, 339,  2,  0),   -- KLIS BRDO 4 21:40
+  (38, 340,  3,  1),   -- KLIS GRLO 2 21:41
+  (38, 341,  4,  3),   -- BELIMOVAČA VODA 1 21:43
+  (38, 334,  5,  5),   -- KLIS MEGDAN 21:45
+  (38, 342,  6,  6),   -- ŠKOLA 2 21:46
+  (38, 343,  7,  7),   -- OKUČA 2 21:47
+  (38, 344,  8,  9),   -- PUT BLACA 2 21:49
+  (38, 345,  9, 11),   -- GORNJA RUPOTINA BAŠIĆI 2 21:51
+  (38, 346, 10, 12),   -- GRGINI 2 21:52
+  (38, 347, 11, 14),   -- CIKALUŠA 2 21:54
+  (38, 348, 12, 16),   -- KOD IGRALIŠTA 2 21:56
+  (38, 298, 13, 17),   -- NINČEVIĆI KRIŽANJE 2 21:57
+  (38, 299, 14, 18),   -- POLJACI 4 21:58
+  (38, 301, 15, 19),   -- POLJACI 2 21:59
+  (38, 8,   16, 20),   -- SOLIN BILANKUŠA 2 22:00
+  (38, 21,  17, 22),   -- SOLIN - KRIŽANJE 2 22:02
+  (38, 9,   18, 23),   -- SOLIN TOMMY 3 22:03
+  (38, 10,  19, 26),   -- SMOKOVIK 2 22:06
+  (38, 234, 20, 28),   -- DOMOVINSKOG RATA - MALL OF SPLIT 22:08
+  (38, 235, 21, 30),   -- DOMOVINSKOG RATA - RAVNE NJIVE 2 22:10
+  (38, 236, 22, 31),   -- DOMOVINSKOG RATA - RAVNE NJIVE 4 22:11
+  (38, 237, 23, 32),   -- DOMOVINSKOG RATA - GARAŽA PROMET 22:12
+  (38, 238, 24, 33),   -- DOMOVINSKOG RATA - KMAN SJEVER 22:13
+  (38, 92,  25, 35),   -- DOMOVINSKOG RATA - BRODARICA 2 22:15
+  (38, 105, 26, 36),   -- DOMOVINSKOG RATA - SUKOIŠAN 2 22:16
+  (38, 28,  27, 36)    -- AUTOBUSNI TERMINAL SUKOIŠAN 22:16
+;
+
+INSERT INTO route_stations (line_id, station_id, order_number, minutes_from_start)
+VALUES
+  (40, 361,  1,  0),   -- STOBREČ CENTAR 21:41
+  (40, 362,  2,  1),   -- STOBREČ KAMP 2 21:42
+  (40, 357,  3,  3),   -- ŠINE 2 21:44
+  (40, 358,  4,  4),   -- SIROBUJA 21:45
+  (40, 371,  5,  7),   -- SIROBUJA - STOBREČKA 2 21:48
+  (40, 309,  6,  8),   -- SIROBUJA - STOBREČKA 4 21:49
+  (40, 94,   7,  9),   -- VUKOVARSKA - CITY CENTER ONE 2 21:50
+  (40, 159,  8, 12),   -- VUKOVARSKA - MEJAŠI 21:53
+  (40, 160,  9, 13),   -- VUKOVARSKA - MALL OF SPLIT 2 21:54
+  (40, 161, 10, 15),   -- VUKOVARSKA - PUJANKE 21:56
+  (40, 215, 11, 17),   -- VELEBITSKA - BELVEDERE 21:58
+  (40, 216, 12, 17),   -- VELEBITSKA - KAMPUS 21:58
+  (40, 120, 13, 18),   -- POLJIČKA - SMRDEČAC 21:59
+  (40, 121, 14, 19),   -- POLJIČKA - SPLIT 3 22:00
+  (40, 122, 15, 21),   -- BOLNICA KRIŽINE 2 22:02
+  (40, 123, 16, 21),   -- POLJIČKA - BLATINE 22:02
+  (40, 124, 17, 22),   -- BOLNICA FIRULE 2 22:03
+  (40, 125, 18, 24),   -- ZVONIMIROVA 22:05
+  (40, 126, 19, 25),   -- PAZAR 2 22:06
+  (40, 127, 20, 27),   -- OPĆINA 1 22:08
+  (40, 28,  21, 29)    -- AUTOBUSNI TERMINAL SUKOIŠAN 22:10
+;
+
+
+INSERT INTO route_stations (line_id, station_id, order_number, minutes_from_start)
+VALUES
+  (42, 381,  1,  0),  -- ŽRNOVNICA OKRETIŠTE 21:07
+  (42, 382,  2,  1),  -- ŽRNOVNICA CRKVA 2 21:08
+  (42, 383,  3,  2),  -- ŽRNOVNICA ALJINOVIĆI 2 21:09
+  (42, 384,  4,  3),  -- ŽRNOVNICA ŠKOLA 2 21:10
+  (42, 385,  5,  4),  -- KOREŠNICA 4 21:11
+  (42, 386,  6,  5),  -- KOREŠNICA 2 21:12
+  (42, 387,  7,  6),  -- KAMENOLOM KRIŽANJE 2 21:13
+  (42, 388,  8,  8),  -- ŽMINJAČA 2 21:15
+  (42, 389,  9, 10),  -- KRIŽANJE ŽRNOVNICA 2 21:17
+  (42, 390, 10, 12),  -- ŽRNOVNICA MOST 21:19
+  (42, 357, 11, 13),  -- ŠINE 2 21:20
+  (42, 358, 12, 14),  -- SIROBUJA 21:21
+  (42, 359, 13, 16),  -- SIROBUJA - NADVOŽNJAK 2 21:23
+  (42, 360, 14, 21),  -- KRALJA DRŽISLAVA - DRAGOVODE 21:28
+  (42, 11,  15, 24),  -- VISOKA - HEP 21:31
+  (42, 120, 16, 25),  -- POLJIČKA - SMRDEČAC 21:32
+  (42, 121, 17, 26),  -- POLJIČKA - SPLIT 3 21:33
+  (42, 122, 18, 28),  -- BOLNICA KRIŽINE 2 21:35
+  (42, 123, 19, 28),  -- POLJIČKA - BLATINE 21:35
+  (42, 124, 20, 30),  -- BOLNICA FIRULE 2 21:37
+  (42, 125, 21, 31),  -- ZVONIMIROVA 21:38
+  (42, 126, 22, 33),  -- PAZAR 2 21:40
+  (42, 127, 23, 35),  -- OPĆINA 1 21:42
+  (42, 28,  24, 37)   -- AUTOBUSNI TERMINAL SUKOIŠAN 21:44
+;
+
+INSERT INTO route_stations (line_id, station_id, order_number, minutes_from_start)
+VALUES
+  (44, 404,  1,  0),   -- KUČINE 21:00
+  (44, 408,  2,  2),   -- KUČINE CENTAR 2 21:02
+  (44, 407,  3,  3),   -- KUČINE KAVA 2 21:03
+  (44, 406,  4,  4),   -- MRAVINCI CENTAR 2 21:04
+  (44, 405,  5,  6),   -- MRAVINAČKI GAJ 2 21:06
+  (44, 409,  6, 11),   -- SOLIN BAŠINI 2 21:11
+  (44, 142,  7, 13),   -- SOLIN TEHNIČKA STANICA 2 21:13
+  (44, 10,   8, 17),   -- SMOKOVIK 2 21:17
+  (44, 234,  9, 19),   -- DOMOVINSKOG RATA - MALL OF SPLIT 21:19
+  (44, 235, 10, 21),   -- DOMOVINSKOG RATA - RAVNE NJIVE 2 21:21
+  (44, 236, 11, 22),   -- DOMOVINSKOG RATA - RAVNE NJIVE 4 21:22
+  (44, 237, 12, 23),   -- DOMOVINSKOG RATA - GARAŽA PROMET 21:23
+  (44, 238, 13, 25),   -- DOMOVINSKOG RATA - KMAN SJEVER 21:25
+  (44, 92,  14, 26),   -- DOMOVINSKOG RATA - BRODARICA 2 21:26
+  (44, 105, 15, 28),   -- DOMOVINSKOG RATA - SUKOIŠAN 2 21:28
+  (44, 28,  16, 28)    -- AUTOBUSNI TERMINAL SUKOIŠAN 21:28
+;
+
+INSERT INTO route_stations (line_id, station_id, order_number, minutes_from_start)
+VALUES
+  (45, 410,  1,  0),   -- KLIS KOSA OKRETIŠTE 21:09
+  (45, 411,  2,  2),   -- KLIS KOSA 2 21:11
+  (45, 412,  3,  2),   -- KLIS KOSA UVODIĆI 4 21:11
+  (45, 413,  4,  4),   -- KLIS KOSA LOKVA 2 21:13
+  (45, 414,  5,  4),   -- KLIS KOSA BUBIĆI 2 21:13
+  (45, 415,  6, 10),   -- MAJDAN RUSKOVI 2 21:19
+  (45, 416,  7, 11),   -- MAJDAN MOST JADRO 2 21:20
+  (45, 417,  8, 12),   -- MAJDAN 2 21:21
+  (45, 420,  9, 15),   -- SOLIN POZIRALE 2 21:24
+  (45, 7,   10, 17),   -- SOLIN BILANKUŠA 2 21:26
+  (45, 8,   11, 18),   -- SOLIN - KRIŽANJE 2 21:27
+  (45, 85,  12, 20),   -- METERIZE 2 21:29
+  (45, 87,  13, 22),   -- DUJMOVAČA 2 21:31
+  (45, 89,  14, 25),   -- SOLINSKA - SJEVERNA LUKA 2 21:34
+  (45, 103, 15, 27),   -- HERCEGOVAČKA - GARAŽA PROMET 2 21:36
+  (45, 104, 16, 28),   -- KOPILICA 2 21:37
+  (45, 92,  17, 31),   -- DOMOVINSKOG RATA - BRODARICA 2 21:40
+  (45, 105, 18, 32),   -- DOMOVINSKOG RATA - SUKOIŠAN 2 21:41
+  (45, 28,  19, 32)    -- AUTOBUSNI TERMINAL SUKOIŠAN 21:41
+;
+
+INSERT INTO route_stations (line_id, station_id, order_number, minutes_from_start)
+VALUES -- neradi na mapi ruta a/b
+  (46, 445,  1,  0),   -- KOLODVOR TROGIR 21:01
+  (46, 442,  2,  1),   -- NASELJE TROGIR 2 21:02
+  (46, 441,  3,  2),   -- BRIGI 2 21:03
+  (46, 440,  4,  4),   -- PANTANA 2 21:05
+  (46, 439,  5,  5),   -- DIVULJE 2 21:06
+  (46, 54,   6,  6),   -- ZRAČNA LUKA 2 21:07
+  (46, 55,   7,  8),   -- RESNIK 2 21:09
+  (46, 56,   8,  9),   -- KAŠTEL ŠTAFILIĆ - KOLUDROVAC 2 21:10
+  (46, 438,  9, 11),   -- KAŠTEL ŠTAFILIĆ - NEHAJ 2 21:12
+  (46, 437, 10, 12),   -- KAŠTEL ŠTAFILIĆ 2 21:13
+  (46, 58,  11, 13),   -- KAŠTEL NOVI 2 21:14
+  (46, 436, 12, 13),   -- KAŠTEL STARI - CENTAR 2 21:14
+  (46, 434, 13, 14),   -- KAŠTEL STARI - ŠKOLA 2 21:15
+  (46, 435, 14, 15),   -- KAŠTEL STARI - PALACE 2 21:16
+  (46, 60,  15, 17),   -- KAŠTEL LUKŠIĆ 2 21:18
+  (46, 433, 16, 18),   -- KAŠTEL KAMBELOVAC - SIBOVICA 2 21:19
+  (46, 432, 17, 19),   -- KAŠTEL KAMBELOVAC - BALETNA 2 21:20
+  (46, 431, 18, 20),   -- KAŠTEL KAMBELOVAC 4 21:21
+  (46, 430, 19, 22),   -- KAŠTEL GOMILICA - ŠKOLA 2 21:23
+  (46, 455,  20, 22),   -- KAŠTEL GOMILICA 2 21:23
+  (46, 429, 21, 24),   -- KAŠTEL GOMILICA - MARINA 2 21:25
+  (46, 428, 22, 25),   -- KAŠTEL SUĆURAC - PUT KOZJAKA 2 21:26
+  (46, 71,  23, 27),   -- KAŠTEL SUĆURAC - GRADSKA UPRAVA 21:28
+  (46, 72,  24, 28),   -- KAŠTEL SUĆURAC - CENTAR 2 21:29
+  (46, 74,  25, 30),   -- KAŠTEL SUĆURAC - LUČICA 2 21:31
+  (46, 76,  26, 31),   -- SVETI JURAJ 2 21:32
+  (46, 77,  27, 33),   -- BRIŽINE 2 21:34
+  (46, 79,  28, 35),   -- SVETI KAJO 2 21:36
+  (46, 81,  29, 35),   -- SOLIN AMFITEATAR 2 21:36
+  (46, 83,  30, 38),   -- SOLIN - ŠIRINA 2 21:39
+  (46, 85,  31, 39),   -- METERIZE 2 21:40
+  (46, 87,  32, 40),   -- DUJMOVAČA 2 21:41
+  (46, 89,  33, 43),   -- SOLINSKA - SJEVERNA LUKA 2 21:44
+  (46, 103, 34, 45),   -- HERCEGOVAČKA - GARAŽA PROMET 2 21:46
+  (46, 104, 35, 45),   -- KOPILICA 2 21:46
+  (46, 92,  36, 47),   -- DOMOVINSKOG RATA - BRODARICA 2 21:48
+  (46, 105, 37, 48),   -- DOMOVINSKOG RATA - SUKOIŠAN 2 21:49
+  (46, 28,  38, 48)    -- AUTOBUSNI TERMINAL SUKOIŠAN 21:49
 ;
