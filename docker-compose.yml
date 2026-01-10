@@ -8,6 +8,7 @@ services:
       POSTGRES_USER: bususer
       POSTGRES_PASSWORD: bus
       POSTGRES_DB: bus_tracker
+      TZ: Europe/Zagreb
     ports:
       - "5432:5432"
     volumes:
@@ -27,6 +28,7 @@ services:
       db:
         condition: service_healthy
     environment:
+      TZ: Europe/Zagreb
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/bus_tracker
       SPRING_DATASOURCE_USERNAME: bususer
       SPRING_DATASOURCE_PASSWORD: bus
@@ -39,6 +41,7 @@ services:
     image: dpage/pgadmin4
     container_name: pgadmin
     environment:
+      TZ: Europe/Zagreb
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:

@@ -66,19 +66,18 @@ public class TimetableController {
     }
 
 
-    @GetMapping("/schedule/{scheduleId}")
-    public String scheduleDetails(@PathVariable Long scheduleId, Model model) {
+        @GetMapping("/schedule/{scheduleId}")
+        public String scheduleDetails(@PathVariable Long scheduleId, Model model) {
+            ScheduleEntity schedule = scheduleService.getById(scheduleId);
 
-        ScheduleEntity schedule = scheduleService.getById(scheduleId);
+            model.addAttribute("schedule", schedule);
+            model.addAttribute("stops", scheduleStopService.getStopsForSchedule(scheduleId));
 
-        model.addAttribute("schedule", schedule);
-        model.addAttribute(
-                "stops",
-                scheduleStopService.getStopsForSchedule(scheduleId)
-        );
+            return "timetable_schedule";
+        }
 
-        return "timetable_schedule";
-    }
+
+
 
     private String currentUserEmail() {
         return SecurityContextHolder
@@ -86,7 +85,4 @@ public class TimetableController {
                 .getAuthentication()
                 .getName();
     }
-
-
-
 }
