@@ -1,5 +1,6 @@
 package com.bus.bus_tracker.controller;
 
+import com.bus.bus_tracker.dto.SalesPointRequestDto;
 import com.bus.bus_tracker.service.SalesPointService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,14 +21,11 @@ public class SalesPointController {
     }
 
     @PostMapping
-    public String create(@RequestParam String name,
-                         @RequestParam(required = false) String address,
-                         @RequestParam Double gpsLat,
-                         @RequestParam Double gpsLng) {
-
-        service.create(name, address, gpsLat, gpsLng);
+    public String create(@ModelAttribute SalesPointRequestDto dto) {
+        service.create(dto);
         return "redirect:/admin/sales-points";
     }
+
 
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable Long id) {

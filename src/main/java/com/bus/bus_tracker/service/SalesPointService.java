@@ -1,5 +1,6 @@
 package com.bus.bus_tracker.service;
 
+import com.bus.bus_tracker.dto.SalesPointRequestDto;
 import com.bus.bus_tracker.entity.SalesPointEntity;
 import com.bus.bus_tracker.repository.SalesPointRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,16 +18,12 @@ public class SalesPointService {
         return repo.findAll();
     }
 
-    public SalesPointEntity create(String name,
-                                   String address,
-                                   Double gpsLat,
-                                   Double gpsLng) {
-
+    public SalesPointEntity create(SalesPointRequestDto dto) {
         SalesPointEntity sp = new SalesPointEntity();
-        sp.setName(name);
-        sp.setAddress(address);
-        sp.setGpsLat(gpsLat);
-        sp.setGpsLng(gpsLng);
+        sp.setName(dto.getName());
+        sp.setAddress(dto.getAddress());
+        sp.setGpsLat(dto.getGpsLat());
+        sp.setGpsLng(dto.getGpsLng());
 
         return repo.save(sp);
     }
