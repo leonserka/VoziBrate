@@ -3,7 +3,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
 }).addTo(map);
 
-const MOVE_THRESHOLD_METERS = 25;
+const MOVE_THRESHOLD_METERS = 5;
 const MOVING_HOLD_MS = 60000;
 
 var markers = {};
@@ -11,6 +11,7 @@ var markers = {};
 let activeRouteLayer = null;
 let activeStopMarkers = [];
 let lastClickedLineNum = null;
+let activeBusId = null;
 
 const lastVariantByLine = {};
 const HYSTERESIS_METERS = 120;
@@ -19,6 +20,7 @@ let activeRouteStops = null;
 let activeRouteLine = null;
 
 const MAX_DIST_TO_ROUTE_METERS = 250;
+
 function clearRoute() {
     if (activeRouteLayer) {
         map.removeLayer(activeRouteLayer);
@@ -31,23 +33,9 @@ function clearRoute() {
     activeRouteLine = null;
 }
 
-function findMarkerByLineNum(lineNum) {
-    lineNum = String(lineNum).trim();
-
-    for (const key in markers) {
-        const m = markers[key];
-        const el = m.getElement();
-        if (!el) continue;
-        const div = el.querySelector('.bus-marker');
-        if (!div) continue;
-
-        const text = (div.firstChild && div.firstChild.nodeType === Node.TEXT_NODE)
-            ? div.firstChild.textContent.trim()
-            : div.textContent.trim();
-
-        if (String(text).trim() === lineNum) return m;
-    }
-    return null;
+function angleDiff(a, b) {
+    let d = Math.abs(a - b) % 360;
+    return d > 180 ? 360 - d : d;
 }
 
 function findNearestStopIndex(stopsOrdered, busLatLng) {
@@ -87,7 +75,6 @@ function setMarkerHeading(marker, bearingDeg) {
     arrow.style.transform = `rotate(${bearingDeg}deg)`;
 }
 
-
 function lockPopupInnerScroll(popup) {
     if (!popup) return;
     const el = popup.getElement();
@@ -103,6 +90,7 @@ function lockPopupInnerScroll(popup) {
 
 function buildPopupContent(lineNum, lineName, gbr, reg) {
     const safeLine = String(lineNum ?? "").trim();
+    const safeId = String(gbr).trim();
 
     return `
         <div class="popup-center">
@@ -112,11 +100,11 @@ function buildPopupContent(lineNum, lineName, gbr, reg) {
             <b>Garažni br:</b> ${gbr ?? ""}<br>
             <b>Tablica:</b> ${reg ?? ""}<br><br>
 
-            <button class="popup-btn" onclick="showRouteAuto('${safeLine}')">🗺 View route</button>
+            <button class="popup-btn" onclick="showRouteAuto('${safeId}', '${safeLine}')">🗺 View route</button>
 
             <details class="route-details" open>
                 <summary>🕒 Kad je na kojoj stanici</summary>
-                <div id="route-info-${safeLine}" class="route-info">
+                <div id="route-info-${safeId}" class="route-info">
                     Klikni <b>View route</b> da se učita ruta.
                 </div>
             </details>
@@ -221,8 +209,8 @@ function formatHHMM(dateObj) {
     return `${pad2(dateObj.getHours())}:${pad2(dateObj.getMinutes())}`;
 }
 
-function renderRouteInfo(orderedStops, lineNum, nearestIdx, etaBase) {
-    const box = document.getElementById(`route-info-${String(lineNum).trim()}`);
+function renderRouteInfo(orderedStops, busId, nearestIdx, etaBase) {
+    const box = document.getElementById(`route-info-${String(busId).trim()}`);
     if (!box) return;
 
     if (!orderedStops || !orderedStops.length) {
@@ -279,14 +267,14 @@ function renderRouteOnMap(orderedStops, lineNum) {
 }
 
 function refreshActiveRouteProgress() {
-    if (!activeRouteStops || !activeRouteLine) return;
+    if (!activeRouteStops || !activeRouteLine || !activeBusId) return;
 
     const lineNum = activeRouteLine;
 
     activeStopMarkers.forEach(m => map.removeLayer(m));
     activeStopMarkers = [];
 
-    const busMarker = findMarkerByLineNum(lineNum);
+    const busMarker = markers[activeBusId];
 
     let nearestIdx = -1;
     let etaBase = null;
@@ -304,7 +292,7 @@ function refreshActiveRouteProgress() {
         }
     }
 
-    renderRouteInfo(activeRouteStops, lineNum, nearestIdx, etaBase);
+    renderRouteInfo(activeRouteStops, activeBusId, nearestIdx, etaBase);
 
     activeRouteStops.forEach((s, i) => {
         if (s.lat == null || s.lng == null) return;
@@ -328,12 +316,14 @@ function refreshActiveRouteProgress() {
     });
 }
 
-window.showRoute = async function (lineNum, variant = "A") {
+window.showRoute = async function (busId, lineNum, variant = "A") {
     try {
         lineNum = String(lineNum).trim();
+        busId = String(busId).trim();
         variant = (variant === "B") ? "B" : "A";
 
         lastClickedLineNum = lineNum;
+        activeBusId = busId;
 
         const orderedStops = await fetchStops(lineNum, variant);
         if (!orderedStops.length) {
@@ -349,14 +339,17 @@ window.showRoute = async function (lineNum, variant = "A") {
     }
 };
 
-window.showRouteAuto = async function (lineNum) {
+window.showRouteAuto = async function (busId, lineNum) {
     try {
         lineNum = String(lineNum).trim();
-        lastClickedLineNum = lineNum;
+        busId = String(busId).trim();
 
-        const busMarker = findMarkerByLineNum(lineNum);
+        lastClickedLineNum = lineNum;
+        activeBusId = busId;
+
+        const busMarker = markers[busId];
         if (!busMarker) {
-            return window.showRoute(lineNum, "A");
+            return window.showRoute(busId, lineNum, "A");
         }
 
         const busLatLng = busMarker.getLatLng();
@@ -369,20 +362,44 @@ window.showRouteAuto = async function (lineNum) {
         const aStops = (results[0].status === "fulfilled") ? results[0].value : [];
         const bStops = (results[1].status === "fulfilled") ? results[1].value : [];
 
-        if (!bStops.length && aStops.length) return window.showRoute(lineNum, "A");
-        if (!aStops.length && bStops.length) return window.showRoute(lineNum, "B");
+        if (!bStops.length && aStops.length) return window.showRoute(busId, lineNum, "A");
+        if (!aStops.length && bStops.length) return window.showRoute(busId, lineNum, "B");
         if (!aStops.length && !bStops.length) {
             alert("Nema rute za liniju " + lineNum);
             return;
         }
 
-        const dA = minDistanceToStopsMeters(aStops, busLatLng);
-        const dB = minDistanceToStopsMeters(bStops, busLatLng);
+        const progA = estimateProgressMinutesFromStart(aStops, busLatLng);
+        const progB = estimateProgressMinutesFromStart(bStops, busLatLng);
 
-        let chosen = (dA <= dB) ? "A" : "B";
+        const distA = progA ? progA.distMeters : minDistanceToStopsMeters(aStops, busLatLng);
+        const distB = progB ? progB.distMeters : minDistanceToStopsMeters(bStops, busLatLng);
+
+        let scoreA = distA;
+        let scoreB = distB;
+
+        if (busMarker && typeof busMarker._heading === 'number' && busMarker._heading !== null) {
+            const busHeading = busMarker._heading;
+
+            if (progA && aStops[progA.segIdx] && aStops[progA.segIdx + 1]) {
+                const bearingA = calculateBearing(aStops[progA.segIdx], aStops[progA.segIdx + 1]);
+                const diffA = angleDiff(busHeading, bearingA);
+                if (diffA > 90) scoreA += 1000;
+                else scoreA += diffA;
+            }
+
+            if (progB && bStops[progB.segIdx] && bStops[progB.segIdx + 1]) {
+                const bearingB = calculateBearing(bStops[progB.segIdx], bStops[progB.segIdx + 1]);
+                const diffB = angleDiff(busHeading, bearingB);
+                if (diffB > 90) scoreB += 1000;
+                else scoreB += diffB;
+            }
+        }
+
+        let chosen = (scoreA <= scoreB) ? "A" : "B";
 
         const prev = lastVariantByLine[lineNum];
-        if (prev && Math.abs(dA - dB) < HYSTERESIS_METERS) {
+        if (prev && Math.abs(scoreA - scoreB) < HYSTERESIS_METERS) {
             chosen = prev;
         }
 
@@ -451,7 +468,7 @@ function updateBuses() {
                         marker._isMoving = isActive;
                         updateMarkerStyle(marker, displayText, isActive);
 
-                        if (marker._heading !== undefined) {
+                        if (marker._heading !== undefined && marker._heading !== null) {
                             setMarkerHeading(marker, marker._heading);
                         }
                     } else {
@@ -475,7 +492,7 @@ function updateBuses() {
                     const marker = L.marker(newLatLng, { icon }).addTo(map);
                     marker.lastMoveTime = now;
                     marker._isMoving = true;
-                    marker._heading = 0;
+                    marker._heading = null;
 
                     marker.bindPopup(buildPopupContent(routeKey, lineName, id, reg));
 
@@ -484,7 +501,6 @@ function updateBuses() {
                     });
 
                     markers[id] = marker;
-                    setTimeout(() => setMarkerHeading(marker, 0), 0);
                 }
             });
 
