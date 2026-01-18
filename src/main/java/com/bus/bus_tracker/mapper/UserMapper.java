@@ -11,7 +11,6 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "role", constant = "user")
     @Mapping(target = "password", ignore = true)
-    @Mapping(target = "tickets", ignore = true)
     @Mapping(target = "favorites", ignore = true)
     @Mapping(target = "email", source = "email")
     public UserEntity toEntity(UserRegisterDto dto);

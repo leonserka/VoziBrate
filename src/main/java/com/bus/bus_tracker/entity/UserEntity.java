@@ -24,9 +24,6 @@ public class UserEntity {
     private String role = "user";
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<TicketEntity> tickets;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<FavoriteEntity> favorites;
 
     public Long getId() { return id; }
@@ -39,7 +36,6 @@ public class UserEntity {
 
     public String getRole() { return role; }
 
-    public List<TicketEntity> getTickets() { return tickets; }
 
     public List<FavoriteEntity> getFavorites() { return favorites; }
 
@@ -50,8 +46,6 @@ public class UserEntity {
     public void setPassword(String password) { this.password = password; }
 
     public void setRole(String role) { this.role = role; }
-
-    public void setTickets(List<TicketEntity> tickets) { this.tickets = tickets; }
 
     public void setFavorites(List<FavoriteEntity> favorites) { this.favorites = favorites; }
 }
