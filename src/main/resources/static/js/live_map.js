@@ -21,7 +21,6 @@ let activeRouteLine = null;
 
 const MAX_DIST_TO_ROUTE_METERS = 250;
 
-// NEW: schedule-aware stop times
 let activeScheduleStops = null;
 let activeScheduleId = null;
 
@@ -36,7 +35,6 @@ function clearRoute() {
     activeRouteStops = null;
     activeRouteLine = null;
 
-    // NEW
     activeScheduleStops = null;
     activeScheduleId = null;
 }
@@ -102,18 +100,18 @@ function buildPopupContent(lineNum, lineName, gbr, reg) {
 
     return `
         <div class="popup-center">
-            <h3 class="popup-title">Linija ${safeLine}</h3>
+            <h3 class="popup-title">Line ${safeLine}</h3>
             <small>${lineName ?? ""}</small><br>
             <hr class="popup-hr">
-            <b>Garažni br:</b> ${gbr ?? ""}<br>
-            <b>Tablica:</b> ${reg ?? ""}<br><br>
+            <b>Garage number:</b> ${gbr ?? ""}<br>
+            <b>Registration:</b> ${reg ?? ""}<br><br>
 
             <button class="popup-btn" onclick="showRouteAuto('${safeId}', '${safeLine}')">🗺 View route</button>
 
             <details class="route-details" open>
-                <summary>🕒 Kad je na kojoj stanici</summary>
+                <summary>🕒 When is bus on each station</summary>
                 <div id="route-info-${safeId}" class="route-info">
-                    Klikni <b>View route</b> da se učita ruta.
+                    Click <b>View route</b> to see route info.
                 </div>
             </details>
         </div>
@@ -136,15 +134,22 @@ async function fetchStops(lineNum, variant) {
     }
 }
 
-// NEW: fetch best schedule for this bus (based on progressMin)
 async function fetchActiveScheduleId(lineNum, variant, progressMin) {
     try {
-        const safeLine = encodeURIComponent(String(lineNum).trim());
-        const safeVar = encodeURIComponent(String(variant).trim());
-        const safeProg = encodeURIComponent(String(progressMin));
+        const res = await fetch(`/api/live/active-schedule`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                lineNumber: String(lineNum).trim(),
+                variant: String(variant).trim(),
+                progressMin: Number(progressMin)
+            })
+        });
 
-        const res = await fetch(`/api/live/active-schedule?lineNumber=${safeLine}&variant=${safeVar}&progressMin=${safeProg}`);
-        if (!res.ok) return null;
+        if (!res.ok) {
+            console.warn("active-schedule not ok:", res.status);
+            return null;
+        }
 
         const data = await res.json();
         return data?.scheduleId ?? null;
@@ -154,7 +159,7 @@ async function fetchActiveScheduleId(lineNum, variant, progressMin) {
     }
 }
 
-// NEW: fetch schedule stop-times (exact times per stop for that departure)
+
 async function fetchScheduleStops(scheduleId) {
     try {
         const res = await fetch(`/api/live/schedules/${encodeURIComponent(String(scheduleId))}/stops`);
@@ -169,7 +174,7 @@ async function fetchScheduleStops(scheduleId) {
 
 function toHHMM(timeStr) {
     if (!timeStr) return null;
-    return String(timeStr).slice(0, 5); // "16:06:00" -> "16:06"
+    return String(timeStr).slice(0, 5);
 }
 
 function minDistanceToStopsMeters(stopsOrdered, busLatLng) {
@@ -253,7 +258,6 @@ function formatHHMM(dateObj) {
     return `${pad2(dateObj.getHours())}:${pad2(dateObj.getMinutes())}`;
 }
 
-// UPDATED: now can render exact schedule times if provided
 function renderRouteInfo(orderedStops, busId, nearestIdx, etaBase, scheduleStops) {
     const box = document.getElementById(`route-info-${String(busId).trim()}`);
     if (!box) return;
@@ -278,7 +282,6 @@ function renderRouteInfo(orderedStops, busId, nearestIdx, etaBase, scheduleStops
 
         let timeTxt = `<span class="route-stop-time route-stop-time-empty">--:--</span>`;
 
-        // 1) schedule time (exact)
         const sid = (s.stationId != null) ? String(s.stationId) : null;
         const ss = sid ? timeByStationId[sid] : null;
 
@@ -287,7 +290,6 @@ function renderRouteInfo(orderedStops, busId, nearestIdx, etaBase, scheduleStops
             const nd = ss.nextDay ? " (+1)" : "";
             timeTxt = `<span class="route-stop-time">${hhmm}${nd}</span>`;
         }
-        // 2) fallback to old ETA calculation if schedule not loaded
         else {
             const mm = Number(s.minutesFromStart);
             if (etaBase && Number.isFinite(mm)) {
@@ -347,7 +349,6 @@ function refreshActiveRouteProgress() {
 
         if (prog && prog.distMeters <= MAX_DIST_TO_ROUTE_METERS) {
             nearestIdx = prog.segIdx;
-            // OLD etaBase still computed for fallback view if schedule not loaded
             etaBase = new Date(Date.now() - prog.progressMin * 60000);
         } else {
             nearestIdx = findNearestStopIndex(activeRouteStops, busLatLng);
@@ -355,7 +356,6 @@ function refreshActiveRouteProgress() {
         }
     }
 
-    // UPDATED: include schedule stops for exact times
     renderRouteInfo(activeRouteStops, activeBusId, nearestIdx, etaBase, activeScheduleStops);
 
     activeRouteStops.forEach((s, i) => {
@@ -389,13 +389,12 @@ window.showRoute = async function (busId, lineNum, variant = "A") {
         lastClickedLineNum = lineNum;
         activeBusId = busId;
 
-        // NEW: reset schedule because variant might be forced manually
         activeScheduleStops = null;
         activeScheduleId = null;
 
         const orderedStops = await fetchStops(lineNum, variant);
         if (!orderedStops.length) {
-            alert(`Nema rute ${variant} za liniju ${lineNum}`);
+            alert(`No route ${variant} for line ${lineNum}`);
             return;
         }
 
@@ -403,7 +402,7 @@ window.showRoute = async function (busId, lineNum, variant = "A") {
         renderRouteOnMap(orderedStops, lineNum);
     } catch (e) {
         console.error(e);
-        alert("Greška kod prikaza rute.");
+        alert("Error displaying the route.");
     }
 };
 
@@ -433,7 +432,7 @@ window.showRouteAuto = async function (busId, lineNum) {
         if (!bStops.length && aStops.length) return window.showRoute(busId, lineNum, "A");
         if (!aStops.length && bStops.length) return window.showRoute(busId, lineNum, "B");
         if (!aStops.length && !bStops.length) {
-            alert("Nema rute za liniju " + lineNum);
+            alert("No route for this line " + lineNum);
             return;
         }
 
@@ -475,10 +474,8 @@ window.showRouteAuto = async function (busId, lineNum) {
 
         const chosenStops = (chosen === "A") ? aStops : bStops;
 
-        // 1) render route
         renderRouteOnMap(chosenStops, lineNum);
 
-        // 2) NEW: schedule-aware times (pick best schedule for this bus+variant)
         activeScheduleStops = null;
         activeScheduleId = null;
 
@@ -488,14 +485,13 @@ window.showRouteAuto = async function (busId, lineNum) {
             if (scheduleId) {
                 activeScheduleId = scheduleId;
                 activeScheduleStops = await fetchScheduleStops(scheduleId);
-                // refresh popup list immediately
                 refreshActiveRouteProgress();
             }
         }
 
     } catch (e) {
         console.error(e);
-        alert("Greška kod AUTO rute.");
+        alert("Error with AUTO route.");
     }
 };
 

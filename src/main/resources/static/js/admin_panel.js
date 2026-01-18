@@ -5,10 +5,10 @@
   if (!btn || !status) return;
 
   btn.addEventListener("click", async () => {
-    if (!confirm("Ovo će obrisati i ponovno generirati schedule_stops za sve schedules. Nastaviti?")) return;
+    if (!confirm("This will delete and regenerate schedule_stops for all schedules. Continue?")) return;
 
     btn.disabled = true;
-    status.textContent = "⏳ regeneriram...";
+    status.textContent = "  restoring...";
 
     try {
       const res = await fetch("/admin/schedules/regenerate-stops", {

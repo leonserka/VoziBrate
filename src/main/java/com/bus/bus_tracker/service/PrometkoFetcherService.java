@@ -79,16 +79,16 @@ public class PrometkoFetcherService {
                     count++;
                 }
             }
-            System.out.println("✅ Uspješno dohvaćeno " + count + " buseva sa Prometko API-ja!");
+            System.out.println("Successfully fetched " + count + " buses from the Prometko API!");
 
         } catch (Exception e) {
-            System.err.println("❌ Greška u fetcheru: " + e.getMessage());
+            System.err.println(" Error in fetch: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     private BusEntity createNewBus(String garageNumber) {
-        System.out.println("⚠️ Novi bus detektiran: " + garageNumber);
+        System.out.println("New bus detected: " + garageNumber);
         BusEntity newBus = new BusEntity();
         newBus.setBusNumber(garageNumber);
         newBus.setRegistration("NEPOZNATO");

@@ -60,7 +60,6 @@
     return n;
   }
 
-  // === geometry helpers (same base as before) ===
   function metersPerDegLat() { return 111320; }
   function metersPerDegLng(lat) { return 111320 * Math.cos(lat * Math.PI / 180); }
 
@@ -68,7 +67,6 @@
     return { x: lng * metersPerDegLng(refLat), y: lat * metersPerDegLat() };
   }
 
-  // UPDATED: return both dist AND t so we can interpolate time/progress
   function pointToSegmentDistAndT(pLat, pLng, aLat, aLng, bLat, bLng) {
     const refLat = (aLat + bLat) / 2;
 
@@ -95,7 +93,6 @@
     return { distMeters: Math.sqrt(dx * dx + dy * dy), t };
   }
 
-  // Keep bestSegmentIndex for marking passed/next (segIdx)
   function bestSegmentIndex(rows, busLat, busLng) {
     let bestIdx = -1;
     let bestDist = Infinity;
@@ -117,7 +114,6 @@
     return { idx: bestIdx, dist: bestDist };
   }
 
-  // NEW: compute "progress minutes since departure" by interpolating between stop times
   function progressMinFromRows(rows, busLat, busLng, depMinAdjusted) {
     if (!rows || rows.length < 2) return null;
 
@@ -138,7 +134,7 @@
 
     if (best.idx < 0) return null;
 
-    const aStop = stopTimeToMin(rows[best.idx]);       // already adjusted by nextday
+    const aStop = stopTimeToMin(rows[best.idx]);
     const bStop = stopTimeToMin(rows[best.idx + 1]);
     if (!Number.isFinite(aStop) || !Number.isFinite(bStop)) return null;
 
@@ -194,9 +190,9 @@
       return;
     }
 
-    // NEW: elapsed minutes since this schedule's departure (adjusted for next-day)
+
     const depMin = parseHHMMToMin(depTime);
-    const depMinAdjusted = (!arrivalNextDay) ? depMin : depMin; // dep is always on scheduleDay "base"
+    const depMinAdjusted = (!arrivalNextDay) ? depMin : depMin;
     const elapsedMin = nowMinAdjustedForSchedule() - depMinAdjusted;
 
     if (!Number.isFinite(elapsedMin) || elapsedMin < -10) {
@@ -215,7 +211,6 @@
       return;
     }
 
-    // UPDATED: accept candidates either by routeShortName OR by bus.line.lineNumber (like live map)
     const candidates = (positions || []).filter(p => {
       const rsn = String(p?.routeShortName ?? "").trim();
       const ln = String(p?.bus?.line?.lineNumber ?? "").trim();
@@ -230,9 +225,8 @@
     }
 
     const MAX_DIST_METERS = 250;
-    const MAX_TIME_DIFF_MIN = 45; // tolerancija kašnjenja/žurbe; po potrebi smanji/povećaj
+    const MAX_TIME_DIFF_MIN = 45;
 
-    // If locked, try keep it (BUT validate by timeDiff rather than expIdx)
     if (lockedBusId != null) {
       const locked = candidates.find(p => p?.bus?.id === lockedBusId);
       if (locked) {
@@ -248,7 +242,6 @@
       lockedBusId = null;
     }
 
-    // Choose best bus for THIS schedule by minimizing |progressMin - elapsedMin|
     let best = null;
     let bestScore = Infinity;
 
@@ -260,7 +253,7 @@
       const timeDiff = Math.abs(pr.progressMin - elapsedMin);
       if (timeDiff > MAX_TIME_DIFF_MIN) continue;
 
-      const score = timeDiff * 1000 + pr.distMeters; // primarno vrijeme, sekundarno udaljenost
+      const score = timeDiff * 1000 + pr.distMeters;
       if (score < bestScore) {
         bestScore = score;
         best = { bus: p, segIdx: pr.segIdx };

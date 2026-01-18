@@ -17,6 +17,6 @@ public class BusPositionCleanupService {
     public void cleanupOldPositions() {
         LocalDateTime cutoff = LocalDateTime.now().minusHours(2);
         int deleted = positionRepository.deleteOlderThan(cutoff);
-        System.out.println("🧹 Cleanup: obrisano " + deleted + " pozicija starijih od 2h");
+        System.out.println(" Cleanup: deleted " + deleted + " positions older then 2h");
     }
 }
