@@ -1,7 +1,6 @@
 package com.bus.bus_tracker.controller;
 
 import com.bus.bus_tracker.dto.BusRequestDto;
-import com.bus.bus_tracker.dto.BusResponseDto;
 import com.bus.bus_tracker.service.BusService;
 import com.bus.bus_tracker.service.LineService;
 import lombok.RequiredArgsConstructor;

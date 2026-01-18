@@ -21,6 +21,10 @@ let activeRouteLine = null;
 
 const MAX_DIST_TO_ROUTE_METERS = 250;
 
+// NEW: schedule-aware stop times
+let activeScheduleStops = null;
+let activeScheduleId = null;
+
 function clearRoute() {
     if (activeRouteLayer) {
         map.removeLayer(activeRouteLayer);
@@ -31,6 +35,10 @@ function clearRoute() {
 
     activeRouteStops = null;
     activeRouteLine = null;
+
+    // NEW
+    activeScheduleStops = null;
+    activeScheduleId = null;
 }
 
 function angleDiff(a, b) {
@@ -128,6 +136,42 @@ async function fetchStops(lineNum, variant) {
     }
 }
 
+// NEW: fetch best schedule for this bus (based on progressMin)
+async function fetchActiveScheduleId(lineNum, variant, progressMin) {
+    try {
+        const safeLine = encodeURIComponent(String(lineNum).trim());
+        const safeVar = encodeURIComponent(String(variant).trim());
+        const safeProg = encodeURIComponent(String(progressMin));
+
+        const res = await fetch(`/api/live/active-schedule?lineNumber=${safeLine}&variant=${safeVar}&progressMin=${safeProg}`);
+        if (!res.ok) return null;
+
+        const data = await res.json();
+        return data?.scheduleId ?? null;
+    } catch (e) {
+        console.warn("fetchActiveScheduleId failed:", e);
+        return null;
+    }
+}
+
+// NEW: fetch schedule stop-times (exact times per stop for that departure)
+async function fetchScheduleStops(scheduleId) {
+    try {
+        const res = await fetch(`/api/live/schedules/${encodeURIComponent(String(scheduleId))}/stops`);
+        if (!res.ok) return [];
+        const stops = await res.json();
+        return (stops ?? []).slice().sort((a, b) => (a.stopSequence ?? 0) - (b.stopSequence ?? 0));
+    } catch (e) {
+        console.warn("fetchScheduleStops failed:", e);
+        return [];
+    }
+}
+
+function toHHMM(timeStr) {
+    if (!timeStr) return null;
+    return String(timeStr).slice(0, 5); // "16:06:00" -> "16:06"
+}
+
 function minDistanceToStopsMeters(stopsOrdered, busLatLng) {
     let best = Infinity;
     for (const s of stopsOrdered) {
@@ -209,13 +253,21 @@ function formatHHMM(dateObj) {
     return `${pad2(dateObj.getHours())}:${pad2(dateObj.getMinutes())}`;
 }
 
-function renderRouteInfo(orderedStops, busId, nearestIdx, etaBase) {
+// UPDATED: now can render exact schedule times if provided
+function renderRouteInfo(orderedStops, busId, nearestIdx, etaBase, scheduleStops) {
     const box = document.getElementById(`route-info-${String(busId).trim()}`);
     if (!box) return;
 
     if (!orderedStops || !orderedStops.length) {
         box.innerHTML = `<div class="route-info-empty">Nema stanica za rutu.</div>`;
         return;
+    }
+
+    const timeByStationId = {};
+    if (Array.isArray(scheduleStops)) {
+        scheduleStops.forEach(ss => {
+            if (ss && ss.stationId != null) timeByStationId[String(ss.stationId)] = ss;
+        });
     }
 
     box.innerHTML = orderedStops.map((s, i) => {
@@ -225,11 +277,23 @@ function renderRouteInfo(orderedStops, busId, nearestIdx, etaBase) {
         const cls = isNext ? "next" : (isPassed ? "passed" : "future");
 
         let timeTxt = `<span class="route-stop-time route-stop-time-empty">--:--</span>`;
-        const mm = Number(s.minutesFromStart);
 
-        if (etaBase && Number.isFinite(mm)) {
-            const eta = new Date(etaBase.getTime() + mm * 60000);
-            timeTxt = `<span class="route-stop-time">${formatHHMM(eta)}</span>`;
+        // 1) schedule time (exact)
+        const sid = (s.stationId != null) ? String(s.stationId) : null;
+        const ss = sid ? timeByStationId[sid] : null;
+
+        if (ss && ss.time) {
+            const hhmm = toHHMM(ss.time) ?? "--:--";
+            const nd = ss.nextDay ? " (+1)" : "";
+            timeTxt = `<span class="route-stop-time">${hhmm}${nd}</span>`;
+        }
+        // 2) fallback to old ETA calculation if schedule not loaded
+        else {
+            const mm = Number(s.minutesFromStart);
+            if (etaBase && Number.isFinite(mm)) {
+                const eta = new Date(etaBase.getTime() + mm * 60000);
+                timeTxt = `<span class="route-stop-time">${formatHHMM(eta)}</span>`;
+            }
         }
 
         const name = s.name ?? "Stanica";
@@ -269,8 +333,6 @@ function renderRouteOnMap(orderedStops, lineNum) {
 function refreshActiveRouteProgress() {
     if (!activeRouteStops || !activeRouteLine || !activeBusId) return;
 
-    const lineNum = activeRouteLine;
-
     activeStopMarkers.forEach(m => map.removeLayer(m));
     activeStopMarkers = [];
 
@@ -285,6 +347,7 @@ function refreshActiveRouteProgress() {
 
         if (prog && prog.distMeters <= MAX_DIST_TO_ROUTE_METERS) {
             nearestIdx = prog.segIdx;
+            // OLD etaBase still computed for fallback view if schedule not loaded
             etaBase = new Date(Date.now() - prog.progressMin * 60000);
         } else {
             nearestIdx = findNearestStopIndex(activeRouteStops, busLatLng);
@@ -292,7 +355,8 @@ function refreshActiveRouteProgress() {
         }
     }
 
-    renderRouteInfo(activeRouteStops, activeBusId, nearestIdx, etaBase);
+    // UPDATED: include schedule stops for exact times
+    renderRouteInfo(activeRouteStops, activeBusId, nearestIdx, etaBase, activeScheduleStops);
 
     activeRouteStops.forEach((s, i) => {
         if (s.lat == null || s.lng == null) return;
@@ -324,6 +388,10 @@ window.showRoute = async function (busId, lineNum, variant = "A") {
 
         lastClickedLineNum = lineNum;
         activeBusId = busId;
+
+        // NEW: reset schedule because variant might be forced manually
+        activeScheduleStops = null;
+        activeScheduleId = null;
 
         const orderedStops = await fetchStops(lineNum, variant);
         if (!orderedStops.length) {
@@ -406,7 +474,24 @@ window.showRouteAuto = async function (busId, lineNum) {
         lastVariantByLine[lineNum] = chosen;
 
         const chosenStops = (chosen === "A") ? aStops : bStops;
+
+        // 1) render route
         renderRouteOnMap(chosenStops, lineNum);
+
+        // 2) NEW: schedule-aware times (pick best schedule for this bus+variant)
+        activeScheduleStops = null;
+        activeScheduleId = null;
+
+        const progChosen = estimateProgressMinutesFromStart(chosenStops, busLatLng);
+        if (progChosen && progChosen.distMeters <= MAX_DIST_TO_ROUTE_METERS) {
+            const scheduleId = await fetchActiveScheduleId(lineNum, chosen, progChosen.progressMin);
+            if (scheduleId) {
+                activeScheduleId = scheduleId;
+                activeScheduleStops = await fetchScheduleStops(scheduleId);
+                // refresh popup list immediately
+                refreshActiveRouteProgress();
+            }
+        }
 
     } catch (e) {
         console.error(e);
