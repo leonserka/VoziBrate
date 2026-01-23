@@ -20,28 +20,25 @@ List of Features:<br><br>1. Real-time Bus Tracking - Visual representation of th
 5. Line Search
    - Quick search functionality to find a specific bus line.
 <hr>
-6. Favorites
-   - Save favorite lines or stops for faster access.
-<hr>
-7. Filtering by Time and Direction
+6. Filtering by Time and Direction
    - Display of lines operating within a selected time frame or direction.
 <hr>
-8. Admin Panel
+7. Admin Panel
    - Allows adding, editing, and deleting lines, buses, and stops.
 <hr>
-9. Statistics and Ride Analytics
+8. Statistics and Ride Analytics
    - Overview of historical data on ride accuracy and line occupancy.
 <hr>
-10. Authentication and User Accounts
+9. Authentication and User Accounts
    - User registration and login for a personalized experience.
 <hr>
-11. Responsive User Interface
+10. Responsive User Interface
    - Optimized for mobile devices, tablets, and desktop displays.
 <hr>
-12. Integration with GPS Module (Simulation or API) - Fetching bus location data through an API or simulated GPS data.
+11. Integration with GPS Module (Simulation or API) - Fetching bus location data through an API or simulated GPS data.
 <hr>
 <br> Optional Features:<br><br>
-13. List of physical Ticket locations 
+12. List of physical Ticket locations 
 - View of physical locations where tickets can be purchased (kiosks, stations).
 <hr>
 
