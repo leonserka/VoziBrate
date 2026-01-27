@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en-GB">
 <head>
     <title>Line</title>
     <link rel="stylesheet" th:href="@{/css/user.css}">
@@ -38,6 +38,21 @@
             <a th:href="@{'/timetable/' + ${line.id} + '?day=5'}" th:classappend="${day == 5} ? 'active'">Fri</a>
             <a th:href="@{'/timetable/' + ${line.id} + '?day=6'}" th:classappend="${day == 6} ? 'active'">Sat</a>
             <a th:href="@{'/timetable/' + ${line.id} + '?day=7'}" th:classappend="${day == 7} ? 'active'">Sun</a>
+        </div>
+        <form method="get" class="filter-form">
+            <input type="hidden" name="day" th:value="${day}"/>
+
+            <label>From</label>
+            <input type="time" name="from" th:value="${from}" step="60"/>
+
+            <label>To</label>
+            <input type="time" name="to" th:value="${to}" step="60"/>
+
+            <button type="submit">Filter</button>
+        </form>
+
+        <div th:if="${timeError != null}" class="error-msg">
+            <p th:text="${timeError}"></p>
         </div>
 
         <div class="schedule-list">
