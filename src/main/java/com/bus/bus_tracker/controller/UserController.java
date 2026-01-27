@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import com.bus.bus_tracker.service.LineService;
+
 
 @Controller
 @RequestMapping("/user")
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final LineService lineService;
+
 
     @GetMapping("/register")
     public String showRegisterPage(Model model) {
@@ -51,6 +55,20 @@ public class UserController {
                     .orElse("N/A"));
         }
 
+        // 🔹 DODANO
+        model.addAttribute("lines", lineService.getAll());
+
+        model.addAttribute("days", java.util.List.of(
+                java.util.Map.of("value", 1, "label", "Monday"),
+                java.util.Map.of("value", 2, "label", "Tuesday"),
+                java.util.Map.of("value", 3, "label", "Wednesday"),
+                java.util.Map.of("value", 4, "label", "Thursday"),
+                java.util.Map.of("value", 5, "label", "Friday"),
+                java.util.Map.of("value", 6, "label", "Saturday"),
+                java.util.Map.of("value", 7, "label", "Sunday")
+        ));
+
         return "login_success";
     }
+
 }

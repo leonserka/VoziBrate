@@ -1,5 +1,5 @@
 package com.bus.bus_tracker.service;
-
+/*
 import com.bus.bus_tracker.entity.BusEntity;
 import com.bus.bus_tracker.entity.BusPositionEntity;
 import com.bus.bus_tracker.repository.BusPositionRepository;
@@ -95,3 +95,4 @@ public class PrometkoFetcherService {
         return busRepository.save(newBus);
     }
 }
+*/
