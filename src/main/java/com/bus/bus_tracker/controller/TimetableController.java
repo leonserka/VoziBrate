@@ -1,19 +1,18 @@
 package com.bus.bus_tracker.controller;
 
+import com.bus.bus_tracker.dto.TimetableFilterDto;
 import com.bus.bus_tracker.entity.ScheduleEntity;
 import com.bus.bus_tracker.service.FavoriteService;
 import com.bus.bus_tracker.service.LineService;
 import com.bus.bus_tracker.service.ScheduleService;
 import com.bus.bus_tracker.service.ScheduleStopService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Controller
 @RequestMapping("/timetable")
@@ -39,56 +38,69 @@ public class TimetableController {
         model.addAttribute("query", q);
         return "timetable";
     }
+
+
     @GetMapping("/filter")
-    public String filterFromHome(
-            @RequestParam Long lineId,
-            @RequestParam(required = false) Integer day,
-            @RequestParam(required = false) String from,
-            @RequestParam(required = false) String to
-    ) {
-        StringBuilder url = new StringBuilder("/timetable/" + lineId + "?");
+    public String filterFromHome(TimetableFilterDto filter) {
+        if (filter.getLineId() == null) {
 
-        if (day != null) url.append("day=").append(day).append("&");
-        if (from != null && !from.isBlank()) url.append("from=").append(from).append("&");
-        if (to != null && !to.isBlank()) url.append("to=").append(to).append("&");
-
-        String result = url.toString();
-        if (result.endsWith("&") || result.endsWith("?")) {
-            result = result.substring(0, result.length() - 1);
+            return "redirect:/timetable";
         }
 
-        return "redirect:" + result;
+        StringBuilder url = new StringBuilder("/timetable/" + filter.getLineId());
+        String sep = "?";
+
+        if (filter.getDay() != null) {
+            url.append(sep).append("day=").append(filter.getDay());
+            sep = "&";
+        }
+
+        if (filter.getFrom() != null) {
+            url.append(sep).append("from=").append(filter.getFrom());
+            sep = "&";
+        }
+
+        if (filter.getTo() != null) {
+            url.append(sep).append("to=").append(filter.getTo());
+        }
+
+        return "redirect:" + url;
     }
+
 
     @GetMapping("/{id}")
     public String lineDetails(
             @PathVariable Long id,
-            @RequestParam(required = false) Integer day,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "HH:mm") LocalTime from,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "HH:mm") LocalTime to,
+            TimetableFilterDto filter,
             Model model
     ) {
-        int selectedDay = (day != null)
-                ? day
+        int selectedDay = (filter.getDay() != null)
+                ? filter.getDay()
                 : LocalDate.now().getDayOfWeek().getValue();
 
         model.addAttribute("line", lineService.getById(id));
         model.addAttribute("day", selectedDay);
 
-        // keep filter values in the UI
-        model.addAttribute("from", from);
-        model.addAttribute("to", to);
+        
+        model.addAttribute("from", filter.getFrom());
+        model.addAttribute("to", filter.getTo());
 
-        // time validation
+        
         String timeError = null;
-        if (from != null && to != null && !from.isBefore(to)) {
+        if (filter.getFrom() != null && filter.getTo() != null &&
+                !filter.getFrom().isBefore(filter.getTo())) {
             timeError = "Invalid time range: 'From' must be before 'To'.";
         }
         model.addAttribute("timeError", timeError);
 
         var schedules = (timeError != null)
                 ? java.util.List.<ScheduleEntity>of()
-                : scheduleService.getSchedulesForLineAndDayFiltered(id, selectedDay, from, to);
+                : scheduleService.getSchedulesForLineAndDayFiltered(
+                id,
+                selectedDay,
+                filter.getFrom(),
+                filter.getTo()
+        );
 
         model.addAttribute("schedules", schedules);
         model.addAttribute("noSchedules", schedules.isEmpty());
