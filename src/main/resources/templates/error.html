@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en-GB">
 <head>
-    <title>Error</title>
+    <title>Error - Vozi Brate</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232b6cb0'/><text x='50' y='70' font-size='60' text-anchor='middle' font-weight='800' fill='white'>V</text></svg>">
 </head>
 <body>
-<h1>Oops! Something went wrong </h1>
+<div class="auth-wrapper">
+    <div class="auth-container">
+        <div class="auth-logo">!</div>
+        <h1>Something Went Wrong</h1>
+        <p class="subtitle">We encountered an unexpected error</p>
 
-<div class="error-message" th:text="${errorMessage}">
-    An unexpected error occurred.
-</div>
+        <div class="error-message" th:text="${errorMessage}">
+            An unexpected error occurred.
+        </div>
 
-<div style="text-align:center; margin-top:25px;">
-    <a th:href="@{/user/login}">Back to Login</a>
+        <div style="text-align: center; margin-top: 24px;">
+            <a th:href="@{/user/login}" class="auth-btn" style="display: inline-block; text-decoration: none;">
+                Return to Login
+            </a>
+        </div>
+    </div>
 </div>
 </body>
 </html>

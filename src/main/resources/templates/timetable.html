@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en-GB">
-<head>
+<html xmlns:th="http://www.thymeleaf.org" lang="en-GB"><head>
     <title>Vozni red</title>
     <link rel="stylesheet" th:href="@{/css/admin.css}">
+    <link rel="stylesheet" th:href="@{/css/admin_modern.css}">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23667eea'/><text x='50' y='70' font-size='60' text-anchor='middle' font-weight='800' fill='white'>V</text></svg>">
 </head>
 <body>
 
@@ -25,7 +26,12 @@
 
 <div class="content">
 
-    <h1>Timetable</h1>
+    <div class="page-head">
+        <div class="title-wrap">
+            <h1>Timetable</h1>
+            <p class="subtitle">Search lines and open routes & departures.</p>
+        </div>
+    </div>
 
     <form method="get" action="/timetable" class="search-box">
         <input
