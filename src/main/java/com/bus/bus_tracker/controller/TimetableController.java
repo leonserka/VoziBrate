@@ -81,11 +81,11 @@ public class TimetableController {
         model.addAttribute("line", lineService.getById(id));
         model.addAttribute("day", selectedDay);
 
-        // keep filter values in UI
+        
         model.addAttribute("from", filter.getFrom());
         model.addAttribute("to", filter.getTo());
 
-        // validation
+        
         String timeError = null;
         if (filter.getFrom() != null && filter.getTo() != null &&
                 !filter.getFrom().isBefore(filter.getTo())) {
