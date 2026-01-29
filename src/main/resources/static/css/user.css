@@ -338,3 +338,128 @@ body {
   margin-left: 6px;
   font-weight: 700;
 }
+
+.favorite-btn{
+  background:#ffffff;
+  border:1px solid #e6eaf2;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor:pointer;
+
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+
+  color:#1f2937;
+  box-shadow: 0 10px 24px rgba(18,38,63,0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.favorite-btn:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px rgba(18,38,63,0.10);
+  border-color: rgba(43,108,176,0.30);
+}
+
+.favorite-btn:active{
+  transform: translateY(0);
+}
+
+.favorite-btn span:first-child{
+  font-size: 18px;
+  line-height: 1;
+  animation: none !important;
+}
+
+
+.filter-form{
+  display:flex;
+  align-items:flex-end;
+  gap: 12px;
+
+  background:#ffffff;
+  border:1px solid #e6eaf2;
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 10px 24px rgba(18,38,63,0.06);
+
+  margin: 16px 0 18px;
+  flex-wrap: wrap;
+}
+
+
+.filter-form label{
+  font-size: 12px;
+  font-weight: 700;
+  color: #6b7280;
+  margin: 0 0 6px;
+  display:block;
+}
+
+
+.filter-form input[type="time"]{
+  height: 44px;
+  padding: 0 14px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 12px;
+
+  border: 1px solid #e2e8f0;
+  background: #f9fafb;
+  color: #1f2937;
+
+  margin: 0 !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.filter-form input[type="time"]:focus{
+  outline:none;
+  background:#fff;
+  border-color:#2b6cb0;
+  box-shadow: 0 0 0 3px rgba(43,108,176,0.12);
+}
+
+
+.filter-form label + input[type="time"]{
+  margin-top: 0;
+}
+
+
+.filter-form button[type="submit"]{
+  height: 44px;
+  width: auto;
+  padding: 0 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 800;
+
+  background:#2b6cb0;
+  color:#fff;
+  box-shadow: 0 10px 22px rgba(43,108,176,0.20);
+
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.filter-form button[type="submit"]:hover{
+  background:#1a4f8b;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(43,108,176,0.28);
+}
+
+.filter-form button[type="submit"]:active{
+  transform: translateY(0);
+  box-shadow: 0 8px 18px rgba(43,108,176,0.20);
+}
+
+
+@media (max-width: 640px){
+  .filter-form{
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .filter-form button[type="submit"]{
+    width: 100%;
+  }
+}
